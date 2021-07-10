@@ -21,9 +21,28 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
     End Sub
 ```
 
-[INDEX](#FEATURES)
--------------------------
-[LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ [INDEX](#FEATURES)   |   [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
 
 -------------------------
 
