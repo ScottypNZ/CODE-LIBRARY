@@ -4,7 +4,7 @@ VBA Library
 
 https://github.com/ScottypNZ/VBA
 
-Features
+### Features
 --------
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
 
@@ -21,6 +21,6 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
     End Sub
 ```
 
-[TOP](https://github.com/ScottypNZ/VBA)
+[LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
 
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
