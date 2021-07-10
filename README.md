@@ -1,8 +1,18 @@
--BASIC CODE TO COPY VALUES TO BOTTOM OF A RANGE WHEN FILTERED-
+# VBA
+BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
 
-''Sub COPY_FILTERED_DOWN()
-Selection.Copy
-Range(Selection, Selection.End(xlDown)).Select
-Selection.SpecialCells(xlCellTypeVisible).Select
-Selection.PasteSpecial Paste:=xlPasteValues
-End Sub''
+    Sub COPY_FILTERED_DOWN()
+    Selection.Copy
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.SpecialCells(xlCellTypeVisible).Select
+    Selection.PasteSpecial Paste:=xlPasteValues
+    End Sub
+    
+BASIC CODE
+
+    Sub COPY_FILTERED_DOWN()
+    Selection.Copy
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.SpecialCells(xlCellTypeVisible).Select
+    Selection.PasteSpecial Paste:=xlPasteValues
+    End Sub
