@@ -2,11 +2,10 @@
 VBA Library
 =====================
 
-### Features
+### INDEX
 --------
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
 
- 
 ### COPY DOWN VISIBLE
 BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
 
