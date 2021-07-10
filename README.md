@@ -1,38 +1,13 @@
-#VBA
 
 
-BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
-
-
-    Sub COPY_FILTERED_DOWN()
-    Selection.Copy
-    Range(Selection, Selection.End(xlDown)).Select
-    Selection.SpecialCells(xlCellTypeVisible).Select
-    Selection.PasteSpecial Paste:=xlPasteValues
-    End Sub
- 
-BASIC CODE
-
-    Sub COPY_FILTERED_DOWN()
-    Selection.Copy
-    Range(Selection, Selection.End(xlDown)).Select
-    Selection.SpecialCells(xlCellTypeVisible).Select
-    Selection.PasteSpecial Paste:=xlPasteValues
-    End Sub
-
-[![Build Status](https://travis-ci.org/Beakerboy/VBA-SQL-Library.svg?branch=master)](https://travis-ci.org/Beakerboy/VBA-SQL-Library)
-<a href="https://beakerboy.github.io/VBA-SQL-Library/"><img src="https://img.shields.io/badge/code-documented-green.svg"/></a>
-
-VBA SQL Library
+VBA Library
 =====================
 
-### Object-Based Database Interaction for VBA
-
-Easily create SQL queries and execute them on a database. For an example on how to use this library with data objects, see the [VBA-Drupal-Library](https://github.com/Beakerboy/VBA-Drupal-Library). For other examples on using the library, refer to the unit tests.
+https://github.com/ScottypNZ/VBA
 
 Features
 --------
- * [Database](#database)
+ * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
  * [Login Form](#login-form)
  * [Static Queries](#static-queries)
  * [Insert](#insert)
@@ -42,29 +17,17 @@ Features
  * [Helper Functions](#helper-functions)
  * [Unit Tests](#unit-tests)
  
- Setup
------
+### COPY DOWN VISIBLE
 
-Open Microsoft Visual Basic For Applications and import each cls and bas and frm file into a new project. Name the project SQLlib and save it as an xlam file. Enable the addin. Within Microsoft Visual Basic For Applications, select Tools>References and ensure that  "Microsoft ActiveX Data Objects x.x Library", "Microsoft Scripting Runtime", and SQLlib is selected.
- 
- Security
------
-This Library allows developers to create static or dynamic SQL statements using VBA objects. If the table names and field names are all known by the developer, and only field values, and conditional values will be supplied by the user, an SQLStaticQuery might be the best option. All user-supplied information will be sanitized before being added to the query. It also provides a login box to discourage hard-coding database authentication details. The dynamic query generating objects are best for cases where table names and field names are part of larger data objects, and the queries themselves are created by a larger system. This larger system should provide data sanitizing options to ensure malicious data does make it into a query. the [VBA-Drupal-Library](https://github.com/Beakerboy/VBA-Drupal-Library) is an example of such a system.
+BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
 
- Testing
- -----
-The unit tests demonstrate many ways to use each of the classes. To run the tests, Import all the modules from the testing directory into a spreadsheet, install the [VBA-Unit-Testing library](https://github.com/Beakerboy/VBA-Unit-Tester) and type '=RunTests()' in cell A1. Ensure the Setup steps have all been successfully completed.
- 
- Usage
------
-
-### Database
-Create a new database connection:
 ```vb
-Dim MyDatabase As SQLDatabase
-Set MyDatabase = Create_SQLDatabase
-MyDatabase.DBType = "mssql"
-MyDatabase.DSN = "foodb"
+    Sub COPY_FILTERED_DOWN()
+    Selection.Copy
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.SpecialCells(xlCellTypeVisible).Select
+    Selection.PasteSpecial Paste:=xlPasteValues
+    End Sub
 ```
 Several different types of database execution can occur:
  * Execute(SQL) - Execute a statement (Insert or Update)
