@@ -20,30 +20,36 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
     Selection.PasteSpecial Paste:=xlPasteValues
     End Sub
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  [INDEX](#FEATURES)   |   [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
 
 -------------------------
 
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers
+
+ [INDEX](#FEATURES)
