@@ -12,7 +12,8 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
     Selection.SpecialCells(xlCellTypeVisible).Select
     Selection.PasteSpecial Paste:=xlPasteValues
     End Sub
-    
+ 
+#FEATURES
 BASIC CODE
 
     Sub COPY_FILTERED_DOWN()
