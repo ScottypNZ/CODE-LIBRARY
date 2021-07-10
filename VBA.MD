@@ -20,7 +20,7 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
     Selection.PasteSpecial Paste:=xlPasteValues
     End Sub
 ```
- [INDEX](#INDEX)   |   [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
+[LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 
 -------------------------
 
