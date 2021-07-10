@@ -23,3 +23,11 @@ BASIC CODE TO COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
  [INDEX](#INDEX)   |   [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)
 
 -------------------------
+
+https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links
+
+https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
+
+https://github.com/AllenMattson/VBA
