@@ -10,7 +10,10 @@ VBA Library
 -------------------------
 
 ### COPY DOWN VISIBLE 
-COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
+
+<p style="font-size;6pt">
+    COPY VALUES TO BOTTOM OF A TABLE WHEN FILTER ACTIVE
+</p>
 
 ```vb
     Sub COPY_FILTERED_DOWN()
