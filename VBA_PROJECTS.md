@@ -1,7 +1,8 @@
 # CODE-LIBRARY
 
+CONVERT NUMBERS TO WORDS
 
-'''
+```
 Option Explicit
 
 'Main Function
@@ -235,4 +236,4 @@ Case Else: GetDigit = ""
 End Select
 
 End Function
-'''
+```
