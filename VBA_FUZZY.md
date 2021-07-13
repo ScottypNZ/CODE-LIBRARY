@@ -125,5 +125,6 @@ Else
 End If
 Similarity_sub = lngLongestMatch
 End Function
-
+```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
