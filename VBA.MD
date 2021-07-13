@@ -23,7 +23,7 @@ Selection.SpecialCells(xlCellTypeVisible).Select
 Selection.PasteSpecial Paste:=xlPasteValues
 End Sub
 ```
-##### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+####### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 ### CHANGE CASE 
 ```VB
@@ -47,7 +47,7 @@ x.Value = Application.Proper(x.Value)
 Next
 End Sub
 ```
-##### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+####### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
 https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
