@@ -7,6 +7,9 @@ VBA Library
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
  * [CHANGE CASE](#CHANGE-CASE)
  * [CONVERT NUMBERS TO WORDS](#CHANGE-CASE)
+ * [INDEX PAGE WITH HYERLINK](#INDEX-PAGE-WITH-HYERLINK)
+
+INDEX PAGE WITH HYERLINK
 
 -------------------------
 
@@ -198,6 +201,7 @@ SubAddress:=”Start_” & wSheet.Index, TextToDisplay:=wSheet.Name
 End If
 Next wSheet
 End Sub
+```
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
