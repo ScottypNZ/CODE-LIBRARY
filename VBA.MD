@@ -23,7 +23,7 @@ Selection.SpecialCells(xlCellTypeVisible).Select
 Selection.PasteSpecial Paste:=xlPasteValues
 End Sub
 ```
-[LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+#### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 ### CHANGE CASE 
 ```VB
