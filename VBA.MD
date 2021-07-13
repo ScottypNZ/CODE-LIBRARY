@@ -173,6 +173,38 @@ End Function
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
+### INDEX PAGE WITH HYERLINK
+
+```VB
+Private Sub Worksheet_Activate()
+Dim wSheet As Worksheet
+Dim l As Long
+l = 1
+With Me
+.Columns(1).ClearContents
+.Cells(1, 1) = “INDEX”
+.Cells(1, 1).Name = “Index”
+End With
+For Each wSheet In Worksheets
+If wSheet.Name <> Me.Name Then
+l = l + 1
+With wSheet
+.Range(“A1”).Name = “Start_” & wSheet.Index
+.Hyperlinks.Add Anchor:=.Range(“A1″), Address:=””, _
+SubAddress:=”Index”, TextToDisplay:=”Back to Index”
+End With
+Me.Hyperlinks.Add Anchor:=Me.Cells(l, 1), Address:=””, _
+SubAddress:=”Start_” & wSheet.Index, TextToDisplay:=wSheet.Name
+End If
+Next wSheet
+End Sub
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
 https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links
 https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
