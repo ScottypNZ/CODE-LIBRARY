@@ -44,7 +44,6 @@ Else:
         End If
     End If
 End If
-
 End Function
 
 Private Function Similarity_sub(ByVal start1 As Long, ByVal end1 As Long, _
@@ -124,9 +123,7 @@ Else
     Or (lngMatchAt2 + lngLocalLongestMatch < end2)) _
     , "*", "")
 End If
-
 Similarity_sub = lngLongestMatch
-
 End Function
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
