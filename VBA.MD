@@ -8,6 +8,7 @@ VBA Library
  * [CONVERT NUMBERS TO WORDS](#CHANGE-CASE)
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
  * [INDEX PAGE WITH HYERLINK](#INDEX-PAGE-WITH-HYERLINK)
+ * [INDEX WITH HYERLINK & TABLES](#INDEX-WITH-HYERLINK-&-TABLES)
 
 -------------------------
 
@@ -203,7 +204,7 @@ End Sub
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
-### INDEX PAGE WITH HYERLINK [+TABLES]
+### INDEX WITH HYERLINK & TABLES
 ```VB
 Private Sub Worksheet_Activate()
  
