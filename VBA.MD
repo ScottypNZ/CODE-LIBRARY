@@ -29,30 +29,31 @@ VBA Library
 
 ### CHANGE CASE 
 
-```Sub Uppercase()
-   ' Loop to cycle through each cell in the specified range.
-   For Each x In Range("A1:A5")
-      ' Change the text in the range to uppercase letters.
-      x.Value = UCase(x.value)
-   Next
-End Sub```
-
-```Sub Lowercase()
-   ' Loop to cycle through each cell in the specified range.
-   For Each x In Range("B1:B5")
-      x.Value = LCase(x.Value)
-   Next
-End Sub```
-
+```VB
+Sub Uppercase()
+For Each x In Range("A1:A5")
+Change the text in the range to uppercase letters.
+x.Value = UCase(x.value)
+Next
+End Sub
 ```
+
+```VB
+Sub Lowercase()
+Loop to cycle through each cell in the specified range.
+For Each x In Range("B1:B5")
+x.Value = LCase(x.Value)
+Next
+End Sub
+```
+
+```VB
 Sub Proper_Case()
-   ' Loop to cycle through each cell in the specified range.
-   For Each x In Range("C1:C5")
-      ' There is not a Proper function in Visual Basic for Applications.
-      ' So, you must use the worksheet function in the following form:
-      x.Value = Application.Proper(x.Value)
-   Next
-End Sub```
+For Each x In Range("C1:C5")
+x.Value = Application.Proper(x.Value)
+Next
+End Sub
+```
 
 [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 
