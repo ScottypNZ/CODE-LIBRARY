@@ -16,37 +16,30 @@ VBA Library
 </p>
 
 ```vb
-    Sub COPY_FILTERED_DOWN()
-    Selection.Copy
-    Range(Selection, Selection.End(xlDown)).Select
-    Selection.SpecialCells(xlCellTypeVisible).Select
-    Selection.PasteSpecial Paste:=xlPasteValues
-    End Sub
+Sub COPY_FILTERED_DOWN()
+Selection.Copy
+Range(Selection, Selection.End(xlDown)).Select
+Selection.SpecialCells(xlCellTypeVisible).Select
+Selection.PasteSpecial Paste:=xlPasteValues
+End Sub
 ```
 [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
-
 -------------------------
-
 ### CHANGE CASE 
-
 ```VB
 Sub Uppercase()
 For Each x In Range("A1:A5")
-Change the text in the range to uppercase letters.
 x.Value = UCase(x.value)
 Next
 End Sub
 ```
-
 ```VB
 Sub Lowercase()
-Loop to cycle through each cell in the specified range.
 For Each x In Range("B1:B5")
 x.Value = LCase(x.Value)
 Next
 End Sub
 ```
-
 ```VB
 Sub Proper_Case()
 For Each x In Range("C1:C5")
@@ -54,9 +47,7 @@ x.Value = Application.Proper(x.Value)
 Next
 End Sub
 ```
-
-[LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
-
+# [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
 https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
