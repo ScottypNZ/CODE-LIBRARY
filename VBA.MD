@@ -203,7 +203,184 @@ End Sub
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
+### INDEX PAGE WITH HYERLINK [+TABLES]
+```VB
+Private Sub Worksheet_Activate()
+ 
+' macro written by Doug Wilson, June 26, 2020
+'
+' this code calls the "Create_Index" macro every time the worksheet "Index" is selected/activated
+' this ensures the Workbook Index is always current when viewed
+ 
+Call Create_Index
+ 
+End Sub
+'
+ 
+Sub Create_Index()
+ 
+' macro written by Doug Wilson, June 26, 2020
+ 
+' this macro is called when the worksheet "Index" is selected
+' the following code creates a list of all the sheets in the workbook with hyperlinks to each
+ 
+Dim x As Integer
+Dim Nm1, Nm2 As String
+Dim place As Integer
+Dim ws As Worksheet
+Dim SA, TTD As Variant
+ 
+Application.ScreenUpdating = False     ' allows macro to run faster - helpful with large workbooks
+ 
+Const bSkipHidden As Boolean = False    'Change this to True to NOT list hidden sheets
+ 
+place = 4     ' the row number where the sheet info is entered to on the "Index worksheet
+x = 1           ' used as a reference to the sheet's order number from left to right in the workbook
+ 
+Sheets("Index").Cells.Clear     ' Clear all data in cells
+ 
+' edit: alignment, height, font & size to suit your needs
+Columns("B:D").Select
+    With Selection
+        .EntireColumn.Hidden = False     ' un-hides column 'C' - sheet code name data
+        .HorizontalAlignment = xlCenter
+        .RowHeight = 15
+        .Font.Name = "Arial"
+        .Font.Size = 12
+         End With
+        
+Sheets("Index").Range("A1").Select
+    With Selection
+        .Value = ActiveWorkbook.Name & "   ~   Table of Contents"     ' inserts a title at top of sheet; edit to suit
+        .RowHeight = 20
+        .Font.Name = "Arial"
+        .Font.Size = 16
+        End With
+ 
+Sheets("Index").Range("B3:D3").Borders(xlEdgeBottom).Weight = xlMedium
+ 
+Sheets("Index").Range("B3") = "Sheet #"
+Sheets("Index").Range("C3") = "Sheet Code Name"
+Sheets("Index").Range("D3") = "Sheet Tab Name"
+Sheets("Index").Range("B3:D3").Select      ' header row
+' edit: height, font & size to suit your needs
+    With Selection
+    Selection.RowHeight = 20
+        .Font.Name = "Arial"
+        .Font.Size = 14
+        End With
+        Range("A1").Select
+        
+For Each ws In Worksheets     ' start the loop through all worksheets
+ 
+Nm1 = ws.CodeName     ' the worksheet code name (first line in Properties pane)
+Nm2 = ws.Name            ' the worksheet Tab name (as seen across the bottom of the workbook)
+ 
+SA = "'" & Worksheets(Nm2).Name & "'!" & "A1"     ' the 'SubAddress' used in the hyperlink code
+TTD = Nm2     ' the 'TextToDisplay' used in the hyperlink code
+ 
+Sheets("Index").Cells(place, 2) = x         ' enters the sheet's order number on the Index sheet
+Sheets("Index").Cells(place, 3) = Nm1    ' enters the sheet's code name on the Index sheet
+Sheets("Index").Cells(place, 4) = Nm2    ' enters the sheet's Tab name on the Index sheet
+Sheets("Index").Range(Cells(place, 2), Cells(place, 4)).Select
+    Selection.RowHeight = 15
+    Range("A1").Select
+If Nm2 = "Index" Then GoTo Line100    ' if the sheet name is Index, skip adding a hyperlink
+Sheets("Index").Cells(place, 4).Select      ' selects the cell where the hyperlink will be added
+ActiveCell.Hyperlinks.Add Anchor:=Selection, Address:="", SubAddress:=SA, TextToDisplay:=TTD
+With Selection.Font      ' set the font type and size of hyperlink to match the other data; edit to suit
+        .Name = "Arial"
+        .Size = 12
+        End With
+Line100:
+place = place + 1     ' increments the row number where data is entered
+x = x + 1     ' increments the sheet order number
+If x > Worksheets.Count Then GoTo Line999     ' last sheet has been added to the "Index" sheet
+ 
+Next     ' loops to next sheet
+ 
+Line999:
+ 
+Sheets("Index").Columns("B:D").Select
+    Columns("B:D").EntireColumn.AutoFit     ' adjusts column width to match length of longest entry
+    ' comment-out the following code if it is not wanted / needed
+    Columns("C:C").Select
+    Selection.EntireColumn.Hidden = True     ' hides column with the sheet code names
+    
+Application.ScreenUpdating = True     ' turns real-time updating back on
+ 
+Sheets("Index").Activate
+Sheets("Index").Range("D2").Select
+        ' the following scrolls the sheet up and to the left
+        ActiveWindow.ScrollRow = 1
+        ActiveWindow.ScrollColumn = 1
+        
+End Sub
+'
+ 
+Sub Go_To_Index()
+ 
+' macro written by Doug Wilson, June 26, 2020
+ 
+' this macro makes the sheet named "Index" the selected worksheet
+ 
+Sheets("Index").Activate
+Sheets("Index").Range("D2").Select
+ 
+End Sub
+'
+4) On the Index worksheet insert a 'button or 'shape' of your choosing. Add text "Go To Index" (or whatever you prefer), format the font type and colour, the shape outline  and fill colour, and then assign the macro Go_To_Index() above to the button/shape. Copy this all worksheets.
 
+5) If your workbook is large, an easy way to copy your 'button' is to add a code module in the VBE and copy the following to it:
+
+Select All
+ 
+Sub CopyButton_1()
+'
+' macro written by Doug Wilson July 1, 2020
+' the 'button' must first be selected before running macro
+' assign your desired macro or hyperlink to the 'button' before running this macro
+ 
+' This macro will copy a 'button' to every sheet in a workbook
+ 
+Dim x As Integer
+Dim ws As Worksheet
+ 
+Application.ScreenUpdating = False     ' allows macro to run faster - helpful with large workbooks
+ 
+x = 2           ' used as a reference to the sheet's ORDER number from left to right in the workbook
+                   '  (edit starting point as needed)
+ 
+' on the sheet where the master button is, select the button to copy (edit as needed)
+    Selection.Copy   ' button to copy
+    
+For Each ws In Worksheets     ' start the loop through all worksheets
+    
+    Sheets(x).Select   ' sheet where the button is being copied
+    Range("A1").Select   ' cell where the button is being copied to (edit as needed)
+    ActiveSheet.Paste   ' copying of the button
+    Range("B3").Select   ' cell on sheet to be selected after copying the button (edit as needed)
+    
+    x = x + 1     ' increments the sheet ORDER number
+If x > Worksheets.Count Then GoTo Line999     ' has been added to the last sheet
+ 
+Next     ' loops to next sheet
+ 
+Line999:
+Application.ScreenUpdating = True     ' turns real-time updating back on
+Application.CutCopyMode = False   ' exits cut/copy/paste mode (gets rid of marching ants)
+ 
+' the following activates the "Index" sheet (edit "Index" to the sheet name as needed)
+Sheets("Index").Activate
+Sheets("Index").Range("D2").Select  ' cell on sheet to be selected (edit as needed)
+        ' the following scrolls the sheet up and to the left
+        ActiveWindow.ScrollRow = 1
+        ActiveWindow.ScrollColumn = 1
+End Sub
+```
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
