@@ -7,6 +7,7 @@ VBA Library
  * [CONVERT NUMBERS TO WORDS](#CHANGE-CASE)
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
  * [LIST FILES](#LIST-FILES)
+ * [RENAME FILES](#RENAME-FILES)
  * [INDEX PAGE WITH HYERLINK](#INDEX-PAGE-WITH-HYERLINK)
  * [INDEX WITH HYERLINK TABLES](#INDEX-WITH-HYERLINK-TABLES)
 
@@ -73,6 +74,30 @@ Cells(i + 1, 2) = objFile.Name
 Cells(i + 1, 3) = objFile.path
 i = i + 1
 Next objFile
+End Sub
+```
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+
+### RENAME FILES
+
+```VB
+Sub ReName()
+Dim rFiles As Range, rCell As Range
+Dim StrNewName As String, strOld As String
+Dim strPath As String
+Dim wbOpen As Workbook
+ Application.ScreenUpdating = False
+  Set rFiles = Range("A1", Range("A65536").End(xlUp))
+ strPath = ActiveWorkbook.path & "\"
+ For Each rCell In rFiles
+ strOld = strPath & rCell
+ StrNewName = rCell(1, 2)
+ Set wbOpen = Workbooks.Open(strOld)
+ wbOpen.SaveAs strPath & StrNewName
+ wbOpen.Close
+ Next rCell
+  Application.ScreenUpdating = True
 End Sub
 ```
 
