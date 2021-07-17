@@ -1,4 +1,3 @@
-
 VBA Library
 =====================
 
@@ -7,6 +6,7 @@ VBA Library
  * [CHANGE CASE](#CHANGE-CASE) 
  * [CONVERT NUMBERS TO WORDS](#CHANGE-CASE)
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
+ * [LIST FILES](#LIST-FILES)
  * [INDEX PAGE WITH HYERLINK](#INDEX-PAGE-WITH-HYERLINK)
  * [INDEX WITH HYERLINK TABLES](#INDEX-WITH-HYERLINK-TABLES)
 
@@ -50,6 +50,46 @@ x.Value = Application.Proper(x.Value)
 Next
 End Sub
 ```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+### LIST FILES
+
+```VB
+Sub LIST()
+
+Dim objFSO As Object
+Dim objFolder As Object
+Dim objFile As Object
+Dim i As Integer
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+'''Set objFolder = objFSO.GetFolder(Subfolder.path)'''
+
+Set objFolder = objFSO.GetFolder("C:\LOCAL DATA\MIAS")
+
+
+i = 1
+
+Cells(1, 1) = "FOLDER"
+Cells(1, 2) = "FILE"
+Cells(1, 3) = "PATH"
+
+For Each objFile In objFolder.Files
+
+Cells(i + 1, 1) = objFolder.path
+
+Cells(i + 1, 2) = objFile.Name
+
+Cells(i + 1, 3) = objFile.path
+
+i = i + 1
+
+Next objFile
+
+End Sub
+```
+
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
