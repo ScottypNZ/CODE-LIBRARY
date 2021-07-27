@@ -1,9 +1,16 @@
 # CODE-LIBRARY
 
-https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference
-
 https://opdhsblobprod04-secondary.blob.core.windows.net/contents/9b520b3cc93e43f7ba25a428fd5605f4/b10c45193088c620dcde2762fc236c51?sv=2018-03-28&sr=b&si=ReadPolicy&sig=ujmH19rSqr0MgAy4GPoNrFQymGs4im8K19miED2HgCs%3D&st=2021-07-25T04%3A57%3A19Z&se=2021-07-26T05%3A07%3A19Z
 
+https://www.excelguru.ca/blog/2014/08/20/5-very-useful-text-formulas-power-query-edition/
+
+https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference
+
+https://www.goodly.co.in/extract-first-and-last-name-power-query/
+
+_________________________________________________________________
+
+= Text.ReplaceAll([Text], Replacements)
 
 
 ADD YEAR AND WEEK
@@ -15,9 +22,7 @@ EXTRACT MONTH IN "MMM" FORMAT
 EXTRACT MONTH IN "MM" FORMAT
 = Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
 
-https://www.excelguru.ca/blog/2014/08/20/5-very-useful-text-formulas-power-query-edition/
 
-https://www.goodly.co.in/extract-first-and-last-name-power-query/
 
 = Table.AddColumn(#"Changed Type", "REFERENCE", 
 each if [ArrivalDate] = null then 
