@@ -8,6 +8,8 @@ https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference
 
 https://www.goodly.co.in/extract-first-and-last-name-power-query/
 
+https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings-in-power-query-with-text-select-and-text-remove
+
 _________________________________________________________________
 
 = Text.ReplaceAll([Text], Replacements)
