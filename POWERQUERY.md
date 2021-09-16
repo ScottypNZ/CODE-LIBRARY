@@ -23,30 +23,29 @@ EXTRACT YEAR AND MONTH
 EXTRACT MONTH IN "MMM" FORMAT
 = Date.ToText([Date],"MMM" ) & "_" & Text.From(Date.Year([Date]))
 
-EXTRACT YEAR AND MONTH
-= Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
-
-EXTRACT MONTH IN "MM" FORMAT
+EXTRACT MONTH IN "MM" FORMAT INCLUDING LEADING ZERO
 = Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
 
+PAD START OF DATE AND SUBSTITUE NULL VALUES
 = Table.AddColumn(#"Changed Type", "REFERENCE", 
 each if [ArrivalDate] = null then 
 Text.PadStart(Text.From([PassengerID]),6,"0")&" "&"00/00/0000"
 else 
 Text.PadStart(Text.From([PassengerID]),6,"0")&" "&Text.PadStart(Text.From([ArrivalDate]),10,"0"))
 
-= Table.AddColumn(#"Added REFERENCE", "MONTH", each Text.From(Date.Year([DATE]))&"/"&Text.PadStart(Text.From(Date.Month([DATE])),2,"0"))
-
+REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING FIRST NAME
 = Table.AddColumn(#"Changed Type", "NameRef",
 each if [FirstName] = null then "XXXXXX"
 else 
 Text.Upper(Text.BeforeDelimiter([FirstName]," "))
 
+REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING LAST NAME
 = Table.AddColumn(#"Added NAME REF", "Custom", 
 each if [LastName] = null then "XXXXXX"
 else 
 Text.Upper(Text.AfterDelimiter([LastName]," ")))
 
+SHORT NAME
 = Table.AddColumn(#"Added REFERENCE","TEST", each Text.Proper(List.First(Text.Split([FirstName]," ")) &" "& List.Last(Text.Split([Last.Name]," "))), type text)
 
 REMOVE EXCESS SPACES
