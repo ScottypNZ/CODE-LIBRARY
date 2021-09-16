@@ -50,7 +50,7 @@ SHORT NAME
 
 REMOVE EXCESS SPACES
 = Table.AddColumn(#"Added RoomH", "ROOMI", each Text.Combine(List.Select(Text.Split([ROOMH]," "),each _ <> "")," "))
-
+ 
 
 
 
