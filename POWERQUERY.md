@@ -50,7 +50,11 @@ SHORT NAME
 
 REMOVE EXCESS SPACES  
 = Table.AddColumn(#"Added RoomH", "ROOMI", each Text.Combine(List.Select(Text.Split([ROOMH]," "),each _ <> "")," "))
+
+TRANSPOSE DATES BETWEEN A RANGE  
+= Table.AddColumn(#"Filtered Rows", "DATE", each { Number.From([START])..Number.From([END]) })
  
+
 
 
 
