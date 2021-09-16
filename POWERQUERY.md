@@ -15,10 +15,16 @@ _________________________________________________________________
 = Text.ReplaceAll([Text], Replacements)
 
 ADD YEAR AND WEEK
-= Table.AddColumn(#"Added Custom", "WEEK", each Text.From(Date.Year([Date]))& "_" & Text.From(Date.week([Date])))
+= Table.AddColumn(#"Added MONTH", "WEEK", each Date.ToText([DATE],"yyyy")&"/"&Text.From(Date.WeekOfYear([DATE])))
+
+EXTRACT YEAR AND MONTH
+= Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
 
 EXTRACT MONTH IN "MMM" FORMAT
 = Date.ToText([Date],"MMM" ) & "_" & Text.From(Date.Year([Date]))
+
+EXTRACT YEAR AND MONTH
+= Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
 
 EXTRACT MONTH IN "MM" FORMAT
 = Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
@@ -43,6 +49,7 @@ Text.Upper(Text.AfterDelimiter([LastName]," ")))
 
 = Table.AddColumn(#"Added REFERENCE","TEST", each Text.Proper(List.First(Text.Split([FirstName]," ")) &" "& List.Last(Text.Split([Last.Name]," "))), type text)
 
+REMOVE EXCESS SPACES
 = Table.AddColumn(#"Added RoomH", "ROOMI", each Text.Combine(List.Select(Text.Split([ROOMH]," "),each _ <> "")," "))
 
 
