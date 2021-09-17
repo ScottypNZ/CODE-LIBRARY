@@ -68,5 +68,5 @@ MAX
 MIN  
 = Table.AddColumn(#"Added Room End", "MIN", each List.Min({Number.From([START]),Number.From([END])}), type date)
 
-FILTER ROW
+FILTER ROW  
 = Table.SelectRows(#"Added Date Range", each [END] <> null)
