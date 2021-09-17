@@ -57,5 +57,9 @@ TRANSPOSE DATES BETWEEN A RANGE
 MERGE QUERIES (AFTER GROUP BY)  
 = Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
 
+AVERAGE  
 
+
+ADD LEAVING ZERO TO NUMBER
+= Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
 
