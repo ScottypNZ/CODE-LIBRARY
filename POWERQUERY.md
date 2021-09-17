@@ -54,7 +54,8 @@ REMOVE EXCESS SPACES
 TRANSPOSE DATES BETWEEN A RANGE  
 = Table.AddColumn(#"Filtered Rows", "DATE", each { Number.From([START])..Number.From([END]) })
  
-
+MERGE QUERIES (AFTER GROUP BY)  
+= Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
 
 
 
