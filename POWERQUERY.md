@@ -60,6 +60,11 @@ MERGE QUERIES (AFTER GROUP BY)
 AVERAGE  
 
 
-ADD LEAVING ZERO TO NUMBER
+ADD LEAVING ZERO TO NUMBER  
 = Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
 
+MAX  
+= Table.AddColumn(#"Added MIN", "MAX", each List.Max({Number.From([START]),Number.From([END])}), type date)
+
+MIN  
+= Table.AddColumn(#"Added Room End", "MIN", each List.Min({Number.From([START]),Number.From([END])}), type date)
