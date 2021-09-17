@@ -59,7 +59,6 @@ MERGE QUERIES (AFTER GROUP BY)
 
 AVERAGE  
 
-
 ADD LEAVING ZERO TO NUMBER  
 = Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
 
@@ -68,3 +67,6 @@ MAX
 
 MIN  
 = Table.AddColumn(#"Added Room End", "MIN", each List.Min({Number.From([START]),Number.From([END])}), type date)
+
+FILTER ROW
+= Table.SelectRows(#"Added Date Range", each [END] <> null)
