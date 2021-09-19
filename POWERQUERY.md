@@ -71,3 +71,6 @@ MIN
 
 FILTER ROW  
 = Table.SelectRows(#"Added Date Range", each [END] <> null)
+
+CEILING / BUCKET
+= Table.AddColumn(#"Added Custom2", "BUCKET", each Number.RoundUp([COUNT]/20,0)*20, Int64.Type)
