@@ -59,7 +59,7 @@ MERGE QUERIES (AFTER GROUP BY)
 = Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
 
 AVERAGE  
-= Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE",[COUNT],Int64.Type))
+= Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE"[COUNT],Int64.Type))
 
 ADD LEAVING ZERO TO NUMBER  
 = Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
@@ -73,11 +73,15 @@ MIN
 FILTER ROW  
 = Table.SelectRows(#"Added Date Range", each [END] <> null)
 
-FILTER ERRORS
+FILTER ERRORS  
 = Table.SelectRowsWithErrors(#"Replaced null rooms", {"HOTEL"})
 
-FILTER OR AND
+FILTER OR AND  
 = Table.SelectRows(#"Expanded Grouped REFERENCE", each ([ROOMS] = "0909" or [ROOMS] = "0937") and ([BHR] = "BHR-042420"))
 
-CEILING / BUCKET
+CEILING / BUCKET  
 = Table.AddColumn(#"Added Custom2", "BUCKET", each Number.RoundUp([COUNT]/20,0)*20, Int64.Type)
+
+CREATE WITH 3DP  
+
+
