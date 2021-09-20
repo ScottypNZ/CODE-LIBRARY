@@ -19,6 +19,7 @@ ADD YEAR AND WEEK
 
 EXTRACT YEAR AND MONTH  
 = Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
+= Table.AddColumn(#"Added WEEK", "MONTH", each Date.ToText([DATE],"yyyy") &"/"& Text.PadStart(Text.From(Date.Month([DATE])),2,"0"), type text)
 
 EXTRACT MONTH IN "MMM" FORMAT  
 = Date.ToText([Date],"MMM" ) & "_" & Text.From(Date.Year([Date]))
@@ -58,7 +59,7 @@ MERGE QUERIES (AFTER GROUP BY)
 = Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
 
 AVERAGE  
-= Table.AddColumn(Table.NestedJoin, "AVERAGE", each List.Average(Table.NestedJoin[COUNT]),Int64.Type)
+= Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE",[COUNT],Int64.Type))
 
 ADD LEAVING ZERO TO NUMBER  
 = Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
@@ -71,6 +72,12 @@ MIN
 
 FILTER ROW  
 = Table.SelectRows(#"Added Date Range", each [END] <> null)
+
+FILTER ERRORS
+= Table.SelectRowsWithErrors(#"Replaced null rooms", {"HOTEL"})
+
+FILTER OR AND
+= Table.SelectRows(#"Expanded Grouped REFERENCE", each ([ROOMS] = "0909" or [ROOMS] = "0937") and ([BHR] = "BHR-042420"))
 
 CEILING / BUCKET
 = Table.AddColumn(#"Added Custom2", "BUCKET", each Number.RoundUp([COUNT]/20,0)*20, Int64.Type)
