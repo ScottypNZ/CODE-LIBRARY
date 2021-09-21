@@ -83,5 +83,5 @@ CEILING / BUCKET
 = Table.AddColumn(#"Added Custom2", "BUCKET", each Number.RoundUp([COUNT]/20,0)*20, Int64.Type)
 
 CREATE WITH 3DP  
-
+TBC
 
