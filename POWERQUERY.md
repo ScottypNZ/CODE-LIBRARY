@@ -60,6 +60,7 @@ MERGE QUERIES (AFTER GROUP BY)
 
 AVERAGE  
 = Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE"[COUNT],Int64.Type))
+= Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE"[COUNT]),Int64.Type)
 
 ADD LEAVING ZERO TO NUMBER  
 = Table.AddColumn(#"Changed Type", "Average", each Text.PadStart(Text.From([number]),3,"0"))
