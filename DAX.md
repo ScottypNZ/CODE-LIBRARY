@@ -30,4 +30,5 @@ TYPE ERROR
 MAX OF ROOM REF PER HOTEL (NOTE MAX HOTEL IS A MEASURE]  
 =Calculate ( MAXX ( values  ( BHR[ROOM REF] ) , [MAX HOTEL] ) , ALL ( BHR ) )
 
-
+CEILING  
+= CEILING ( [Count of ROOM REF], 20 )
