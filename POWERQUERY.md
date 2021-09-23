@@ -85,3 +85,8 @@ CEILING / BUCKET
 CREATE WITH 3DP  
 TBC
 
+TEXT CONTAINS  
+= Table.AddColumn(#"Changed Type", "TEST", each Text.Contains([#"Flight #"],"1"))
+
+
+
