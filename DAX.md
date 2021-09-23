@@ -32,3 +32,6 @@ MAX OF ROOM REF PER HOTEL (NOTE MAX HOTEL IS A MEASURE]
 
 CEILING  
 = CEILING ( [Count of ROOM REF], 20 )
+
+SUBTOTAL PIVOT FORMULA  
+= IF ( not ( isfiltered ( BHR[ROW] ) ) , [Count of ROOM REF] / 30.4 , [Count of ROOM REF] )
