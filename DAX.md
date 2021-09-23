@@ -37,16 +37,16 @@ SUBTOTAL PIVOT FORMULA
 = IF ( not ( isfiltered ( BHR[ROW] ) ) , [Count of ROOM REF] / 30.4 , [Count of ROOM REF] )
 
 BOOLEAN NUMBER SEARCH  
-=#"Added NUMBER FILTER" = Table.AddColumn(#"Changed Type", "MANUAL", 
-each Text.Contains([#"Flight #"], "1") 
-or  Text.Contains([#"Flight #"], "2") 
-or Text.Contains([#"Flight #"], "3") 
-or Text.Contains([#"Flight #"], "4") 
-or Text.Contains([#"Flight #"], "5") 
-or Text.Contains([#"Flight #"], "6") 
-or Text.Contains([#"Flight #"], "7") 
-or Text.Contains([#"Flight #"], "8") 
-or Text.Contains([#"Flight #"], "9") 
-or Text.Contains([#"Flight #"], "0")
-or Text.Contains([#"Flight #"], "ZK"))
+=#"Added NUMBER FILTER" = Table.AddColumn(#"Changed Type", "MANUAL",   
+each Text.Contains([#"Flight #"], "1")   
+or  Text.Contains([#"Flight #"], "2")   
+or Text.Contains([#"Flight #"], "3")   
+or Text.Contains([#"Flight #"], "4")   
+or Text.Contains([#"Flight #"], "5")   
+or Text.Contains([#"Flight #"], "6")   
+or Text.Contains([#"Flight #"], "7")   
+or Text.Contains([#"Flight #"], "8")   
+or Text.Contains([#"Flight #"], "9")   
+or Text.Contains([#"Flight #"], "0")  
+or Text.Contains([#"Flight #"], "ZK"))  
 
