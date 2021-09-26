@@ -442,12 +442,13 @@ End Sub
 ```vb
 Option Explicit
 Sub CreateTable()
-Dim ws As Worksheet  
-    For Each ws In ActiveWorkbook.Worksheets   
-      ActiveSheet.ListObjects.Add(xlSrcRange, Range("$A$2:$G$1000"), , xlYes).Name = ws.Name
-      On Error end sub 
-      ws.Next.Activate     
-    Next wS
+Dim ws As Worksheet
+On Error GoTo ExitSub
+    For Each ws In ActiveWorkbook.Worksheets
+      ActiveSheet.ListObjects.Add(xlSrcRange, Range("$A$2:$G$1000"), , xlYes).Name = ws.Name 
+      ws.Next.Activate
+    Next ws
+ExitSub:
 End Sub
 ```
 
