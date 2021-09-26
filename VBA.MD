@@ -435,6 +435,24 @@ End Sub
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
+### CREATE TABLES
+
+
+```vb
+Option Explicit
+Sub CreateTable()
+Dim ws As Worksheet  
+    For Each ws In ActiveWorkbook.Worksheets   
+      ActiveSheet.ListObjects.Add(xlSrcRange, Range("$A$2:$G$1000"), , xlYes).Name = ws.Name
+      On Error end sub 
+      ws.Next.Activate     
+    Next wS
+End Sub
+```
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
