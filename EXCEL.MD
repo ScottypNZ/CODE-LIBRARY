@@ -1,7 +1,48 @@
+
+
+# NAME FORMULAS
+
+SHORT NAME    
+=UPPER(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100)))
+
 # EXCEL FORMULAS
 
 ###### HYPERLINK
 =HYPERLINK("#"&CELL("address",INDEX(BHR[BHR],MATCH([@BHR],BHR[BHR],0))),[@BHR])
+
+# INVOICE FORMULA  
+
+MONTH    JUN | 2021  
+=UPPER(TEXT([@[Invoice Date]],"MMM"))&" | "&YEAR([@[Invoice Date]])
+
+BUCKET DUE
+=IF([@Status]="Paid","PAID",
+IF(AND([@[DAYS ISSUED]]<=90,[@[DAYS ISSUED]]>=0),"ISSUED NOT DUE",
+IF([@[DAYS ISSUED]]>90,"ISSUED OVERDUE","?"
+)))
+
+DAYS ISSUED    
+=IF([@Status]<>"PAID",TODAY()-[@[Invoice Date]],0)
+
+DAYS PAID  
+=IF([@Status]="PAID",[@[Closed Date]]-[@[Invoice Date]],0)
+
+UNPAID AMOUNT  
+=IF([@[Invoice Amount]]=[@[Open Amount]],[@[Invoice Amount]],
+IF([@[Invoice Amount]]<>[@[Open Amount]],[@[Open Amount]],"X"))
+
+TOTAL ISSUED  
+=[@[Invoice Amount]]
+
+PAID AMOUNT  
+=[@[TOTAL ISSUED]]-[@[UNPAID AMOUNT]]
+
+ISSUED OVERDUE  
+=IF([@[BUCKET DUE]]="ISSUED OVERDUE",[@[UNPAID AMOUNT]],0)
+
+ISSUED NOT OVERDUE   
+=IF([@[BUCKET DUE]]="ISSUED NOT DUE",[@[UNPAID AMOUNT]],0)
+
 
 ###### SPLITTEXT 
 =LEFT(B5,FIND("_",B5)-1)  
@@ -43,43 +84,7 @@ IF([@[Entering NZ on a border exception?]]="Yes - Critical Worker","YES",
 IF([@[Entering NZ on a border exception?]]="Yes - Maritime Worker or Aircrew Member","YES",
 "TBC"))))))))))))))
 
-# INVOICE FORMULA  
 
-MONTH    JUN | 2021  
-=UPPER(TEXT([@[Invoice Date]],"MMM"))&" | "&YEAR([@[Invoice Date]])
-
-BUCKET DUE
-=IF([@Status]="Paid","PAID",
-IF(AND([@[DAYS ISSUED]]<=90,[@[DAYS ISSUED]]>=0),"ISSUED NOT DUE",
-IF([@[DAYS ISSUED]]>90,"ISSUED OVERDUE","?"
-)))
-
-DAYS ISSUED    
-=IF([@Status]<>"PAID",TODAY()-[@[Invoice Date]],0)
-
-DAYS PAID  
-=IF([@Status]="PAID",[@[Closed Date]]-[@[Invoice Date]],0)
-
-UNPAID AMOUNT  
-=IF([@[Invoice Amount]]=[@[Open Amount]],[@[Invoice Amount]],
-IF([@[Invoice Amount]]<>[@[Open Amount]],[@[Open Amount]],"X"))
-
-TOTAL ISSUED  
-=[@[Invoice Amount]]
-
-PAID AMOUNT  
-=[@[TOTAL ISSUED]]-[@[UNPAID AMOUNT]]
-
-ISSUED OVERDUE  
-=IF([@[BUCKET DUE]]="ISSUED OVERDUE",[@[UNPAID AMOUNT]],0)
-
-ISSUED NOT OVERDUE   
-=IF([@[BUCKET DUE]]="ISSUED NOT DUE",[@[UNPAID AMOUNT]],0)
-
-# NAME FORMULAS
-
-SHORT NAME    
-=UPPER(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100)))
 
 
 
