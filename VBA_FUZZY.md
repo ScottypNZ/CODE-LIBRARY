@@ -1,16 +1,16 @@
-###   
-```
-
-```
-###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
--------------------------
-
 
 VBA FUZZY LOGIC
 =====================
 
 ### INDEX
---------
+-
+-------
+
+ * [
+ * [
+* [LEVENSHTEIN_PLUS](#LEVENSHTEIN-PLUS)
+ * [LEVENSHTEIN_PERCENT](#LEVENSHTEIN-PERCENT)
+ * [LEVENSHTEIN](#LEVENSHTEIN)
  * [JACCARD](#JACCARD)
  * [HAMMING](#HAMMING)
  * [DAMERAU](#DAMERAU)
@@ -19,6 +19,212 @@ VBA FUZZY LOGIC
  * [SIMILARITY FUZZY](#SIMILARITY-FUZZY)
  
 -------------------------
+###   LEVENSHTEIN_PLUS
+
+```VBA
+Option Explicit
+
+Public Function LEVENSHTEIN(String1 As String, String2 As String) As Long
+
+    '@Description: This function takes two strings of any length and calculates the Levenshtein Distance between them. Levenshtein Distance measures how close two strings are by checking how many Insertions, Deletions, or Substitutions are needed to turn one string into the other. Lower numbers mean the strings are closer than high numbers. Unlike Hamming Distance, Levenshtein Distance works for strings of any length and includes 2 more operations. However, calculation time will be slower than Hamming Distance for same length strings, so if you know the two strings are the same length, its preferred to use Hamming Distance.
+    '@URL: https://x-vba.com/xplus/string-metrics.html#LEVENSHTEIN
+    '@License: MIT
+    '@Param: string1 is the first string
+    '@Param: string2 is the second string that will be compared to the first string
+    '@Returns: Returns an integer of the Levenshtein Distance between two string
+    '@Example: =LEVENSHTEIN("Cat", "Bat") -> 1; Since all that is needed is 1 change (changing the "B" in Bat to "C")
+    '@Example: =LEVENSHTEIN("Cat", "Ca") -> 1; Since only one Insertion needs to occur (adding a "t" at the end)
+    '@Example: =LEVENSHTEIN("Cat", "Cta") -> 2; Since the "t" in "Cta" needs to be substituted into an "a", and the final character "a" needs to be substituted into a "t"
+
+    ' **Error Checking**
+    ' Quick returns for common errors
+    If String1 = String2 Then
+        LEVENSHTEIN = 0
+        Exit Function
+    ElseIf String1 = Empty Then
+        LEVENSHTEIN = Len(String2)
+        Exit Function
+    ElseIf String2 = Empty Then
+        LEVENSHTEIN = Len(String1)
+        Exit Function
+    End If
+    
+
+    ' **Algorithm Code**
+    ' Creating the distance metrix and filling it with values
+    Dim numberOfRows As Integer
+    Dim numberOfColumns As Integer
+    
+    numberOfRows = Len(String1)
+    numberOfColumns = Len(String2)
+    
+    Dim distanceArray() As Integer
+    ReDim distanceArray(numberOfRows, numberOfColumns)
+    
+    Dim r As Integer
+    Dim c As Integer
+    
+    For r = 0 To numberOfRows
+        For c = 0 To numberOfColumns
+            distanceArray(r, c) = 0
+        Next
+    Next
+    
+    For r = 1 To numberOfRows
+        distanceArray(r, 0) = r
+    Next
+    
+    For c = 1 To numberOfColumns
+        distanceArray(0, c) = c
+    Next
+    
+    ' Non-recursive Levenshtein Distance matrix walk
+    Dim operationCost As Integer
+    
+    For c = 1 To numberOfColumns
+        For r = 1 To numberOfRows
+            If Mid(String1, r, 1) = Mid(String2, c, 1) Then
+                operationCost = 0
+            Else
+                operationCost = 1
+            End If
+                                                           
+            distanceArray(r, c) = WorksheetFunction.Min(distanceArray(r - 1, c) + 1, distanceArray(r, c - 1) + 1, distanceArray(r - 1, c - 1) + operationCost)
+        Next
+    Next
+    
+    LEVENSHTEIN = distanceArray(numberOfRows, numberOfColumns)
+
+End Function
+
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
+###   LEVENSHTEIN_PERCENT
+```VBA
+Option Explicit
+
+Function DTVLookup(TheValue As Variant, TheRange As Range, TheColumn As Long, Optional PercentageMatch As Double = 100) As Variant
+If TheColumn < 1 Then
+    DTVLookup = CVErr(xlErrValue)
+    Exit Function
+End If
+If TheColumn > TheRange.Columns.Count Then
+    DTVLookup = CVErr(xlErrRef)
+    Exit Function
+End If
+Dim c As Range
+For Each c In TheRange.Columns(1).Cells
+    If UCase(TheValue) = UCase(c) Then
+        DTVLookup = c.Offset(0, TheColumn - 1)
+        Exit Function
+    ElseIf PercentageMatch <> 100 Then
+        If Levenshtein3(UCase(TheValue), UCase(c)) >= PercentageMatch Then
+            DTVLookup = c.Offset(0, TheColumn - 1)
+            Exit Function
+        End If
+    End If
+Next c
+DTVLookup = CVErr(xlErrNA)
+End Function
+
+Function Levenshtein3(ByVal String1 As String, ByVal String2 As String) As Long
+
+Dim I As Long, j As Long, string1_length As Long, string2_length As Long
+Dim distance(0 To 60, 0 To 50) As Long, smStr1(1 To 60) As Long, smStr2(1 To 50) As Long
+Dim min1 As Long, min2 As Long, min3 As Long, minmin As Long, MaxL As Long
+
+string1_length = Len(String1):  string2_length = Len(String2)
+
+distance(0, 0) = 0
+For I = 1 To string1_length:    distance(I, 0) = I: smStr1(I) = Asc(LCase(Mid$(String1, I, 1))): Next
+For j = 1 To string2_length:    distance(0, j) = j: smStr2(j) = Asc(LCase(Mid$(String2, j, 1))): Next
+For I = 1 To string1_length
+    For j = 1 To string2_length
+        If smStr1(I) = smStr2(j) Then
+            distance(I, j) = distance(I - 1, j - 1)
+        Else
+            min1 = distance(I - 1, j) + 1
+            min2 = distance(I, j - 1) + 1
+            min3 = distance(I - 1, j - 1) + 1
+            If min2 < min1 Then
+                If min2 < min3 Then minmin = min2 Else minmin = min3
+            Else
+                If min1 < min3 Then minmin = min1 Else minmin = min3
+            End If
+            distance(I, j) = minmin
+        End If
+    Next
+Next
+
+' Levenshtein3 will properly return a percent match (100%=exact) based on similarities and Lengths etc...
+MaxL = string1_length: If string2_length > MaxL Then MaxL = string2_length
+Levenshtein3 = 100 - CLng((distance(string1_length, string2_length) * 100) / MaxL)
+
+End Function
+
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
+###   LEVENSHTEIN
+
+```VB
+Option Explicit
+
+Function LEVENSHTEIN1(a As String, b As String) As Integer
+ 
+    Dim I As Integer
+    Dim j As Integer
+    Dim cost As Integer
+    Dim d() As Integer
+    Dim min1 As Integer
+    Dim min2 As Integer
+    Dim min3 As Integer
+ 
+    If Len(a) = 0 Then
+        LEVENSHTEIN = Len(b)
+        Exit Function
+    End If
+ 
+    If Len(b) = 0 Then
+        LEVENSHTEIN = Len(a)
+        Exit Function
+    End If
+ 
+    ReDim d(Len(a), Len(b))
+ 
+    For I = 0 To Len(a)
+        d(I, 0) = I
+    Next
+ 
+    For j = 0 To Len(b)
+        d(0, j) = j
+    Next
+ 
+    For I = 1 To Len(a)
+        For j = 1 To Len(b)
+            If Mid(a, I, 1) = Mid(b, j, 1) Then
+                cost = 0
+            Else
+                cost = 1
+            End If
+            min1 = (d(I - 1, j) + 1)
+            min2 = (d(I, j - 1) + 1)
+            min3 = (d(I - 1, j - 1) + cost)
+            d(I, j) = Application.WorksheetFunction.Min(min1, min2, min3)
+        Next
+    Next
+ 
+    LEVENSHTEIN = d(Len(a), Len(b))
+ 
+End Function
+
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
 ###   JACCARD
 ```
 Function Similar(Val1 As String, Val2 As String) As Double
@@ -249,6 +455,7 @@ End Function
 ```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
+
 
 ### FUZZY MATCH MULTI STAGE  
 ```VB
