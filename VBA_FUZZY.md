@@ -170,7 +170,7 @@ End Function
 
 ###   LEVENSHTEIN
 
-```VB
+```VBA
 Option Explicit
 
 Function LEVENSHTEIN1(a As String, b As String) As Integer
@@ -226,7 +226,8 @@ End Function
 -------------------------
 
 ###   JACCARD
-```
+
+```VBA
 Function Similar(Val1 As String, Val2 As String) As Double
 
 
@@ -264,7 +265,8 @@ End Function
 -------------------------
 
 ###  HAMMING 
-```
+
+```VBA
 Option Explicit
 
 Public Function HAMMING( _
@@ -305,7 +307,10 @@ End Function
 -------------------------
 
 ### DAMERAU
-`Option Explicit
+
+```VBA
+
+Option Explicit
 
 Public Function DAMERAU( _
     String1 As String, _
@@ -412,14 +417,13 @@ As Integer
 
 End Function
 
-``
-
 ```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
 ### FUZZY FIND  
-```
+
+```VBA
 Option Explicit
 
 Function FuzzyFind2(lookup_value As String, tbl_array As Range) As String
@@ -458,7 +462,7 @@ End Function
 
 
 ### FUZZY MATCH MULTI STAGE  
-```VB
+```VBA
 
 Option Explicit
 
@@ -1010,7 +1014,7 @@ End Function
 -------------------------
 
 ###  SIMILARITY FUZZY
-```
+```VBA
 Option Explicit
 
 Public Function Similarity(ByVal String1 As String, _
