@@ -251,7 +251,7 @@ End Function
 -------------------------
 
 ### FUZZY MATCH MULTI STAGE  
-```
+```VB
 
 Option Explicit
 
@@ -802,8 +802,8 @@ End Function
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
-### SIMILARITY FUZZY
-```VB
+###  SIMILARITY FUZZY
+```
 Option Explicit
 
 Public Function Similarity(ByVal String1 As String, _
