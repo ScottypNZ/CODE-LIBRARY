@@ -27,6 +27,9 @@ EXTRACT MONTH IN "MMM" FORMAT
 EXTRACT MONTH IN "MM" FORMAT INCLUDING LEADING ZERO  
 = Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
 
+LEFT 10 CHARACTERS CONVERTED TO TEXT, TRIMMED AND THEN PADDED TO 10  
+= Text.PadStart(Text.Trim(Text.Start(Text.From([START]),10)),10,"0"))
+
 PAD START OF DATE AND SUBSTITUE NULL VALUES  
 = Table.AddColumn(#"Changed Type", "REFERENCE", 
 each if [ArrivalDate] = null then 
