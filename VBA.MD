@@ -11,6 +11,7 @@ VBA Library
  * [INDEX PAGE WITH HYERLINK](#INDEX-PAGE-WITH-HYERLINK)
  * [INDEX WITH HYERLINK TABLES](#INDEX-WITH-HYERLINK-TABLES)
  * [CREATE TABLES](#CREATE-TABLES)
+ * [SAVESHEETS](#SAVESHEETS)
 
 -------------------------
 
@@ -454,6 +455,36 @@ End Sub
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
+
+### SAVESHEETS 
+
+```vb
+Sub SaveSheets()
+
+Dim ws As Worksheet
+Dim FolderName As String
+Dim DateFilter As String
+FolderName = "C:\temp\"
+
+For Each ws In ThisWorkbook.Worksheets
+
+    If ws.Name <> "DATA" Then
+
+        ws.Copy
+        ActiveWorkbook.SaveAs (FolderName & ws.Name)
+        ActiveWorkbook.Close
+    
+    End If
+    
+Next ws
+
+MsgBox "FILES SAVED TO " & FolderName
+
+End Sub
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
