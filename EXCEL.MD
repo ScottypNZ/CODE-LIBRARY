@@ -17,6 +17,11 @@ HYPERLINK
 SHORT NAME    
 =UPPER(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100)))
 
+FULL NAME - EXCLUDING BLANKS  
+=TRIM(UPPER(IF([@FirstName]<>"",[@FirstName],"")&" "&  
+IF([@OtherNames]<>"",[@OtherNames],"")&" "&  
+IF([@LastName]<>"",[@LastName],"")))
+
 # INVOICE FORMULA  
 
 MONTH    JUN | 2021  
