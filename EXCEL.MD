@@ -12,6 +12,11 @@ HYPERLINK
 =HYPERLINK("#"&CELL("address",INDEX(BHR[BHR],MATCH([@BHR],BHR[BHR],0))),[@BHR])
 =HYPERLINK("#"&CELL("address",'Sheet1'!A1),"LINK")
 
+
+
+# A-Z fill  
+=CHAR(CODE(A1) + 1)  
+
 # NAME FORMULAS
 
 SHORT NAME    
