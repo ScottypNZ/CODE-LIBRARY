@@ -14,7 +14,7 @@ HYPERLINK
 
 
 
-# A-Z fill  
+# A-Z FILL  
 =CHAR(CODE(A1) + 1)  
 
 # NAME FORMULAS
