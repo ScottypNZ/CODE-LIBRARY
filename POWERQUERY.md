@@ -12,7 +12,11 @@ https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings
 
 _________________________________________________________________
 
+TEXT REPLACEMENT   
 = Text.ReplaceAll([Text], Replacements)
+
+REFERENCE QUERY  
+= "BHR"
 
 ADD YEAR AND WEEK  
 = Table.AddColumn(#"Added MONTH", "WEEK", each Date.ToText([DATE],"yyyy")&"/"&Text.From(Date.WeekOfYear([DATE])))
