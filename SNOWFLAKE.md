@@ -9,6 +9,12 @@
   empty_field_as_null = true
   compression = gzip;"MIQ_DW_SBX"."DATAUPLOADS"."CHARGE_LIABILITY"
 ```
+#### CREATE STAGE
+
+```
+create or replace stage BHR_STAGE
+  file_format = BHR_format;
+```
 
 #### CREATE BHR TABLE  
 
