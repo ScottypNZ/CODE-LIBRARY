@@ -1,12 +1,16 @@
-# CREATE REF TABLE  
+#### CREATE REF TABLE  
 
 ```
-CREATE TABLE DATAUPLOADS.REF (CODE TEXT,
-HOTEL TEXT, 
-CITY TEXT
-);
+"MIQ_DW_SBX"."DATAUPLOADS"."CHARGE_LIABILITY"create or replace file format BHR_format
+  type = csv
+  field_delimiter = ','
+  skip_header = 1
+  null_if = ('NULL', 'null')
+  empty_field_as_null = true
+  compression = gzip;"MIQ_DW_SBX"."DATAUPLOADS"."CHARGE_LIABILITY"
 ```
-# CREATE BHR TABLE  
+
+#### CREATE BHR TABLE  
 
 ```
 CREATE TABLE DATAUPLOADS.CHARGE_LIABILITY (Person_Profile TEXT,  
