@@ -1,9 +1,10 @@
 # CODE-LIBRARY
 
-CREATE TABLE DATAUPLOADS.CHARGE_LIABILITY (Person_Profile TEXT,
-Border_Health_Record TEXT,
-First_Name TEXT,
-Last_Name TEXT,
+```
+CREATE TABLE DATAUPLOADS.CHARGE_LIABILITY (Person_Profile TEXT,  
+Border_Health_Record TEXT,  
+First_Name TEXT,  
+Last_Name TEXT, 
 Passport TEXT,
 Flight TEXT,
 Date_of_Birth TEXT,
@@ -33,3 +34,4 @@ Management_Plan_Type TEXT,
 Closed_Status TEXT,
 Arrival_Port TEXT
 );
+```
