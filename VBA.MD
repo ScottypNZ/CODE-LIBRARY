@@ -487,7 +487,7 @@ End Sub
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
-### REMOVE CHARACTERS LIKE 
+### REMOVE CHARACTERS LIKE
 
 ```vbA
 Sub REMOVE_CHARACTERS_LIKE()
@@ -527,7 +527,7 @@ End Sub
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
-### REMOVE CHARACTERS CASE 
+### REMOVE CHARACTERS CASE
 
 ```vbA
 Sub REMOVE_CHARACTERS_CASE()
