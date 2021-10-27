@@ -12,6 +12,8 @@ VBA Library
  * [INDEX WITH HYERLINK TABLES](#INDEX-WITH-HYERLINK-TABLES)
  * [CREATE TABLES](#CREATE-TABLES)
  * [SAVESHEETS](#SAVESHEETS)
+ * [REMOVE CHARACTERS CASE](#REMOVE_CHARACTERS_CASE)
+ * [REMOVE CHARACTERS LIKE](#REMOVE_CHARACTERS_LIKE)
 
 -------------------------
 
@@ -440,7 +442,7 @@ End Sub
 ### CREATE TABLES
 
 
-```vb
+```vbA
 Option Explicit
 Sub CreateTable()
 Dim ws As Worksheet
@@ -458,7 +460,7 @@ End Sub
 
 ### SAVESHEETS 
 
-```vb
+```vbA
 Sub SaveSheets()
 
 Dim ws As Worksheet
@@ -485,6 +487,79 @@ End Sub
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
 
+### REMOVE CHARACTERS LIKE 
+
+```vbA
+Sub REMOVE_CHARACTERS_LIKE()
+
+Dim Rng As RANGE
+Dim XOUT As String
+Dim xtemp As String
+Dim xstr As String
+Dim I As Integer
+
+On Error Resume Next
+
+For Each Rng In Selection
+
+    XOUT = ""
+    
+    For I = 1 To Len(Rng.Value)
+    
+        xtemp = Mid(Rng.Value, I, 1)
+        If xtemp Like "[a-z.A-Z.0-9]" Then
+            xstr = xtemp
+        Else
+            xstr = ""
+        End If
+        
+        XOUT = XOUT & xstr
+        
+    Next I
+    
+    Rng.Value = XOUT
+    
+Next
+
+End Sub
+
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
+### REMOVE CHARACTERS CASE 
+
+```vbA
+Sub REMOVE_CHARACTERS_CASE()
+
+    Dim Rng As RANGE
+    Dim I As Integer
+    Dim strResult As String
+    Dim strSource As String
+
+    For Each Rng In Selection
+    
+    strResult = ""
+    
+        For I = 1 To Len(Rng.Value)
+        
+            Select Case Asc(Mid(Rng.Value, I, 1))
+            
+                Case 48 To 57, 65 To 90, 97 To 122: 'include 32 if you want to include space
+                
+                    strResult = strResult & Mid(Rng.Value, I, 1)
+                    
+            End Select
+            
+        Next
+        
+        Rng.Value = strResult
+        
+    Next
+    
+End Sub
+
+```
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 -------------------------
