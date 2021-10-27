@@ -1,5 +1,5 @@
 # CODE-LIBRARY
-
+```
 
 |	ASCII Code	|	ASCII Character	|	ASCII Character Name	|	Description	|
 ---	---	---	---	---	---	---	---	---
@@ -226,6 +226,6 @@
 |	253	|	ý	|	Latin small letter y with acute	|	ASCII Value of ‘Latin small letter y with acute’ is 253	|
 |	254	|	þ	|	Latin small letter thorn	|	ASCII Value of ‘Latin small letter thorn’ is 254	|
 |	255	|	ÿ	|	Latin small letter y with diaeresis	|	ASCII Value of ‘Latin small letter y with diaeresis’ is 255	|
-![image](https://user-images.githubusercontent.com/60175119/138997628-8a2b71ea-7650-45d1-943c-32304e5bb2b8.png)
+```
 
 
