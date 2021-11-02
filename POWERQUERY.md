@@ -98,8 +98,11 @@ TEXT CONTAINS
 COUNT WORDS   
 =List.Count(Text.SplitAny([FULL NAME]," ")))
 
-COUNT WORDS REMOVING BLANKS  
+NET WORD COUNT (LESS BLANKS)  
 =List.Count(List.RemoveItems(Text.SplitAny([FULL NAME]," #(tab)#(lf)"),{""})))
+
+SHORT NAME UTILISING NET WORK COUNT (TO STOP SINGLE WORD DUPLICATION)  
+=if [NetWordCount] = 1 then [FULL NAME] else Text.Upper(List.First(Text.Split([FULL NAME]," ")))&" "&Text.Upper(List.Last(Text.Split([FULL NAME]," ")))
 
 
 
