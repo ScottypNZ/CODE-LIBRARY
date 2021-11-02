@@ -95,5 +95,11 @@ TBC
 TEXT CONTAINS  
 = Table.AddColumn(#"Changed Type", "TEST", each Text.Contains([#"Flight #"],"1"))
 
+COUNT WORDS   
+=List.Count(Text.SplitAny([FULL NAME]," ")))
+
+COUNT WORDS REMOVING BLANKS  
+=List.Count(List.RemoveItems(Text.SplitAny([FULL NAME]," #(tab)#(lf)"),{""})))
+
 
 
