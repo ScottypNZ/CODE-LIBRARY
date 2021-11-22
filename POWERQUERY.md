@@ -65,6 +65,24 @@ TRANSPOSE DATES BETWEEN A RANGE
 MERGE QUERIES (AFTER GROUP BY)  
 = Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
 
+OPTION1 GROUP BY ID (2 STEPS) "ALL" NEEDS TO BE ADDED   
+= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}, {"All", each _, type table }})  
+= Table.ExpandTableColumn(#"Grouped Rows", "All", {"YEAR", "ROW3", "ROW4", "ROW5"})
+GROUPS BY ID
+NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)   
+NEW COLUMN NAME ALL/ALLROWS   
+EXPAND ALL LESS ID WHICH IS ALREADY IN TABLE.   
+UNTICK PREFIX   
+
+OPTION 2 GROUP BY ID (3 STEPS) "ALL" DOES NOT NEED TO BE ADDED   
+= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}})   
+= Table.NestedJoin(Source, {"ID"}, Table1, {"ID"}, "Grouped Rows", JoinKind.FullOuter)   
+= Table.ExpandTableColumn(#"Merged Queries", "Grouped Rows", {"MAX"}, {"MAX"})   
+GROUPS BY ID   
+NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
+MERGE QUERIES FULL OUTER ON ID/ID   
+EXPAND MAX   
+
 AVERAGE  
 = Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE"[COUNT]), type number)
 
