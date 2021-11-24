@@ -26,8 +26,16 @@ DATE & TIME GROUPED BY 6HR BRACKETS
 
 
 
-# A-Z FILL  
+# CHARACTER CODES  
+
+A-Z FILL    
 =CHAR(CODE(A1) + 1)  
+
+CLEANING   
+https://support.microsoft.com/en-us/office/top-ten-ways-to-clean-your-data-2844b620-677c-47a7-ac3e-c2e157d1db19
+
+SUBSTITUTE   
+=LEN(B5)-LEN(SUBSTITUTE(B5,CHAR(10),""))+1
 
 # NAME FORMULAS
 
