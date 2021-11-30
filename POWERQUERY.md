@@ -122,5 +122,14 @@ NET WORD COUNT (LESS BLANKS)
 SHORT NAME UTILISING NET WORK COUNT (TO STOP SINGLE WORD DUPLICATION)  
 =if [NetWordCount] = 1 then [FULL NAME] else Text.Upper(List.First(Text.Split([FULL NAME]," ")))&" "&Text.Upper(List.Last(Text.Split([FULL NAME]," ")))
 
+SPIT DATE   
+= Table.SplitColumn(Table.TransformColumnTypes(#"Added SHORT NAME", {{"BirthDate", type text}}, "en-NZ"), "BirthDate", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"BirthDate.1", "BirthDate.2"})  
+
+CONVERT DATE TO NUMBER (SO DONT NEED TO SPLIT)   
+= Table.AddColumn(#"Added DOB", "DOB.1", each Text.PadStart(Text.From(Date.From(Number.From(Date.From([BirthDate])))),10,"0"))  
+
+
+
+
 
 
