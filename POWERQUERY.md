@@ -128,6 +128,8 @@ SPIT DATE
 CONVERT DATE TO NUMBER (SO DONT NEED TO SPLIT)   
 = Table.AddColumn(#"Added DOB", "DOB.1", each Text.PadStart(Text.From(Date.From(Number.From(Date.From([BirthDate])))),10,"0"))  
 
+ADD ROW IF TABLE IS EMPTY   
+= if Table.IsEmpty(#"Reordered Columns") = true then Table.InsertRows(#"Reordered Columns", 0,{Record.FromList(List.Repeat({""},Table.ColumnCount(#"Reordered Columns")),Table.ColumnNames(#"Reordered Columns"))}) else #"Reordered Columns"
 
 
 
