@@ -131,6 +131,9 @@ CONVERT DATE TO NUMBER (SO DONT NEED TO SPLIT)
 ADD ROW IF TABLE IS EMPTY   
 = if Table.IsEmpty(#"Reordered Columns") = true then Table.InsertRows(#"Reordered Columns", 0,{Record.FromList(List.Repeat({""},Table.ColumnCount(#"Reordered Columns")),Table.ColumnNames(#"Reordered Columns"))}) else #"Reordered Columns"
 
+IMPORT ONLY SELECTED TABLES FROM EXISTING QUERY   
+ = Table.SelectColumns(Source,{"MIAS DATE", "PassengerID"}),
+
 
 
 
