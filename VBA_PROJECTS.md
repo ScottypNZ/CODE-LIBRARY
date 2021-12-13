@@ -10,7 +10,8 @@ VBA Library
 
 ### SPLIT DATA INTO SHEETS AND PROCESS  
 
-```Sub FORMULA_AND_SAVE()
+```VB
+Sub FORMULA_AND_SAVE()
 
 Application.ScreenUpdating = False
 Application.DisplayAlerts = False
