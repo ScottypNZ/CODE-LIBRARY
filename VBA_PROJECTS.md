@@ -10,7 +10,7 @@ VBA Library
 
 ### SPLIT DATA INTO SHEETS AND PROCESS  
 
-Sub FORMULA_AND_SAVE()
+```Sub FORMULA_AND_SAVE()
 
 Application.ScreenUpdating = False
 Application.DisplayAlerts = False
@@ -55,3 +55,4 @@ Application.Calculation = xlAutomatic
 MsgBox "FILES SAVED TO " & FolderName
 
 End Sub
+```
