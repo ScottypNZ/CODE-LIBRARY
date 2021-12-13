@@ -81,6 +81,26 @@ Next objFile
 End Sub
 ```
 
+### ALTERNATIVE
+
+```VB
+Sub LoopAllFilesInAFolder()
+
+Dim fileName As Variant
+Dim wb As Workbook
+fileName = Dir("C:\LOCAL DATA\MIAS\DATA\")
+
+While fileName <> ""
+    
+    Debug.Print fileName
+
+    fileName = Dir
+    
+Wend
+
+End Sub
+```
+
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 
 ### RENAME FILES
