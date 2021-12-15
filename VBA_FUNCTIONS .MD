@@ -590,7 +590,7 @@ VBA Library
 
 -------------------------
 
-### SPLIT DATA INTO SHEETS AND PROCESS  
+### SPLIT DATA 
 
 ```VB
 Sub FORMULA_AND_SAVE()
