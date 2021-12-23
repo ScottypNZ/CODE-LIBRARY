@@ -8,6 +8,5 @@ SELECT DISTINCT [MIAS DATE] FROM DATA  ORDER BY [MIAS DATE] DESC;
 
 ALTER TABLE [DATA] ALTER COLUMN [Contact_ApartmentOrStreetNumber] NVARCHAR(255);  
 
-DATA TYPES
-https://www.w3schools.com/sql/sql_datatypes.asp
+DATA TYPES https://www.w3schools.com/sql/sql_datatypes.asp
 
