@@ -19,3 +19,5 @@ https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-
 https://www.w3schools.com/sql/sql_datatypes.asp
 
 https://docs.microsoft.com/en-us/sql/integration-services/lesson-1-create-a-project-and-basic-package-with-ssis?view=sql-server-ver15
+
+https://github.com/microsoft/sql-server-samples/tree/master/samples/databases
