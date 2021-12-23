@@ -12,3 +12,6 @@ ALTER TABLE [DATA] ALTER COLUMN [Contact_ApartmentOrStreetNumber] NVARCHAR(255);
 
 DATA TYPES https://www.w3schools.com/sql/sql_datatypes.asp
 
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DATA' and column_name like '%DATE%';
+
+
