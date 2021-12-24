@@ -24,5 +24,6 @@ https://github.com/microsoft/sql-server-samples/tree/master/samples/databases
 
 #### SSIS BULK IMPORT
 
-https://www.mssqltips.com/sqlservertip/4564/ssis-variable-and-expression-example-part-1/
-https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tables-using-an-ssis-package/
+https://www.mssqltips.com/sqlservertip/4564/ssis-variable-and-expression-example-part-1/   
+
+https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tables-using-an-ssis-package/   
