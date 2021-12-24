@@ -21,3 +21,8 @@ https://www.w3schools.com/sql/sql_datatypes.asp
 https://docs.microsoft.com/en-us/sql/integration-services/lesson-1-create-a-project-and-basic-package-with-ssis?view=sql-server-ver15
 
 https://github.com/microsoft/sql-server-samples/tree/master/samples/databases
+
+#### SSIS BULK IMPORT
+
+https://www.mssqltips.com/sqlservertip/4564/ssis-variable-and-expression-example-part-1/
+https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tables-using-an-ssis-package/
