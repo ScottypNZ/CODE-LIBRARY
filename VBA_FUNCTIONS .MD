@@ -495,26 +495,37 @@ End Sub
 ### SAVESHEETS 
 
 ```vbA
-Sub SaveSheets()
+Sub SAVE()
 
-Dim ws As Worksheet
+Dim WS As Worksheet
 Dim FolderName As String
-Dim DateFilter As String
-FolderName = "C:\temp\"
 
-For Each ws In ThisWorkbook.Worksheets
+FolderName = "C:\LOCAL DATA\ROOMING\"
 
-    If ws.Name <> "DATA" Then
+For Each WS In ThisWorkbook.Worksheets
 
-        ws.Copy
-        ActiveWorkbook.SaveAs (FolderName & ws.Name)
+    If WS.Name <> "MIAS" Then
+        
+        WS.Copy
+        
+        On Error Resume Next
+        
+        ActiveSheet.Name = Range("F2").Value
+        ActiveSheet.SaveAs (FolderName & Range("Z2").Value)
         ActiveWorkbook.Close
-    
+        
+        On Error GoTo ErrorOut
+             
+ErrorOut:
+        
     End If
-    
-Next ws
+ 
+Next
+
+Sheets("MIAS").Select
 
 MsgBox "FILES SAVED TO " & FolderName
+
 
 End Sub
 ```
