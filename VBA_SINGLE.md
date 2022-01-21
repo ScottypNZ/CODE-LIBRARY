@@ -14,9 +14,9 @@ Application.Calculation = xlAutomatic
 CLEAR   
 ActiveWorkbook.Sheets("MIAS").Range("A3:AH1000").Clear
 
-RESIZE
+RESIZE   
 ActiveWorkbook.Sheets("MIAS").ListObjects("MIAS").Resize Range("$A$2:$AH$3")
 
-COPY AND PASTE
+COPY AND PASTE   
 Sheets("TEMP").UsedRange.Copy Destination:=Sheets("MIAS").Range("e3")
 
