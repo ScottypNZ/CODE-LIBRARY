@@ -23,15 +23,10 @@ VBA Library
 
 ```vbA
 Sub ConnectionActive()
-
 Dim Connection As Variant
-
     For Each Connection In ActiveWorkbook.Connections
-    
-        Connection.OLEDBConnection.BackgroundQuery = False
-        
+         Connection.OLEDBConnection.BackgroundQuery = False
     Next Connection
-
 End Sub
 ```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
