@@ -3,6 +3,7 @@ VBA Library
 
 ### INDEX
 --------
+ * [DISABLE BACKGROUND CONNECTIONS](#-DISABLE-BACKGROUND-CONNECTIONS)
  * [CHANGE CASE](#CHANGE-CASE) 
  * [CONVERT NUMBERS TO WORDS](#CHANGE-CASE)
  * [COPY DOWN VISIBLE](#COPY-DOWN-VISIBLE)
@@ -17,6 +18,23 @@ VBA Library
  * [SPLIT DATA](#SPLIT-DATA) 
 
 -------------------------
+
+### DISABLE BACKGROUND CONNECTIONS
+
+```vbA
+Sub ConnectionActive()
+
+Dim Connection As Variant
+
+    For Each Connection In ActiveWorkbook.Connections
+    
+        Connection.OLEDBConnection.BackgroundQuery = False
+        
+    Next Connection
+
+End Sub
+```
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
 
 ### COPY DOWN VISIBLE 
 
