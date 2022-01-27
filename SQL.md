@@ -21,10 +21,10 @@ SELECT DISTINCT top 5 [MIAS DATE]
   ORDER BY [MIAS DATE] DESC  
 
 SELECT DISTINCT[PASSENGERID],  
-COUNT ([PassengerID]) as COUNT 
+COUNT ([PassengerID]) as COUNT  
 FROM [dbo].[DATA]  
-GROUP BY [PassengerID] 
-ORDER BY PassengerID ASC; 
+GROUP BY [PassengerID]  
+ORDER BY PassengerID ASC;  
 
 SELECT DISTINCT[PASSENGERID],   
 COUNT ([PassengerID]) as COUNT  
