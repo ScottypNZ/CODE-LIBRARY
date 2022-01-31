@@ -54,7 +54,7 @@ https://www.mssqltips.com/sqlservertip/4564/ssis-variable-and-expression-example
 https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tables-using-an-ssis-package/   
 
 #### TABLE FIELDS   
-
+```sql
 CREATE TABLE [dbo].[DATA] (
 [MIAS DATE] FLOAT (53) NULL,
 [DATE] DATETIME NULL,
@@ -165,5 +165,6 @@ CREATE TABLE [dbo].[DATA] (
 [ScanNumberOfRooms] NVARCHAR (255) NULL,
 [ScanRoomNumbers] NVARCHAR (255) NULL
 );
+```
 
 
