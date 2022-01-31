@@ -8,7 +8,7 @@ select * from sys.configurations where name = 'clr enabled'
 
 2) ACTIVATE CLR
 
-```vba
+```sql
 sp_configure 'show advanced options',1
 GO
 RECONFIGURE
