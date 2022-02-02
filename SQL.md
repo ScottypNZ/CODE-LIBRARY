@@ -38,6 +38,13 @@ FROM [dbo].[DATA]
 GROUP BY [PassengerID]  
 ORDER BY PassengerID ASC;  
 
+SELECT [PASSENGERID],   
+COUNT ([PassengerID]) as COUNT,   
+MAX([MIAS DATE]) AS LATEST   
+FROM [SECOND DATABASE].[dbo].[NEW]   
+GROUP BY [PassengerID]   
+ORDER BY PassengerID ASC;   
+
 SELECT isnull ([MIAS DATE],'TOTAL') AS 'MIAS DATE', 
 format(count (*), 'n0') as COUNT   
 FROM [LOCAL DATABASE].[dbo].[DATA$]   
