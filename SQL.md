@@ -192,4 +192,19 @@ CREATE TABLE [dbo].[NEW] (
 );
 ```
 
-
+```sql
+Select [ScanTransportID] 
+      ,[ScanTransportCity]
+      ,[ScanTransportHotel]
+      ,[ScanTransportOperator]
+      ,[ScanTransportTime]
+      ,[ScanTransportInteractionTime]
+      ,[ScanTransportInteractionType]
+      ,[ScanHotel]
+      ,[ScanHotelInteractionTime]
+      ,[ScanHotelInteractionType]
+      ,[ScanHotelOperator]
+      ,[ScanNumberOfRooms]
+      ,[ScanRoomNumbers]
+FROM [LOCAL DATABASE].[dbo].[DATA$];
+```
