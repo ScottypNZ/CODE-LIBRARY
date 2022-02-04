@@ -50,6 +50,12 @@ format(count (*), 'n0') as COUNT
 FROM [LOCAL DATABASE].[dbo].[DATA$]   
 GROUP BY [MIAS DATE] with ROLLUP   
 
+SELECT [Passengerid], COUNT(CASE WHEN [passengerid] = [passengerid] THEN 1 END)  
+FROM [LOCAL DATABASE].[dbo].[DATA$]  
+Group by [passengerid]  
+ORDER BY PassengerID ASC;  
+
+
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DATA' ;  
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DATA' and column_name like '%DATE%';  
 
