@@ -55,9 +55,6 @@ Group by [passengerid]
 ORDER BY PassengerID ASC;  
 
 ```sql
-ALTER TABLE [LOCAL DATABASE].[dbo].[DATA$] 
-ADD [REFERENCE] NVARCHAR(255)
-
 UPDATE [DATA$] SET [REFERENCE] = CONCAT(
 [VoucherID],' | ',
 [PassengerID],' | ',
@@ -65,12 +62,28 @@ UPDATE [DATA$] SET [REFERENCE] = CONCAT(
 [FirstName],' | ',
 [OtherNames],' | ',
 [LastName],' | ',
-[Passport],' | ',
+[PassportNumber],' | ',
 [INZClientNumber],' | ',
 [FlightID],' | ',
 [Flight],' | ',
 [ArrivalDate],' | ',
 [RAWFLAGS]);
+
+
+SELECT
+FORMAT(COUNT(DISTINCT [PassengerID]),'N0') AS 'Passenger Count', 
+FORMAT(COUNT(DISTINCT [REFERENCE]),'N0') AS 'Ref Count',
+FORMAT(COUNT (*),'N0') AS TOTAL
+FROM [LOCAL DATABASE].[dbo].[DATA$]
+ORDER BY [TOTAL] deSC;
+
+SELECT
+DISTINCT [PassengerID],
+FORMAT(COUNT(DISTINCT [REFERENCE]),'N0') AS [REF COUNT], 
+FORMAT(COUNT (*),'N0') AS TOTAL
+FROM [LOCAL DATABASE].[dbo].[DATA$]
+group by [passengerid]
+ORDER BY [TOTAL] deSC;
 ```
 
 
