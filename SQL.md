@@ -1,6 +1,7 @@
 ### CODE-LIBRARY
  
-CREATE TABLE DATA_NEW SELECT * FROM DATA$;   
+CREATE TABLE DATA_NEW SELECT * FROM DATA$;  
+  
 CREATE TABLE NEW([MAX] VARCHAR(255))   
 
 ALTER TABLE [LOCAL DATABASE].[dbo].[NEW] ADD [MAX] NVARCHAR(255);   
@@ -52,6 +53,25 @@ SELECT [Passengerid], COUNT(CASE WHEN [passengerid] = [passengerid] THEN 1 END)
 FROM [LOCAL DATABASE].[dbo].[DATA$]  
 Group by [passengerid]  
 ORDER BY PassengerID ASC;  
+
+```sql
+ALTER TABLE [LOCAL DATABASE].[dbo].[DATA$] 
+ADD [REFERENCE] NVARCHAR(255)
+
+UPDATE [DATA$] SET [REFERENCE] = CONCAT(
+[VoucherID],' | ',
+[PassengerID],' | ',
+[GROUPID],' | ',
+[FirstName],' | ',
+[OtherNames],' | ',
+[LastName],' | ',
+[Passport],' | ',
+[INZClientNumber],' | ',
+[FlightID],' | ',
+[Flight],' | ',
+[ArrivalDate],' | ',
+[RAWFLAGS]);
+```
 
 
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'DATA' ;  
