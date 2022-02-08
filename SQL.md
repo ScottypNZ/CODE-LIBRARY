@@ -120,6 +120,23 @@ https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tab
 
 #### TABLE FIELDS   
 ```sql
+Select [ScanTransportID] 
+      ,[ScanTransportCity]
+      ,[ScanTransportHotel]
+      ,[ScanTransportOperator]
+      ,[ScanTransportTime]
+      ,[ScanTransportInteractionTime]
+      ,[ScanTransportInteractionType]
+      ,[ScanHotel]
+      ,[ScanHotelInteractionTime]
+      ,[ScanHotelInteractionType]
+      ,[ScanHotelOperator]
+      ,[ScanNumberOfRooms]
+      ,[ScanRoomNumbers]
+FROM [LOCAL DATABASE].[dbo].[DATA$];
+```
+
+```sql
 CREATE TABLE [dbo].[NEW] (
 [MAX] NVARCHAR (255) NULL,
 [MIAS DATE] NVARCHAR (255) NULL,
@@ -231,21 +248,4 @@ CREATE TABLE [dbo].[NEW] (
 [ScanNumberOfRooms] NVARCHAR (255) NULL,
 [ScanRoomNumbers] NVARCHAR (255) NULL
 );
-```
-
-```sql
-Select [ScanTransportID] 
-      ,[ScanTransportCity]
-      ,[ScanTransportHotel]
-      ,[ScanTransportOperator]
-      ,[ScanTransportTime]
-      ,[ScanTransportInteractionTime]
-      ,[ScanTransportInteractionType]
-      ,[ScanHotel]
-      ,[ScanHotelInteractionTime]
-      ,[ScanHotelInteractionType]
-      ,[ScanHotelOperator]
-      ,[ScanNumberOfRooms]
-      ,[ScanRoomNumbers]
-FROM [LOCAL DATABASE].[dbo].[DATA$];
 ```
