@@ -121,7 +121,6 @@ UPDATE [DATA$] SET [REFERENCE] = CONCAT(
 [RAWFLAGS]);
 ```
 
-
 ```sql
 Select [ScanTransportID] 
       ,[ScanTransportCity]
