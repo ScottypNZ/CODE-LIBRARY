@@ -93,7 +93,25 @@ ALTER TABLE [LOCAL DATABASE].[dbo].[DATA] ALTER COLUMN [BirthDate] NVARCHAR(255)
 
 ### TABLE FIELDS  
 
-DEDUPE:  ADD RUNNING COUNT OF REFERENCE VALUE, THEN FILTER BY FIRST OCCCURANCE
+ADD REFERENCE COLUMN
+
+```sql
+UPDATE [DATA$] SET [REFERENCE] = CONCAT(
+[VoucherID],' | ',
+[PassengerID],' | ',
+[GROUPID],' | ',
+[FirstName],' | ',
+[OtherNames],' | ',
+[LastName],' | ',
+[PassportNumber],' | ',
+[INZClientNumber],' | ',
+[FlightID],' | ',
+[Flight],' | ',
+[ArrivalDate],' | ',
+[RAWFLAGS]);
+```
+
+DEDUPE:  ADD RUNNING COUNT OF REFERENCE, THEN FILTER BY FIRST OCCCURANCE
 
 ```SQL
 SELECT SUBQRY.*
@@ -128,22 +146,7 @@ FROM [LOCAL DATABASE].[dbo].[DATA$]
 where [PassengerID] = [PassengerID]
 ORDER BY [PASSENGERID] ASC, [MIAS DATE] ASC
 ```
-
-```sql
-UPDATE [DATA$] SET [REFERENCE] = CONCAT(
-[VoucherID],' | ',
-[PassengerID],' | ',
-[GROUPID],' | ',
-[FirstName],' | ',
-[OtherNames],' | ',
-[LastName],' | ',
-[PassportNumber],' | ',
-[INZClientNumber],' | ',
-[FlightID],' | ',
-[Flight],' | ',
-[ArrivalDate],' | ',
-[RAWFLAGS]);
-```
+SELECT ALL WITH SCAN
 
 ```sql
 Select [ScanTransportID] 
