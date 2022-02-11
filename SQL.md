@@ -64,21 +64,6 @@ FROM [LOCAL DATABASE].[dbo].[DATA$]
 Group by [passengerid]  
 ORDER BY PassengerID ASC;  
 
-```sql
-UPDATE [DATA$] SET [REFERENCE] = CONCAT(
-[VoucherID],' | ',
-[PassengerID],' | ',
-[GROUPID],' | ',
-[FirstName],' | ',
-[OtherNames],' | ',
-[LastName],' | ',
-[PassportNumber],' | ',
-[INZClientNumber],' | ',
-[FlightID],' | ',
-[Flight],' | ',
-[ArrivalDate],' | ',
-[RAWFLAGS]);
-
 
 SELECT
 FORMAT(COUNT(DISTINCT [PassengerID]),'N0') AS 'Passenger Count', 
@@ -119,6 +104,24 @@ https://www.mssqltips.com/sqlservertip/4564/ssis-variable-and-expression-example
 https://www.sqlshack.com/import-data-from-multiple-excel-files-in-sql-server-tables-using-an-ssis-package/   
 
 #### TABLE FIELDS   
+
+```sql
+UPDATE [DATA$] SET [REFERENCE] = CONCAT(
+[VoucherID],' | ',
+[PassengerID],' | ',
+[GROUPID],' | ',
+[FirstName],' | ',
+[OtherNames],' | ',
+[LastName],' | ',
+[PassportNumber],' | ',
+[INZClientNumber],' | ',
+[FlightID],' | ',
+[Flight],' | ',
+[ArrivalDate],' | ',
+[RAWFLAGS]);
+```
+
+
 ```sql
 Select [ScanTransportID] 
       ,[ScanTransportCity]
