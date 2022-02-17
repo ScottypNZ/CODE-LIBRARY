@@ -46,7 +46,44 @@ let
 in
     #"Sorted Rows"
   ```
-
+### ADD REFERENCE DETAILS
+```VBA
+let
+    Source = #"MIAS ALL SIMPLE",
+    #"Removed Duplicates" = Table.Distinct(Source, {"DUPLICATING"}),
+    #"Changed NAME/DATE" = Table.TransformColumnTypes(#"Removed Duplicates",
+{{"ArrivalDate", type date},
+{"FirstName", type text},
+{"OtherNames", type text},
+{"LastName", type text},
+{"DATE", type date}}),
+    #"Added REFERENCE" = Table.AddColumn(#"Changed NAME/DATE", "REFERENCE", each if [ArrivalDate] = null then 
+Text.PadStart(Text.From([PassengerID]),6,"0")&" "&"00/00/0000"
+else 
+Text.PadStart(Text.From([PassengerID]),6,"0")&" "&Text.PadStart(Text.From([ArrivalDate]),10,"0")),
+    #"Added MONTH" = Table.AddColumn(#"Added REFERENCE", "MONTH", each if [ArrivalDate] = null then "0000/00" else Text.From(Date.Year([ArrivalDate]))&"/"&Text.PadStart(Text.From(Date.Month([ArrivalDate])),2,"0")),
+    #"Added FIRST" = Table.AddColumn(#"Added MONTH", "FIRST",
+each if [FirstName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([FirstName]," ")))),
+    #"Added LAST" = Table.AddColumn(#"Added FIRST", "LAST", each if [LastName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([LastName]," ")))),
+    #"Added SHORT NAME" = Table.AddColumn(#"Added LAST", "SHORT NAME", each [FIRST]&" "&[LAST]),
+    #"Split DATE" = Table.SplitColumn(Table.TransformColumnTypes(#"Added SHORT NAME", {{"BirthDate", type text}}, "en-NZ"), "BirthDate", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"BirthDate.1", "BirthDate.2"}),
+    #"Added BIRTHDATE" = Table.AddColumn(#"Split DATE", "BirthDate.3", each [BirthDate.1]),
+    #"Replaced DASH" = Table.ReplaceValue(#"Added BIRTHDATE","-","/",Replacer.ReplaceText,{"BirthDate.3"}),
+    #"Added NUMBER" = Table.AddColumn(#"Replaced DASH", "NUMBER", each Number.From(Date.From([BirthDate.3]))),
+    #"Added DOB" = Table.AddColumn(#"Added NUMBER", "DOB", each Text.PadStart(Text.From(Date.From([NUMBER])),10,"0")),
+    #"Replaced Errors" = Table.ReplaceErrorValues(#"Added DOB", {{"DOB", "00/00/0000"}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Replaced Errors",null,"00/00/0000",Replacer.ReplaceValue,{"DOB"}),
+    #"Added NAME-REF" = Table.AddColumn(#"Replaced Value", "NAME-REF", 
+each if [DOB] = null 
+then "00/00/0000"&" "&[FIRST]&" "&[LAST] 
+else [DOB]&" "&[FIRST]&" "&[LAST]),
+    #"Added ARRIVAL" = Table.AddColumn(#"Added NAME-REF", "ARRIVAL", each Text.PadStart(Text.From([ArrivalDate]),10,"0")),
+    #"Replaced NULL" = Table.ReplaceValue(#"Added ARRIVAL",null,"00/00/0000",Replacer.ReplaceValue,{"ARRIVAL"}),
+    #"Removed Other Columns" = Table.SelectColumns(#"Replaced NULL",{"MIAS DATE", "DATE", "PassengerID", "Status", "FirstName", "LastName", "PassportNumber", "UserID", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "VoucherID", "RawFlags", "REFERENCE", "MONTH", "SHORT NAME", "DOB", "NAME-REF", "ARRIVAL"}),
+    #"Sorted Rows1" = Table.Sort(#"Removed Other Columns",{{"MIAS DATE", Order.Descending}})
+in
+    #"Sorted Rows1"
+```
 
 
 ### MERGE EXCEL FILES AND PROCESS
