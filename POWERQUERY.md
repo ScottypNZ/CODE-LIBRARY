@@ -62,6 +62,8 @@ else Text.PadStart(Text.From([PassengerID]),6,"0") &" "& Text.PadStart(Text.From
     #"Added MAX ID" = Table.AddColumn(#"Expanded ALL", "MAX ID", each [MAX]=[MIAS DATE])
 in
     #"Added MAX ID"
+ ```
+    
 _________________________________________________________________
 
 TEXT REPLACEMENT   
