@@ -17,8 +17,39 @@ let
 in
     #"Add blank"
 ```
+### MERGE FILES BASIC
 
-### MERGE EXCEL FILES
+```VBA
+let
+    Source = Folder.Files("C:\LOCAL DATA\MIAS\MIAS DATA"),
+    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+    #"Filtered Rows" = Table.SelectRows(#"Filtered Hidden Files1", each ([Extension] = ".xlsx")),
+    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Rows", "Transform File from MIAS", each #"Transform File from MIAS"([Content])),
+    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File from MIAS"}),
+    #"Sorted Rows1" = Table.Sort(#"Removed Other Columns1",{{"Source.Name", Order.Ascending}}),
+    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Sorted Rows1", "Transform File from MIAS", Table.ColumnNames(#"Transform File from MIAS"(#"Sample File"))),
+    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Authorisation checkbox", type text}, {"AuthoriseToValidateInformation", type text}, {"RawFlags", type text}, {"GroupBucket", type text}, {"PassengerBucket", type text}, {"TentativeReleaseDate", type text}, {"Registration declarations", type text}, {"Notes", type text}, {"ArrivalDate", type text}, {"FlightArrivalAirport", type text}, {"FlightArrivalTime", type text}, {"FlightDepartureCity", type text}, {"FlightDepartureTime", type text}, {"Flight", type text}, {"FlightID", type text}, {"AirlineBookingReference", type text}, {"Airline", type text}, {"NumberOfNights", type text}, {"HotelCity", type text}, {"HotelCheckOut", type text}, {"HotelCheckIn", type text}, {"HotelRoomType", type text}, {"HotelRoom", type text}, {"HotelRoomID", type text}, {"Hotel", type text}, {"BookingID", type text}, {"UnaccompaniedMinor", type text}, {"MinorHasParentOrGuardian", type text}, {"VoucherLastSent", type text}, {"VoucherID", type text}, {"DietaryRequirements", type text}, {"HotelRoomSpecialRequests", type text}, {"HotelRoomAccessibilityRequirements", type text}, {"HotelRoomPreferredTypes", type text}, {"HotelRoomAdjoining", type text}, {"PreferredNumberOfRooms", type text}, {"NumberOfPassengersInGroup", type text}, {"GroupName", type text}, {"GroupID", type text}, {"UpdatedAt", type text}, {"CreatedAt", type text}, {"UserID", type text}, {"FinalArrivalDestinationInNewZealand", type text}, {"TemporaryOrPermanentAddress", type text}, {"Contact_Postcode", type text}, {"Contact_City", type text}, {"Contact_Suburb", type text}, {"Contact_StreetName", type text}, {"Contact_ApartmentOrStreetNumber", type text}, {"KnownResidentialAddressInNewZealand", type text}, {"INZClientNumber", type text}, {"Charges-leftBeforeMarch19", type text}, {"Charges-ordinarilyOnMarch19", type text}, {"Charges-DepartAfterAug11", type text}, {"Charges-DurationOfStay", type text}, {"VisaTemporaryOtherTypeSpecified", type text}, {"VisaTemporaryOtherType", type text}, {"VisaDetail", type text}, {"VisaStatus", type text}, {"NewZealandTemporaryVisaHolder", type text}, {"AustralianCitizenOrPermanentResident", type text}, {"NewZealandPermanentResident", type text}, {"NewZealandCitizen", type text}, {"PassportDateOfExpiry", type text}, {"PassportDateOfIssue", type text}, {"PassportIssuingAuthority", type text}, {"PassportNumber", type text}, {"Phone", type text}, {"Email", type text}, {"Nationality", type text}, {"OtherLanguage", type text}, {"LanguagesSpoken", type text}, {"SpeakEnglish", type text}, {"CountryOfDeparture", type text}, {"BirthDate", type text}, {"GenderDiverse", type text}, {"Gender", type text}, {"LastName", type text}, {"OtherNames", type text}, {"FirstName", type text}, {"PrimaryContact", type text}, {"Status", type text}, {"PassengerID", type text}, {"DATE", type text}, {"MIAS DATE", type text}, {"Source.Name", type text}}),
+    #"ADD Duplicate" = Table.AddColumn( #"Changed Type", "DUPLICATING", each Text.Combine({
+[GroupID],
+[FirstName],
+[OtherNames],
+[LastName],
+[PassportNumber],
+[INZClientNumber],
+[FlightID],
+[Flight],
+[ArrivalDate],
+[RawFlags]}," | "), type text),
+    #"Reordered Columns" = Table.ReorderColumns(#"ADD Duplicate",{"DUPLICATING", "Source.Name", "MIAS DATE", "DATE", "PassengerID", "Status", "PrimaryContact", "FirstName", "OtherNames", "LastName", "Gender", "GenderDiverse", "BirthDate", "CountryOfDeparture", "SpeakEnglish", "LanguagesSpoken", "OtherLanguage", "Nationality", "Email", "Phone", "PassportNumber", "PassportIssuingAuthority", "PassportDateOfIssue", "PassportDateOfExpiry", "NewZealandCitizen", "NewZealandPermanentResident", "AustralianCitizenOrPermanentResident", "NewZealandTemporaryVisaHolder", "VisaStatus", "VisaDetail", "VisaTemporaryOtherType", "VisaTemporaryOtherTypeSpecified", "Charges-DurationOfStay", "Charges-DepartAfterAug11", "Charges-ordinarilyOnMarch19", "Charges-leftBeforeMarch19", "INZClientNumber", "KnownResidentialAddressInNewZealand", "Contact_ApartmentOrStreetNumber", "Contact_StreetName", "Contact_Suburb", "Contact_City", "Contact_Postcode", "TemporaryOrPermanentAddress", "FinalArrivalDestinationInNewZealand", "UserID", "CreatedAt", "UpdatedAt", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "HotelRoomAdjoining", "HotelRoomPreferredTypes", "HotelRoomAccessibilityRequirements", "HotelRoomSpecialRequests", "DietaryRequirements", "VoucherID", "VoucherLastSent", "MinorHasParentOrGuardian", "UnaccompaniedMinor", "BookingID", "Hotel", "HotelRoomID", "HotelRoom", "HotelRoomType", "HotelCheckIn", "HotelCheckOut", "HotelCity", "NumberOfNights", "Airline", "AirlineBookingReference", "FlightID", "Flight", "FlightDepartureTime", "FlightDepartureCity", "FlightArrivalTime", "FlightArrivalAirport", "ArrivalDate", "Notes", "Registration declarations", "TentativeReleaseDate",  "PassengerBucket", "GroupBucket", "RawFlags", "AuthoriseToValidateInformation", "Authorisation checkbox"}),
+    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"PassengerID", Order.Ascending}})
+in
+    #"Sorted Rows"
+  ```
+
+
+
+### MERGE EXCEL FILES AND PROCESS
 ```VBA
 let
     Source = Folder.Files("C:\LOCAL DATA\MIAS\DATA"),
