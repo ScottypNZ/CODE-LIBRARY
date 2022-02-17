@@ -135,7 +135,7 @@ IMPORT ONLY SELECTED TABLES FROM EXISTING QUERY
  = Table.SelectColumns(Source,{"MIAS DATE", "PassengerID"}),
 
 ROOMING
-```
+```VBA
 let
     Source = #"MIAS",
     #"Changed Type" = Table.TransformColumnTypes(Source,{{"ROOMING INDEX", Int64.Type}}),
