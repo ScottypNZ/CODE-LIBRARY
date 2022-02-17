@@ -121,7 +121,117 @@ else Text.PadStart(Text.From([PassengerID]),6,"0") &" "& Text.PadStart(Text.From
 in
     #"Added MAX ID"
  ```
-    
+ ROOM UTILISATION
+ ```VBA
+ let
+    Source = Excel.CurrentWorkbook(){[Name="BHR_TBL"]}[Content],
+    #"Removed other columns" = Table.SelectColumns(Source,{"TYPE", "City", "HOTEL", "ROOM REFERENCE", "PEOPLE", "DAYS", "BHR", "START", "END", "ROOMS"}),
+    #"Added START" = Table.AddColumn(#"Removed other columns", "Custom", each Text.PadStart(Text.Trim(Text.Start(Text.From([START]),10)),10,"0"), type date),
+    #"Changed Type" = Table.TransformColumnTypes(#"Added START",{{"START", type date}, {"END", type date}}),
+    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"START"}),
+    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Columns",{"City", "HOTEL", "ROOM REFERENCE", "PEOPLE", "DAYS", "BHR", "Custom", "END", "ROOMS"}),
+    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns1",{{"Custom", "START"}}),
+    #"Added Custom1" = Table.AddColumn(#"Renamed Columns", "Custom", each Text.PadStart(Text.Trim(Text.Start(Text.From([END]),10)),10,"0"), type date),
+    #"Removed Columns1" = Table.RemoveColumns(#"Added Custom1",{"END"}),
+    #"Reordered Columns2" = Table.ReorderColumns(#"Removed Columns1",{"City", "HOTEL", "ROOM REFERENCE", "PEOPLE", "DAYS", "BHR", "START", "Custom", "ROOMS"}),
+    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns2",{{"Custom", "END"}}),
+    #"Changed Type all" = Table.TransformColumnTypes(#"Renamed Columns1",{{"HOTEL", type text}, {"ROOM REFERENCE", type text}, {"PEOPLE", Int64.Type}, {"DAYS", Int64.Type}, {"BHR", type text}, {"START", type date}, {"END", type date}, {"ROOMS", type text}, {"City", type text}}),
+    #"Replaced null rooms" = Table.ReplaceValue(#"Changed Type all",null,"0000",Replacer.ReplaceValue,{"ROOMS"}),
+    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Replaced null rooms", {"City"}),
+    #"Added Joined" = Table.AddColumn(#"Removed Errors", "JOINED", each try
+if Text.Contains([#"ROOM NUMBER"],"-") then "TRUE" else
+if Text.Contains([#"ROOM NUMBER"],"/") then "TRUE" else "FALSE"
+otherwise "FALSE"),
+    #"Added RoomA" = Table.AddColumn(#"Added Joined", "ROOMA", each Text.Trim(Text.Remove( [ROOMS], { "A".."z","&"..")"} ))),
+    #"Reordered Columns" = Table.ReorderColumns(#"Added RoomA",{"JOINED", "ROOM REFERENCE", "PEOPLE", "DAYS", "BHR", "START", "END", "ROOMS"}),
+    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ROOM REFERENCE", Order.Descending}}),
+    #"Replaced 266267268" = Table.ReplaceValue(#"Sorted Rows","266267268","266 267 268",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Phone" = Table.ReplaceValue(#"Replaced 266267268","11080272026065","1108",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Phonex" = Table.ReplaceValue(#"Replaced Phone","11080272026065","x11080272026065",Replacer.ReplaceText,{"ROOMS"}),
+    #"Replaced Comma" = Table.ReplaceValue(#"Replaced Phonex",","," ",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Dash" = Table.ReplaceValue(#"Replaced Comma","-"," ",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Slash" = Table.ReplaceValue(#"Replaced Dash","/"," ",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced BackSlash" = Table.ReplaceValue(#"Replaced Slash","\"," ",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced +" = Table.ReplaceValue(#"Replaced BackSlash","+"," ",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Negative" = Table.ReplaceValue(#"Replaced +","0909   1","0909",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced Text" = Table.TransformColumns(#"Replaced Negative",{{"ROOMA", Text.Trim, type text}}),
+    #"Replaced 08163" = Table.ReplaceValue(#"Replaced Text","08163","816",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced 18111" = Table.ReplaceValue(#"Replaced 08163","1810 18111","1810 1811",Replacer.ReplaceText,{"ROOMA"}),
+    #"Replaced 1101/2" = Table.ReplaceValue(#"Replaced 18111","1101  2","1101  1102",Replacer.ReplaceText,{"ROOMA"}),
+    #"Added RoomB" = Table.AddColumn(#"Replaced 1101/2", "ROOMB", 
+each if [ROOM REFERENCE] = "12 | 04 | 04"
+then Text.Start([#"ROOMA"],3) 
+&" "& Text.Start([#"ROOMA"],1) & Text.Middle([#"ROOMA"],4,2)
+&" "& Text.Start([#"ROOMA"],1) & Text.Middle([#"ROOMA"],7,2)
+&" "& Text.Start([#"ROOMA"],1) & Text.Middle([#"ROOMA"],10,2)
+else [#"ROOMA"]),
+    #"Added RoomC" = Table.AddColumn(#"Added RoomB", "ROOMC", 
+each if [ROOM REFERENCE] = "10 | 03 | 05"
+then Text.Start([#"ROOMA"],4) 
+&" "& Text.Start([#"ROOMA"],2) & Text.Middle([#"ROOMA"],5,2)
+&" "& Text.Start([#"ROOMA"],2) & Text.Middle([#"ROOMA"],8,2)
+else [#"ROOMB"]),
+    #"Added RoomD" = Table.AddColumn(#"Added RoomC", "ROOMD", 
+each if [ROOM REFERENCE] = "09 | 04 | 04"
+then Text.Start([#"ROOMA"],3) 
+&" "& Text.Start([#"ROOMA"],2) & Text.Middle([#"ROOMA"],4,1)
+&" "& Text.Start([#"ROOMA"],2) & Text.Middle([#"ROOMA"],6,1)
+&" "& Text.Start([#"ROOMA"],2) & Text.Middle([#"ROOMA"],8,1)
+else [#"ROOMC"]),
+    #"Added RoomE" = Table.AddColumn(#"Added RoomD", "ROOME", 
+each if [ROOM REFERENCE] = "09 | 03 | 04"
+then Text.Start([#"ROOMA"],3) 
+&" "& Text.Middle([#"ROOMA"],4,3)
+&" "& Text.Middle([#"ROOMA"],4,2) & Text.Middle([#"ROOMA"],8,1)
+else [#"ROOMD"]),
+    #"Added RoomF" = Table.AddColumn(#"Added RoomE", "ROOMF", 
+each if [ROOM REFERENCE] = "07 | 02 | 05"
+then Text.Start([#"ROOMA"],4) 
+&" "& Text.Start([#"ROOMA"],2)&Text.Middle([#"ROOMA"],5,2)
+else [#"ROOME"]),
+    #"Added RoomG" = Table.AddColumn(#"Added RoomF", "ROOMG", 
+each if [ROOM REFERENCE] = "06 | 02 | 05"
+then Text.Start([#"ROOMA"],4) 
+&" "& Text.Start([#"ROOMA"],3)&Text.Middle([#"ROOMA"],5,1)
+else [#"ROOMF"]),
+    #"Added RoomH" = Table.AddColumn(#"Added RoomG", "ROOMH", 
+each if [ROOM REFERENCE] = "05 | 02 | 04"
+then Text.Start([#"ROOMA"],3) 
+&" "& Text.Start([#"ROOMA"],2)&Text.Middle([#"ROOMA"],4,1)
+else [#"ROOMG"]),
+    #"Added Length" = Table.AddColumn(#"Added RoomH", "LENGTH", each Text.Length([ROOMH])),
+    #"Added RoomI" = Table.AddColumn(#"Added Length", "ROOMI", 
+each if [ROOM REFERENCE] = "06 | 01 | 00" and [LENGTH] = 6
+then Text.Start([#"ROOMA"],3) 
+&" "& Text.Middle([#"ROOMA"],3,3)
+else [#"ROOMH"]),
+    #"Removed Rooms" = Table.RemoveColumns(#"Added RoomI",{"ROOMA", "ROOMB", "ROOMC", "ROOMD", "ROOME", "ROOMF", "ROOMG", "ROOMH", "LENGTH"}),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Rooms", "ROOMI", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"ROOMI.1", "ROOMI.2", "ROOMI.3", "ROOMI.4", "ROOMI.5", "ROOMI.6", "ROOMI.7", "ROOMI.8"}),
+    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Split Column by Delimiter", {"TYPE", "City", "JOINED", "HOTEL", "ROOM REFERENCE", "PEOPLE", "DAYS", "BHR", "START", "END", "ROOMS"}, "Attribute", "Value"),
+    #"Added Room End" = Table.AddColumn(#"Unpivoted Columns", "ROOM END", each Text.PadStart(Text.From([Value]),4,"0")),
+    #"Added MIN" = Table.AddColumn(#"Added Room End", "MIN", each List.Min({Date.From([START]),Date.From([END])}), type date),
+    #"Added MAX" = Table.AddColumn(#"Added MIN", "MAX", each List.Max({Date.From([START]),Date.From([END])}), type date),
+    #"Removed Old Dates" = Table.RemoveColumns(#"Added MAX",{"START", "END"}),
+    #"Renamed New Dates" = Table.RenameColumns(#"Removed Old Dates",{{"MIN", "START"}, {"MAX", "END"}}),
+
+    #"Added Flat dates" = Table.AddColumn(#"Renamed New Dates", "DATE", each { Number.From([START])..Number.From([END])}),
+    #"Expanded DATE" = Table.ExpandListColumn(#"Added Flat dates", "DATE"),
+    #"Changed Date Type" = Table.TransformColumnTypes(#"Expanded DATE",{{"DATE", type date}}),
+    #"Removed Start/End/Value" = Table.RemoveColumns(#"Changed Date Type",{"START", "END", "Value"}),
+    #"Added WEEK" = Table.AddColumn(#"Removed Start/End/Value", "WEEK", each Date.ToText([DATE],"yyyy")&"/"&Text.PadStart(Text.From(Date.WeekOfYear([DATE])),2,"0"), type text),
+    #"Added MONTH" = Table.AddColumn(#"Added WEEK", "MONTH", each Date.ToText([DATE],"yyyy") &"/"& Text.PadStart(Text.From(Date.Month([DATE])),2,"0"), type text)
+
+/* = Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0"))) */,
+    #"Added REFERENCE" = Table.AddColumn(#"Added MONTH", "REFERENCE", each 
+Text.PadStart(Text.From([DATE]),10,"0")&" | "& Text.From([HOTEL])&" | "& Text.From([ROOM END]), type text),
+    #"Added SHORT" = Table.AddColumn(#"Added REFERENCE", "SHORT", each if [DAYS] < 13 then  "TRUE" else"FALSE"),
+    #"Added ROOM REF" = Table.AddColumn(#"Added SHORT", "ROOM REF", each Text.From([HOTEL])&" | "& Text.Start([ROOM END],4), type text),
+    #"Removed Duplicates" = Table.Distinct(#"Added ROOM REF", {"REFERENCE"}),
+    #"Added SUB" = Table.AddColumn(#"Removed Duplicates", "ROW", each "SUB", type text),
+    #"Added MIQ" = Table.AddColumn(#"Added SUB", "OFFICE", each "MIQ", type text)
+in
+    #"Added MIQ"
+```
 _________________________________________________________________
 
 TEXT REPLACEMENT   
