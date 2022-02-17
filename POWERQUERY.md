@@ -3,7 +3,7 @@
 
 _________________________________________________________________
 
-ROOMING
+### ROOMING
 ```VBA
 let
     Source = #"MIAS",
@@ -18,6 +18,50 @@ in
     #"Add blank"
 ```
 
+### MERGE EXCEL FILES
+```VBA
+let
+    Source = Folder.Files("C:\LOCAL DATA\MIAS\DATA"),
+    #"Filtered Hidden Files" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+    #"Invoke Custom Function" = Table.AddColumn(#"Filtered Hidden Files", "Transform File from MIAS", each #"Transform File from MIAS"([Content])),
+    #"Sorted File" = Table.Sort(#"Invoke Custom Function",{{"Name", Order.Descending}}),
+    #"Expanded Transform MIAS" = Table.ExpandTableColumn(#"Sorted File", "Transform File from MIAS", {"MIAS DATE", "DATE", "PassengerID", "Status", "PrimaryContact", "FirstName", "OtherNames", "LastName", "Gender", "GenderDiverse", "BirthDate", "CountryOfDeparture", "SpeakEnglish", "LanguagesSpoken", "OtherLanguage", "Nationality", "Email", "NZ contact number", "NZ contact number value", "Other contact number", "PassportNumber", "PassportIssuingAuthority", "PassportDateOfIssue", "PassportDateOfExpiry", "NewZealandCitizen", "NewZealandPermanentResident", "AustralianCitizenOrPermanentResident", "NewZealandTemporaryVisaHolder", "VisaStatus", "VisaDetail", "VisaTemporaryOtherType", "VisaTemporaryOtherTypeSpecified", "Charges-DurationOfStay", "Charges-DepartAfterAug11", "Charges-ordinarilyOnMarch19", "Charges-leftBeforeMarch19", "INZClientNumber", "KnownResidentialAddressInNewZealand", "Contact_ApartmentOrStreetNumber", "Contact_StreetName", "Contact_Suburb", "Contact_City", "Contact_Postcode", "TemporaryOrPermanentAddress", "FinalArrivalDestinationInNewZealand", "UserID", "AllowedDuplicateVouchers", "CreatedAt", "UpdatedAt", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "HotelRoomAdjoining", "HotelRoomPreferredTypes", "HotelRoomAccessibilityRequirements", "HotelRoomSpecialRequests", "DietaryRequirements", "VoucherID", "VoucherLastSent", "MinorHasParentOrGuardian", "UnaccompaniedMinor", "BookingID", "Hotel", "HotelRoomID", "HotelRoom", "HotelRoomType", "HotelCheckIn", "HotelCheckOut", "HotelCity", "NumberOfNights", "Airline", "AirlineBookingReference", "FlightID", "Flight", "FlightDepartureTime", "FlightDepartureCity", "FlightArrivalTime", "FlightArrivalAirport", "ArrivalDate", "Notes", "Registration declarations", "TentativeReleaseDate", "PassengerBucket", "GroupBucket", "RawFlags", "BulkUploadNotes", "Vaccinated", "AuthoriseToValidateInformation", "Authorisation checkbox", "ScanTransportID", "ScanTransportCity", "ScanTransportHotel", "ScanTransportOperator", "ScanTransportTime", "ScanTransportInteractionTime", "ScanTransportInteractionType", "ScanHotel", "ScanHotelInteractionTime", "ScanHotelInteractionType", "ScanHotelOperator", "ScanNumberOfRooms", "ScanRoomNumbers"}, {"MIAS DATE", "DATE", "PassengerID", "Status", "PrimaryContact", "FirstName", "OtherNames", "LastName", "Gender", "GenderDiverse", "BirthDate", "CountryOfDeparture", "SpeakEnglish", "LanguagesSpoken", "OtherLanguage", "Nationality", "Email", "NZ contact number", "NZ contact number value", "Other contact number", "PassportNumber", "PassportIssuingAuthority", "PassportDateOfIssue", "PassportDateOfExpiry", "NewZealandCitizen", "NewZealandPermanentResident", "AustralianCitizenOrPermanentResident", "NewZealandTemporaryVisaHolder", "VisaStatus", "VisaDetail", "VisaTemporaryOtherType", "VisaTemporaryOtherTypeSpecified", "Charges-DurationOfStay", "Charges-DepartAfterAug11", "Charges-ordinarilyOnMarch19", "Charges-leftBeforeMarch19", "INZClientNumber", "KnownResidentialAddressInNewZealand", "Contact_ApartmentOrStreetNumber", "Contact_StreetName", "Contact_Suburb", "Contact_City", "Contact_Postcode", "TemporaryOrPermanentAddress", "FinalArrivalDestinationInNewZealand", "UserID", "AllowedDuplicateVouchers", "CreatedAt", "UpdatedAt", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "HotelRoomAdjoining", "HotelRoomPreferredTypes", "HotelRoomAccessibilityRequirements", "HotelRoomSpecialRequests", "DietaryRequirements", "VoucherID", "VoucherLastSent", "MinorHasParentOrGuardian", "UnaccompaniedMinor", "BookingID", "Hotel", "HotelRoomID", "HotelRoom", "HotelRoomType", "HotelCheckIn", "HotelCheckOut", "HotelCity", "NumberOfNights", "Airline", "AirlineBookingReference", "FlightID", "Flight", "FlightDepartureTime", "FlightDepartureCity", "FlightArrivalTime", "FlightArrivalAirport", "ArrivalDate", "Notes", "Registration declarations", "TentativeReleaseDate", "PassengerBucket", "GroupBucket", "RawFlags", "BulkUploadNotes", "Vaccinated", "AuthoriseToValidateInformation", "Authorisation checkbox", "ScanTransportID", "ScanTransportCity", "ScanTransportHotel", "ScanTransportOperator", "ScanTransportTime", "ScanTransportInteractionTime", "ScanTransportInteractionType", "ScanHotel", "ScanHotelInteractionTime", "ScanHotelInteractionType", "ScanHotelOperator", "ScanNumberOfRooms", "ScanRoomNumbers"}),
+    #"Removed Non core" = Table.SelectColumns(#"Expanded Transform MIAS",{"MIAS DATE", "PassengerID", "PrimaryContact", "FirstName", "OtherNames", "LastName", "BirthDate", "PassportNumber", "INZClientNumber", "UserID", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "VoucherID", "BookingID", "HotelRoom", "Flight", "ArrivalDate", "RawFlags"}),
+    #"Change all to Text" = Table.TransformColumnTypes(#"Removed Non core",{{"MIAS DATE", type text}, {"PassengerID", type text}, {"FirstName", type text}, {"OtherNames", type text}, {"LastName", type text}, {"BirthDate", type text}, {"PassportNumber", type text}, {"INZClientNumber", type text}, {"UserID", type text}, {"GroupID", type text}, {"GroupName", type text}, {"NumberOfPassengersInGroup", type text}, {"PreferredNumberOfRooms", type text}, {"VoucherID", type text}, {"BookingID", type text}, {"HotelRoom", type text}, {"Flight", type text}, {"ArrivalDate", type text}, {"RawFlags", type text}}),
+    #"Added COMBINED" = Table.AddColumn(#"Change all to Text", "COMBINED", each Text.Combine({[VoucherID], [PassengerID],[FirstName],[OtherNames],[LastName],[BirthDate],[PassportNumber],[Flight],[ArrivalDate],[RawFlags]}," ")),
+    #"Removed Duplicates" = Table.Distinct(#"Added COMBINED", {"COMBINED"}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Removed Duplicates",{{"MIAS DATE", type date},{"ArrivalDate", type date}, {"PrimaryContact", Int64.Type}}),
+    #"Added MONTH" = Table.AddColumn(#"Changed Type", "MONTH", each if [ArrivalDate] = null then "XXXX/XX" else Text.From(Date.Year([ArrivalDate]))&"/"&Text.PadStart(Text.From(Date.Month([ArrivalDate])),2,"0")),
+    #"Merged FULL NAME" = Table.AddColumn(#"Added MONTH", "FULL NAME", each Text.Upper(Text.Combine({[FirstName], [OtherNames], [LastName]}, " ")), type text),
+    #"Added AllWordCount" = Table.AddColumn(#"Merged FULL NAME", "AllWordCount", each List.Count(List.RemoveItems(Text.SplitAny([FULL NAME]," #(tab)#(lf)"),{""}))),
+    #"Added LastCount" = Table.AddColumn(#"Added AllWordCount", "LastCount", each try List.Count(Text.SplitAny([LastName]," ")) otherwise 0),
+    #"Added SHORT NAME" = Table.AddColumn(#"Added LastCount", "SHORT NAME", 
+each if [AllWordCount] = 1 and [LastCount] = 1 then "XXXXXXX" &" "&Text.Upper(List.Last(Text.Split([FULL NAME]," "))) 
+else if [AllWordCount] = 1 and [LastCount] = 0 then Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& "XXXXXXX"
+else if [AllWordCount] = 0 then "XXXXXXX" &" "& "XXXXXXX"
+else Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& Text.Upper(List.Last(Text.Split([FULL NAME]," ")))),
+    #"Split DATE" = Table.SplitColumn(Table.TransformColumnTypes(#"Added SHORT NAME", {{"BirthDate", type text}}, "en-NZ"), "BirthDate", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"BirthDate", "BirthDate.2"}),
+    #"Added BIRTHDATE" = Table.AddColumn(#"Split DATE", "BirthDate.3", each [BirthDate]),
+    #"Replaced DASH" = Table.ReplaceValue(#"Added BIRTHDATE","-","/",Replacer.ReplaceText,{"BirthDate.3"}),
+    #"Added NUMBER" = Table.AddColumn(#"Replaced DASH", "NUMBER", each Number.From(Date.From([BirthDate.3]))),
+    #"Added DOB" = Table.AddColumn(#"Added NUMBER", "DOB", each Text.PadStart(Text.From(Date.From([NUMBER])),10,"0")),
+    #"Replaced Errors" = Table.ReplaceErrorValues(#"Added DOB", {{"DOB", "XX/XX/XXXX"}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Replaced Errors",null,"XX/XX/XXXX",Replacer.ReplaceValue,{"DOB"}),
+    #"Added NAME-REF" = Table.AddColumn(#"Replaced Value", "NAME-REF", 
+each if [DOB] = null 
+then "XX/XX/XXXX"&" "& [SHORT NAME] else [DOB]&" "&[SHORT NAME]),
+    #"Added ARRIVAL" = Table.AddColumn(#"Added NAME-REF", "ARRIVAL", each Text.PadStart(Text.From([ArrivalDate]),10,"0")),
+    #"Replaced NULL" = Table.ReplaceValue(#"Added ARRIVAL",null,"XX/XX/XXXX",Replacer.ReplaceValue,{"ARRIVAL"}),
+    #"Added REFERENCE" = Table.AddColumn(#"Replaced NULL", "REFERENCE", each 
+if [ArrivalDate] = null
+then Text.PadStart(Text.From([PassengerID]),6,"0") &" "& "XX/XX/XXXX" &" "& [#"NAME-REF"]
+else Text.PadStart(Text.From([PassengerID]),6,"0") &" "& Text.PadStart(Text.From([ArrivalDate]),10,"0") &" "& [#"NAME-REF"]),
+    #"Added VALID" = Table.AddColumn(#"Added REFERENCE", "INVALID", each [ArrivalDate]=null or [Flight] =null),
+    #"Grouped Rows" = Table.Group(#"Added VALID", {"PassengerID"}, {{"MAX", each List.Max([MIAS DATE]), type date}, {"ALL", each _, type table }}),
+    #"Expanded ALL" = Table.ExpandTableColumn(#"Grouped Rows", "ALL", {"COMBINED", "PrimaryContact", "MIAS DATE", "FirstName", "OtherNames", "LastName", "BirthDate",  "PassportNumber", "INZClientNumber", "UserID", "GroupID", "GroupName", "NumberOfPassengersInGroup", "PreferredNumberOfRooms", "VoucherID", "BookingID", "HotelRoom", "Flight", "ArrivalDate", "RawFlags", "MONTH", "FULL NAME", "AllWordCount", "LastCount", "SHORT NAME", "BirthDate.2","BirthDate.3", "NUMBER", "DOB", "NAME-REF", "ARRIVAL", "REFERENCE", "INVALID"}),
+    #"Added MAX ID" = Table.AddColumn(#"Expanded ALL", "MAX ID", each [MAX]=[MIAS DATE])
+in
+    #"Added MAX ID"
 _________________________________________________________________
 
 TEXT REPLACEMENT   
