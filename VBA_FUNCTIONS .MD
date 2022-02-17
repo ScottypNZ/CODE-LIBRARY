@@ -614,9 +614,18 @@ VBA Library
 
 -------------------------
 
-### FILTER DATA VIA POWER QUERY
+### FILTER DATA VIA POWER QUERY AND SAVE AS SEPERATE SHEET.
 
-```VB
+```VBA
+    Sheets("MIAS").Select
+    Range("A3:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=[@[ROOMING LIST]]&"" ""&[@Room]"
+    Range("B3:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=IFERROR(TEXT([@[Check in]],""DD-MM-YY"")&"" ""&TEXT([@[Flight number]],""00000"")&"" ""&VLOOKUP([@Hotel],HOTELS,2,0),"""")"
+    Range("C3:C" & Cells(Rows.Count, "C").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($B$3:B3,$B$3:B3))"
+    Range("D3:D" & Cells(Rows.Count, "D").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($A$3:A3,A$3:A3))"
+```
+
+
+```VBA
 Sub FORMULA_AND_SAVE()
 
 Application.ScreenUpdating = False
