@@ -614,7 +614,7 @@ VBA Library
 
 -------------------------
 
-### SPLIT DATA 
+### FILTER DATA VIA POWER QUERY
 
 ```VB
 Sub FORMULA_AND_SAVE()
