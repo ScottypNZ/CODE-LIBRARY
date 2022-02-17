@@ -673,7 +673,191 @@ MsgBox "FILES SAVED TO " & FolderName
 End Sub
 ```
 
-###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)  
+
+[ROOMING](#ROOMING-VBA)
+
+```VBA
+Sub ALL_MACROS()
+
+Sheets.Add(Before:=Sheets("MIAS")).Name = "TEMP"
+Sheets("TEMP").Paste
+
+Application.CommandBars("Queries and Connections").Visible = True
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+Application.EnableEvents = False
+Application.Calculation = xlAutomatic
+
+Call ConnectionActive
+
+Call PasteValues
+
+Call SORT
+
+Call FORMULA
+
+Call SAVE
+
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+Application.EnableEvents = True
+Application.Calculation = xlAutomatic
+
+End Sub
+
+Sub ConnectionActive()
+
+Dim Connection As Variant
+
+    For Each Connection In ActiveWorkbook.Connections
+    
+        Connection.OLEDBConnection.BackgroundQuery = False
+        
+    Next Connection
+
+End Sub
+
+Sub ClearData()
+ 
+ActiveWorkbook.Sheets("MIAS").Range("A3:AH1000").Clear
+ActiveWorkbook.Sheets("MIAS").ListObjects("MIAS").Resize Range("$A$2:$AH$3")
+
+End Sub
+
+Sub ClearOnly()
+
+Application.CommandBars("Queries and Connections").Visible = True
+ActiveWorkbook.Sheets("MIAS").Range("A3:AH1000").Clear
+ActiveWorkbook.Sheets("MIAS").ListObjects("MIAS").Resize Range("$A$2:$AH$3")
+ActiveWorkbook.Sheets("MIAS").Range("A2").Select
+ActiveWorkbook.RefreshAll
+
+End Sub
+
+Sub PasteValues()
+
+Sheets("TEMP").UsedRange.Copy Destination:=Sheets("MIAS").Range("e3")
+Sheets("TEMP").Delete
+
+End Sub
+
+Sub SORT()
+ 
+    Sheets("MIAS").Select
+    Range("A3:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=[@[ROOMING LIST]]&"" ""&[@Room]"
+    Range("B3:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=IFERROR(TEXT([@[Check in]],""DD-MM-YY"")&"" ""&TEXT([@[Flight number]],""00000"")&"" ""&VLOOKUP([@Hotel],HOTELS,2,0),"""")"
+    Range("C3:C" & Cells(Rows.Count, "C").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($B$3:B3,$B$3:B3))"
+    Range("D3:D" & Cells(Rows.Count, "D").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($A$3:A3,A$3:A3))"
+
+    Cells.Select
+
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlTop
+
+    End With
+
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Clear
+    
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+        :=Range("MIAS[ROOMING LIST BY ROOM]"), SortOn:=xlSortOnValues, Order:= _
+        xlAscending, DataOption:=xlSortNormal
+    
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+        :=Range("MIAS[Flight number]"), SortOn:=xlSortOnValues, Order:=xlAscending _
+        , DataOption:=xlSortNormal
+        
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+        :=Range("MIAS[Hotel]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
+        DataOption:=xlSortNormal
+        
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+        :=Range("MIAS[Group count]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
+        DataOption:=xlSortNormal
+        
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+        :=Range("MIAS[Group reference]"), SortOn:=xlSortOnValues, Order:= _
+        xlAscending, DataOption:=xlSortNormal
+        
+    With ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+
+
+End Sub
+
+Sub FORMULA()
+
+ActiveWorkbook.RefreshAll
+
+Dim WS As Worksheet
+
+For Each WS In ThisWorkbook.Worksheets
+
+    If WS.Name <> "MIAS" Then
+        
+        WS.Activate
+        WS.Range("A2:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($Y$2:Y2,$Y$2:Y2))"
+        WS.Range("B2:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($AA$2:AA2,$AA$2:AA2))"
+        WS.Outline.ShowLevels ColumnLevels:=1
+        WS.Range("A1").Select
+               
+    End If
+ 
+Next
+
+' Sheets("MIAS").Select
+
+End Sub
+
+Sub SAVE()
+
+Dim WS As Worksheet
+Dim FolderName As String
+
+FolderName = "C:\LOCAL DATA\ROOMING\"
+
+For Each WS In ThisWorkbook.Worksheets
+
+    If WS.Name <> "MIAS" Then
+        
+        WS.Copy
+        
+        On Error Resume Next
+        
+        ActiveSheet.Name = Range("F2").Value
+        ActiveSheet.SaveAs (FolderName & Range("Z2").Value)
+        ActiveWorkbook.Close
+        
+        On Error GoTo ErrorOut
+             
+ErrorOut:
+        
+    End If
+ 
+Next
+
+Sheets("MIAS").Select
+
+MsgBox "FILES SAVED TO " & FolderName
+
+
+End Sub
+
+Sub Fixing()
+
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+Application.EnableEvents = True
+
+End Sub
+
 
 
 VBA Library
