@@ -46,4 +46,37 @@ MIN IF              {=MIN(IF([INDEX]=[@INDEX],[INDEX-2MIN]))}
 
 REPEAT FOR AS MANY VARIABLES ARE NEEDED
 
+									
+	ROOM REF	BUBBLE	EMAIL ADDRESS						
+	44500 RM1	1000	TEST@gmail.com						
+	44500 RM2	1000	TEST@gmail.com						
+	44500 RM2	2000	SCOTT@gmail.com						
+	44500 RM3	3000	SCOTT@gmail.com						
+	44500 RM3	4000	SCOTT@gmail.com						
+	44500 RM4	5000	FOUR@GMAIL.COM						
+									
+									
+	Value	INDEX	INDEX-2L	INDEX-2M	INDEX-3L	INDEX-3M	INDEX-4L	INDEX-4M	
+	44500 RM1	1	1	1	1	1	1	1	
+	1000	1	1	1	1	1	1	1	
+	TEST@gmail.com	1	1	1	1	1	1	1	
+	44500 RM2	2	2	1	1	1	1	1	
+	1000	2	1	1	1	1	1	1	
+	TEST@gmail.com	2	1	1	1	1	1	1	
+	44500 RM2	3	2	2	1	1	1	1	
+	2000	3	3	2	2	1	1	1	
+	SCOTT@gmail.com	3	3	2	2	1	1	1	
+	44500 RM3	4	4	3	3	2	2	1	
+	3000	4	4	3	3	2	2	1	
+	SCOTT@gmail.com	4	3	3	2	2	1	1	
+	44500 RM3	5	4	3	3	2	2	1	
+	4000	5	5	3	3	2	2	1	
+	SCOTT@gmail.com	5	3	3	2	2	1	1	
+	44500 RM4	6	6	6	6	6	6	6	
+	5000	6	6	6	6	6	6	6	
+	FOUR@GMAIL.COM	6	6	6	6	6	6	6	
+									
+![image](https://user-images.githubusercontent.com/60175119/154594196-e4ffbf74-2853-4fb2-b2fb-cf287aa761d5.png)
+
+
 
