@@ -1,5 +1,16 @@
 # CODE-LIBRARY
 
+### APP MAX
+```VBA
+let
+    Source = Excel.CurrentWorkbook(){[Name="APP"]}[Content],
+    #"Filtered Rows" = Table.SelectRows(Source, each ([EXCLUDE] = false)),
+    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"DOB SHORT NAME PASSPORT REF", "DOB PASSPORT REF", "DOB SHORT NAME REF", "MovementId"}),
+    #"Grouped Rows" = Table.Group(#"Removed Other Columns", {"DOB SHORT NAME PASSPORT REF", "DOB PASSPORT REF", "DOB SHORT NAME REF"},{{"MAX", each List.Max([MovementId]), type number}})
+in
+    #"Grouped Rows"
+```
+
 ### GROUPING MATRIX
 
 ```VBA
