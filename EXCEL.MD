@@ -39,7 +39,17 @@ SUBSTITUTE
 
 # NAME FORMULAS
 
-SHORT NAME    
+#### DOB SHORT PASSPORT REF
+=TEXT([@[MIQ Period Start Date/Time]],"DD-MM-YYYY")&" "&TEXT([@[Date of Birth]],"DD-MM-YYYY")&" "&[@[Passport '#]]&" "&UPPER(TRIM(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))))   
+
+#### DOB SHORT REF
+=TEXT([@[MIQ Period Start Date/Time]],"DD-MM-YYYY")&" "&TEXT([@[Date of Birth]],"DD-MM-YYYY")&" "&UPPER(TRIM(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))))   
+
+#### DOB PASSPORT REF
+=TEXT([@[MIQ Period Start Date/Time]],"DD-MM-YYYY")&" "&TEXT([@[Date of Birth]],"DD-MM-YYYY")&" "&[@[Passport '#]]   
+
+
+#### SHORT NAME    
 =UPPER(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100)))
 
 FULL NAME - EXCLUDING BLANKS  
