@@ -1,5 +1,22 @@
 # CODE-LIBRARY
 
+### GROUPING MATRIX
+
+```VBA
+let
+    Source = Excel.CurrentWorkbook(){[Name="BHR"]}[Content],
+    #"Removed Other Columns" = Table.SelectColumns(Source,{"MIAS GROUP ID", "ARRIVAL", "Email", "Bubble", "ARRIVAL ROOM REF"}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"ARRIVAL", type text}, {"ARRIVAL ROOM REF", type text}, {"Email", type text}, {"Bubble", type text}, {"MIAS GROUP ID", type text}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",null,"XXXX",Replacer.ReplaceValue,{"ARRIVAL ROOM REF", "Email", "Bubble"}),
+    #"Added Email REF" = Table.AddColumn(#"Replaced Value", "EMAIL REF", each [ARRIVAL]&" "&[Email]),
+    #"Added Bubble REF" = Table.AddColumn(#"Added Email REF", "BUBBLE REF", each [ARRIVAL]&" "&[Bubble]),
+    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Added Bubble REF", {"MIAS GROUP ID", "ARRIVAL", "Email", "Bubble"}, "Attribute", "Value"),
+    #"Filtered Rows" = Table.SelectRows(#"Unpivoted Columns", each ([MIAS GROUP ID] <> "")),
+    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each not Text.Contains([Value], "XXXX")),
+    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows1",{"ARRIVAL", "Email", "Bubble", "Attribute"})
+in
+    #"Removed Columns"
+```
 
 _________________________________________________________________
 
