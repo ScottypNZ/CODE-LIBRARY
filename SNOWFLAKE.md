@@ -53,3 +53,12 @@ Closed_Status TEXT,
 Arrival_Port TEXT
 );
 ```
+
+### LINKS
+
+https://docs.snowflake.com/en/user-guide/odbc-windows.html#step-1-install-the-odbc-driver
+
+https://snowflakecommunity.force.com/s/article/how-to-set-up-a-linked-server-from-sql-server-to-snowflake
+
+https://community.snowflake.com/s/article/Integrating-SSIS-with-Snowflake
+
