@@ -27,7 +27,6 @@ let
 in
     #"Grouped Rows"
 ```
-```
 
 ### GROUPING MATRIX
 
