@@ -15,6 +15,7 @@ let
     #"Added ARRIVAL DOB PASSPORT SHORT NAME" = Table.AddColumn(#"Added ARRIVAL DOB SHORT NAME", "ARRIVAL DOB PASSPORT SHORT NAME", each [NEW DOB]&" "&Text.From([PassportNumber])&" "&[SHORT NAME])
 in
     #"Added ARRIVAL DOB PASSPORT SHORT NAME"
+```
 
 ### APP MAX
 ```VBA
