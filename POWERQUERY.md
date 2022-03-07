@@ -1,5 +1,21 @@
 # CODE-LIBRARY
 
+### NAME REF   
+```VBA
+let
+    Source = Excel.CurrentWorkbook(){[Name="MIAS"]}[Content],
+    #"Removed Other Columns" = Table.SelectColumns(Source,{"FirstName", "OtherNames", "LastName", "BirthDate", "ArrivalDate","PassportNumber"}),
+    #"Added FIRST" = Table.AddColumn(#"Removed Other Columns", "FIRST",
+    each if [FirstName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([FirstName]," ")))),
+    #"Added LAST" = Table.AddColumn(#"Added FIRST", "LAST", each if [LastName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([LastName]," ")))),
+    #"Added SHORT NAME" = Table.AddColumn(#"Added LAST", "SHORT NAME", each [FIRST]&" "&[LAST]),
+    #"Added NEW DOB" = Table.AddColumn(#"Added SHORT NAME", "NEW DOB", each Date.ToText(Date.From(Text.From([BirthDate])), "dd/MM/yyyy")),
+    #"Added DOB SHORT NAME" = Table.AddColumn(#"Added NEW DOB", "DOB SHORT NAME", each Date.ToText(Date.From(Text.From([BirthDate])), "dd/MM/yyyy")&" "&[SHORT NAME]),
+    #"Added ARRIVAL DOB SHORT NAME" = Table.AddColumn(#"Added DOB SHORT NAME", "ARRIVAL DOB SHORT NAME", each Date.ToText(Date.From(Text.From([ArrivalDate])), "dd/MM/yyyy")&" "&[DOB SHORT NAME]),
+    #"Added ARRIVAL DOB PASSPORT SHORT NAME" = Table.AddColumn(#"Added ARRIVAL DOB SHORT NAME", "ARRIVAL DOB PASSPORT SHORT NAME", each [NEW DOB]&" "&Text.From([PassportNumber])&" "&[SHORT NAME])
+in
+    #"Added ARRIVAL DOB PASSPORT SHORT NAME"
+
 ### APP MAX
 ```VBA
 let
@@ -9,6 +25,7 @@ let
     #"Grouped Rows" = Table.Group(#"Removed Other Columns", {"DOB SHORT NAME PASSPORT REF", "DOB PASSPORT REF", "DOB SHORT NAME REF"},{{"MAX", each List.Max([MovementId]), type number}})
 in
     #"Grouped Rows"
+```
 ```
 
 ### GROUPING MATRIX
