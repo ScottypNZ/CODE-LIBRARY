@@ -5,10 +5,14 @@
 let
     Source = Excel.CurrentWorkbook(){[Name="MIAS"]}[Content],
     #"Removed Other Columns" = Table.SelectColumns(Source,{"FirstName", "OtherNames", "LastName", "BirthDate", "ArrivalDate","PassportNumber"}),
-    #"Added FIRST" = Table.AddColumn(#"Removed Other Columns", "FIRST",
+    #"Added FULL NAME" = Table.AddColumn(#"Removed Other Columns", "FULL NAME", each Text.Upper(Text.Combine(List.Select({[FirstName],[OtherNames],[LastName]}, each _<> "" and _ <> null)," "))),
+    #"Added FIRST" = Table.AddColumn(#"Added FULL NAME", "FIRST",
     each if [FirstName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([FirstName]," ")))),
     #"Added LAST" = Table.AddColumn(#"Added FIRST", "LAST", each if [LastName] = null then "XXXXXX" else Text.Upper(List.First(Text.Split([LastName]," ")))),
-    #"Added SHORT NAME" = Table.AddColumn(#"Added LAST", "SHORT NAME", each [FIRST]&" "&[LAST]),
+    #"Added SHORT NAME XXXXXX" = Table.AddColumn(#"Added LAST", "SHORT NAME XXXXXX",  
+each if [FirstName] = null then "" else Text.Upper(List.First(Text.Split([FirstName]," ")))&" "&
+Text.Upper(List.Last(Text.Split([FULL NAME]," ")))),
+    #"Added SHORT NAME" = Table.AddColumn(#"Added SHORT NAME XXXXXX", "SHORT NAME", each [FIRST]&" "&[LAST]),
     #"Added NEW DOB" = Table.AddColumn(#"Added SHORT NAME", "NEW DOB", each Date.ToText(Date.From(Text.From([BirthDate])), "dd/MM/yyyy")),
     #"Added DOB SHORT NAME" = Table.AddColumn(#"Added NEW DOB", "DOB SHORT NAME", each Date.ToText(Date.From(Text.From([BirthDate])), "dd/MM/yyyy")&" "&[SHORT NAME]),
     #"Added ARRIVAL DOB SHORT NAME" = Table.AddColumn(#"Added DOB SHORT NAME", "ARRIVAL DOB SHORT NAME", each Date.ToText(Date.From(Text.From([ArrivalDate])), "dd/MM/yyyy")&" "&[DOB SHORT NAME]),
