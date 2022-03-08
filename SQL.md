@@ -101,6 +101,16 @@ UPDATE [DATA$] SET [REFERENCE] = CONCAT(
 [Flight],' | ',
 [ArrivalDate],' | ',
 [RAWFLAGS]);
+
+UPDATE [DATA$] SET [REFERENCE] = CONCAT(
+[GROUPID],' | ',
+[PassengerID],' | ',
+[FirstName],' | ',
+[OtherNames],' | ',
+[LastName],' | ',
+[PassportNumber],' | ',
+[ArrivalDate],' | ',
+[RAWFLAGS]);
 ```
 CONVERT DATE TEST (SELECT ISSUES)
 ```SQL
