@@ -110,6 +110,7 @@ UPDATE [DATA$] SET [REFERENCE] = CONCAT(
 [LastName],' | ',
 [PassportNumber],' | ',
 [ArrivalDate],' | ',
+[Flight],
 [RAWFLAGS]);
 ```
 CONVERT DATE TEST (SELECT ISSUES)
