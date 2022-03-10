@@ -137,6 +137,18 @@ wb.DisplayAlerts = True
 End Sub
 ```SQL
 
+POWER QUERY FILTER BY REFERENCE COUNT
+```SQL
+let
+    Source = Excel.CurrentWorkbook(){[Name="MIAS"]}[Content],
+    #"Removed Duplicates" = Table.Distinct(Source, {"ROOMING LIST"}),
+    #"Removed Other Columns" = Table.SelectColumns(#"Removed Duplicates",{"ROOMING INDEX", "ROOMING LIST", "Flight number"}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"ROOMING LIST", type text}, {"Flight number", type text}}),
+    #"Added Custom" = Table.AddColumn(#"Changed Type", "LEN", each Text.Length([ROOMING LIST])),
+    #"Sorted Rows" = Table.Sort(#"Added Custom",{{"LEN", Order.Descending}})
+in
+    #"Sorted Rows"
 ```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+
 -------------------------
