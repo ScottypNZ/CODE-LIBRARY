@@ -6,7 +6,7 @@
 
 ### MIAS LOOP
 
-```VBA
+```SQL
 
 Sub ClearData()
  
@@ -14,9 +14,10 @@ Sub ClearData()
     ActiveSheet.ListObjects("TABLE1").Resize Range("$A$2:$AH$3")
 
 End Sub
+```
 
 Sub SORT_AND_REFRESH()
-
+```SQL
     Application.ScreenUpdating = False
     Application.DisplayAlerts = False
     Application.Calculation = xlAutomatic
@@ -72,7 +73,9 @@ Sub SORT_AND_REFRESH()
     Application.DisplayAlerts = True
 
 End Sub
+```
 
+```SQL
 Sub FORMULA_AND_SAVE()
 
 Application.ScreenUpdating = False
@@ -122,7 +125,9 @@ Application.EnableEvents = True
 Application.Calculation = xlAutomatic
 
 End Sub
+```SQL
 
+```SQL
 Sub fixing()
 
 Application.ScreenUpdating = True
@@ -130,6 +135,7 @@ Application.DisplayAlerts = True
 wb.DisplayAlerts = True
 
 End Sub
+```SQL
 
 ```
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
