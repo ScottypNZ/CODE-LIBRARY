@@ -1,6 +1,6 @@
 # CODE-LIBRARY
 
-* [MIAS_LOOP](#MIAS-LOOP)
+* [LOOP](#LOOP)
 
 =====================
 
@@ -11,7 +11,7 @@
 Sub ClearData()
  
     Range("a4", "ah100000").Clear
-    ActiveSheet.ListObjects("MIAS").Resize Range("$A$2:$AH$3")
+    ActiveSheet.ListObjects("TABLE1").Resize Range("$A$2:$AH$3")
 
 End Sub
 
