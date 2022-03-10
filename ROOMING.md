@@ -125,7 +125,7 @@ Application.EnableEvents = True
 Application.Calculation = xlAutomatic
 
 End Sub
-```SQL
+```
 
 ```SQL
 Sub fixing()
@@ -135,7 +135,7 @@ Application.DisplayAlerts = True
 wb.DisplayAlerts = True
 
 End Sub
-```SQL
+```
 
 POWER QUERY FILTER BY REFERENCE COUNT
 ```SQL
