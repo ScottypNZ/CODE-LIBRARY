@@ -1,28 +1,80 @@
 # CODE-LIBRARY
 
-* [LOOP](#LOOP)
-
-=====================
-
-### MIAS LOOP
-
 ```SQL
+Sub ALL_MACROS()
 
-Sub ClearData()
- 
-    Range("a4", "ah100000").Clear
-    ActiveSheet.ListObjects("TABLE1").Resize Range("$A$2:$AH$3")
+Sheets.Add(Before:=Sheets("MIAS")).Name = "TEMP"
+Sheets("TEMP").Paste
+
+Application.CommandBars("Queries and Connections").Visible = True
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+Application.EnableEvents = False
+Application.Calculation = xlAutomatic
+
+Call ConnectionActive
+
+Call PasteValues
+
+Call SORT
+
+Call FORMULA
+
+Call SAVE
+
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+Application.EnableEvents = True
+Application.Calculation = xlAutomatic
 
 End Sub
 ```
 
-Sub SORT_AND_REFRESH()
 ```SQL
-    Application.ScreenUpdating = False
-    Application.DisplayAlerts = False
-    Application.Calculation = xlAutomatic
-    Application.CommandBars("Queries and Connections").Visible = True
+Sub ConnectionActive()
+
+Dim Connection As Variant
+
+    For Each Connection In ActiveWorkbook.Connections
+    
+        Connection.OLEDBConnection.BackgroundQuery = False
         
+    Next Connection
+
+End Sub
+```
+
+```SQL
+Sub ClearData()
+ 
+ActiveWorkbook.Sheets("MIAS").Range("A3:AH1000").Clear
+ActiveWorkbook.Sheets("MIAS").ListObjects("MIAS").Resize Range("$A$2:$AH$3")
+
+End Sub
+
+Sub ClearOnly()
+
+Application.CommandBars("Queries and Connections").Visible = True
+ActiveWorkbook.Sheets("MIAS").Range("A3:AH1000").Clear
+ActiveWorkbook.Sheets("MIAS").ListObjects("MIAS").Resize Range("$A$2:$AH$3")
+ActiveWorkbook.Sheets("MIAS").Range("A2").Select
+ActiveWorkbook.RefreshAll
+
+End Sub
+```SQL
+
+```SQL
+Sub PasteValues()
+
+Sheets("TEMP").UsedRange.Copy Destination:=Sheets("MIAS").Range("e3")
+Sheets("TEMP").Delete
+
+End Sub
+```
+
+```SQL
+Sub SORT()
+ 
     Sheets("MIAS").Select
     Range("A3:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=[@[ROOMING LIST]]&"" ""&[@Room]"
     Range("B3:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=IFERROR(TEXT([@[Check in]],""DD-MM-YY"")&"" ""&TEXT([@[Flight number]],""00000"")&"" ""&VLOOKUP([@Hotel],HOTELS,2,0),"""")"
@@ -37,29 +89,29 @@ Sub SORT_AND_REFRESH()
 
     End With
 
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Clear
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Clear
     
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
         :=Range("MIAS[ROOMING LIST BY ROOM]"), SortOn:=xlSortOnValues, Order:= _
         xlAscending, DataOption:=xlSortNormal
     
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Flight number]"), SortOn:=xlSortOnValues, Order:=xlAscending _
         , DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Hotel]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
         DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Group count]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
         DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Group reference]"), SortOn:=xlSortOnValues, Order:= _
         xlAscending, DataOption:=xlSortNormal
         
-    With ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT
+    With ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT
         .Header = xlYes
         .MatchCase = False
         .Orientation = xlTopToBottom
@@ -67,40 +119,47 @@ Sub SORT_AND_REFRESH()
         .Apply
     End With
     
-    ActiveWorkbook.RefreshAll
-    
-    Application.ScreenUpdating = True
-    Application.DisplayAlerts = True
+End Sub
+```
+
+```SQL
+Sub FORMULA()
+
+ActiveWorkbook.RefreshAll
+
+Dim WS As Worksheet
+
+For Each WS In ThisWorkbook.Worksheets
+
+    If WS.Name <> "MIAS" Then
+        
+        WS.Activate
+        WS.Range("A2:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($Y$2:Y2,$Y$2:Y2))"
+        WS.Range("B2:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($AA$2:AA2,$AA$2:AA2))"
+        WS.Outline.ShowLevels ColumnLevels:=1
+        WS.Range("A1").Select
+               
+    End If
+ 
+Next
+
+' Sheets("MIAS").Select
 
 End Sub
 ```
 
 ```SQL
-Sub FORMULA_AND_SAVE()
-
-Application.ScreenUpdating = False
-Application.DisplayAlerts = False
-Application.EnableEvents = False
+Sub SAVE()
 
 Dim WS As Worksheet
-Dim SheetName As String
 Dim FolderName As String
-Dim lRow As Long
 
 FolderName = "C:\LOCAL DATA\ROOMING\"
 
 For Each WS In ThisWorkbook.Worksheets
 
     If WS.Name <> "MIAS" Then
-    
-       ' Application.DisplayAlerts = False
-    
-        WS.Activate
-        WS.Range("A2:A" & Cells(Rows.Count, "A").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($Y$2:Y2,$Y$2:Y2))"
-        WS.Range("B2:B" & Cells(Rows.Count, "B").End(xlUp).Row).FORMULA = "=SUMPRODUCT(1/COUNTIF($AA$2:AA2,$AA$2:AA2))"
-        WS.Columns("A:A").Group
-        WS.Columns("Z:AA").Group
-        WS.Outline.ShowLevels ColumnLevels:=1
+        
         WS.Copy
         
         On Error Resume Next
@@ -117,25 +176,23 @@ ErrorOut:
  
 Next
 
-MsgBox "FILES SAVED TO " & FolderName
+Sheets("MIAS").Select
 
-Application.ScreenUpdating = True
-Application.DisplayAlerts = True
-Application.EnableEvents = True
-Application.Calculation = xlAutomatic
+MsgBox "FILES SAVED TO " & FolderName
 
 End Sub
 ```
 
 ```SQL
-Sub fixing()
+Sub Fixing()
 
 Application.ScreenUpdating = True
 Application.DisplayAlerts = True
-wb.DisplayAlerts = True
+Application.EnableEvents = True
 
 End Sub
 ```
+
 POWER QUERY REMOVE INVALID COLUMNS
 ```SQL
 let
