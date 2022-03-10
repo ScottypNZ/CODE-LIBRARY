@@ -37,29 +37,29 @@ Sub SORT_AND_REFRESH()
 
     End With
 
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Clear
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Clear
     
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
         :=Range("MIAS[ROOMING LIST BY ROOM]"), SortOn:=xlSortOnValues, Order:= _
         xlAscending, DataOption:=xlSortNormal
     
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Flight number]"), SortOn:=xlSortOnValues, Order:=xlAscending _
         , DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Hotel]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
         DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Group count]"), SortOn:=xlSortOnValues, Order:=xlAscending, _
         DataOption:=xlSortNormal
         
-    ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT.SortFields.Add2 Key _
+    ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT.SortFields.Add2 Key _
         :=Range("MIAS[Group reference]"), SortOn:=xlSortOnValues, Order:= _
         xlAscending, DataOption:=xlSortNormal
         
-    With ActiveWorkbook.Worksheets("MIAS").ListObjects("MIAS").SORT
+    With ActiveWorkbook.Worksheets("SHEET1").ListObjects("TABLE1").SORT
         .Header = xlYes
         .MatchCase = False
         .Orientation = xlTopToBottom
