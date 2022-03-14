@@ -15,6 +15,7 @@ Get-AppxPackage *MicrosoftEdge* | Remove-AppxPackage
 Get-AppxPackage *MicrosoftSolitaire* | Remove-AppxPackage   
 Get-AppxPackage *Microsoft.Fresh* | Remove-AppxPackage   
 Get-AppxPackage *Flipboard* | Remove-AppxPackage   
-Get-AppxPackage *cbs* | Remove-AppxPackage   
+Get-AppxPackage *CBSPreview* | Remove-AppxPackage   
+Get-AppxPackage *kodi* | Remove-AppxPackage  
 
 
