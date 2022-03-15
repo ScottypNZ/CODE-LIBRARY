@@ -42,6 +42,8 @@ SUBSTITUTE
 #### DOB SHORT PASSPORT REF
 =TEXT([@[MIQ Period Start Date/Time]],"DD-MM-YYYY")&" "&TEXT([@[Date of Birth]],"DD-MM-YYYY")&" "&[@[Passport '#]]&" "&UPPER(TRIM(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))))   
 
+=TEXT([@[ArrivalDate]],"DD-MM-YYYY")&" "&TEXT([@[BirthDate]],"DD-MM-YYYY")&" "&[@[PassportNumber]]&" "&UPPER(TRIM(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))))   
+
 #### DOB SHORT REF
 =TEXT([@[MIQ Period Start Date/Time]],"DD-MM-YYYY")&" "&TEXT([@[Date of Birth]],"DD-MM-YYYY")&" "&UPPER(TRIM(TRIM(LEFT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))&" "&TRIM(RIGHT(SUBSTITUTE([@[FULL NAME]]," ",REPT(" ",100)),100))))   
 
@@ -55,7 +57,9 @@ SUBSTITUTE
 FULL NAME - EXCLUDING BLANKS  
 =TRIM(UPPER(IF([@FirstName]<>"",[@FirstName],"")&" "&  
 IF([@OtherNames]<>"",[@OtherNames],"")&" "&  
-IF([@LastName]<>"",[@LastName],"")))
+IF([@LastName]<>"",[@LastName],"")))  
+
+
 
 # INVOICE FORMULA  
 
