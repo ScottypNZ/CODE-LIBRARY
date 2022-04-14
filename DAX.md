@@ -1,15 +1,30 @@
 # CODE-LIBRARY
-### CREATE SUBTOTAL
+
+
+
+# CREATE SUBTOTAL
 ```DAX
 TABLE1 = DATATABLE ( "Name", STRING, "Ordinal", STRING, { { "", "" },  { "", "" }, { "", "" } } )
 ```
 
-#ALMOST SUBTOTAL   
+```DAX
+TABLE1 = DATATABLE (
+    "Name", STRING,
+    "Ordinal", STRING,
+    {
+        { "", "" },
+        { "", "" },
+        { "", "" }
+    }
+)
+```
+
+# ALMOST SUBTOTAL   
 ```DAX
  =IF ( not ( isfiltered ( BHR[ROW] ) ) ,  [COUNT ROOM REF] / 30.4,  [COUNT ROOM REF] /  CALCULATE ( DISTINCTCOUNT(BHR[ROOM REF]),ALL(BHR[MONTH] ) ) *30.4 )	
 ```
 
-#BOOLEAN NUMBER SEARCH  
+# BOOLEAN NUMBER SEARCH  
 ```DAX
 =#"Added NUMBER FILTER" = Table.AddColumn(#"Changed Type", "MANUAL",   
 each Text.Contains([#"Flight #"], "1")   
