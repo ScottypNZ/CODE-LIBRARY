@@ -1,6 +1,11 @@
 # CODE-LIBRARY
 
 ```DAX
+CREATE SUBTOTAL
+TABLE1 = DATATABLE ( "Name", STRING, "Ordinal", STRING, { { "", "" },  { "", "" }, { "", "" } } )
+```
+
+```DAX
 ALMOST SUBTOTAL   
  =IF ( not ( isfiltered ( BHR[ROW] ) ) ,  [COUNT ROOM REF] / 30.4,  [COUNT ROOM REF] /  CALCULATE ( DISTINCTCOUNT(BHR[ROOM REF]),ALL(BHR[MONTH] ) ) *30.4 )	
 ```
