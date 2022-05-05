@@ -1,6 +1,8 @@
 # CODE-LIBRARY
 
 ```
+REMOVE NUMBERS NEW COLUMN
+= Table.AddColumn(#"Replaced PHONE -", "MOBILE", each Text.Select([Mobile Phone],{"+".."9"}))
 
 COUNT NON BLANK COLUMNS IN RANGE
 =List.NonNullCount({[Col1],[Col2],[Col3]})
