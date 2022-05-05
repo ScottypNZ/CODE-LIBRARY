@@ -1,6 +1,10 @@
 # CODE-LIBRARY
 
 ```
+
+COUNT NON BLANK COLUMNS IN RANGE
+=List.NonNullCount({[Col1],[Col2],[Col3]})
+
 TEXT REPLACEMENT   
 = Text.ReplaceAll([Text], Replacements)
 
