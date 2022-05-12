@@ -39,7 +39,10 @@ CLEANING
 https://support.microsoft.com/en-us/office/top-ten-ways-to-clean-your-data-2844b620-677c-47a7-ac3e-c2e157d1db19
 
 SUBSTITUTE   
-=LEN(B5)-LEN(SUBSTITUTE(B5,CHAR(10),""))+1
+=LEN(B5)-LEN(SUBSTITUTE(B5,CHAR(10),"")) +1 
+
+CHARACTER COUNT
+=LEN([@[Mobile Phone]])-LEN(SUBSTITUTE([@[Mobile Phone]],"+",""))
 
 # NAME FORMULAS
 
