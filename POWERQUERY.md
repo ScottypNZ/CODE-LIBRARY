@@ -1,14 +1,12 @@
 # CODE-LIBRARY
 
-REPLACE VALUES WHERE CONDITION 
+
 ```
+REPLACE VALUES WHERE CONDITION 
 = Table.ReplaceValue(#"PREVIOUS STEP","064", 
 each if Text.Start([Mobile Phone],3) = "064" then "0064" 
 else #"PREVIOUS STEP",Replacer.ReplaceText,{"Mobile Phone"} )
 
-```
-
-```
 REMOVE NUMBERS NEW COLUMN
 = Table.AddColumn(#"Replaced PHONE -", "MOBILE", each Text.Select([Mobile Phone],{"+".."9"}))
 
