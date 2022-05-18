@@ -1,7 +1,12 @@
 # CODE-LIBRARY
 
-
 ```
+CONVERT LIST TO TABLE
+= Table.AddColumn( #"Expanded rows", "Records", each Record.FromList([rows],[columnNames] ) )
+
+REMOVE LINE BREAKS IN ADDRESS - (SINGLE LINE)
+= Table.ReplaceValue(Reordered,"#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"})
+
 REPLACE VALUES WHERE CONDITION 
 = Table.ReplaceValue(#"PREVIOUS STEP","064", 
 each if Text.Start([Mobile Phone],3) = "064" then "0064" 
