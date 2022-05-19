@@ -4,6 +4,11 @@
 CONVERT LIST TO TABLE
 = Table.AddColumn( #"Expanded rows", "Records", each Record.FromList([rows],[columnNames] ) )
 
+O-DATA FEED
+= OData.Feed("http://mnz-16-app02-p/MaritimeNewZealand/XRMServices/2011/OrganizationData.svc/ContactSet?$select=Home2&$top=3")
+= OData.Feed("http://mnz-16-app02-p/MaritimeNewZealand/XRMServices/2011/OrganizationData.svc/ContactSet?&$top=3")
+= OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts")
+
 REMOVE LINE BREAKS IN ADDRESS - (SINGLE LINE)
 = Table.ReplaceValue(Reordered,"#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"})
 
