@@ -442,5 +442,46 @@ Text.PadStart(Text.From([DATE]),10,"0")&" | "& Text.From([HOTEL])&" | "& Text.Fr
 in
     #"Added MIQ"
 ```
-_________________________________________________________________
+
+API CALL - LIST AND JOIN METHOD
+ ```VBA
+let
+    Source = Table.ColumnNames(OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts")),
+    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #"Filtered Rows1" = Table.SelectRows(#"Converted to Table", each (
+[Column1] = "createdon" or 
+[Column1] = "modifiedon" or
+[Column1] = "mnz_alert" or
+[Column1] = "mnz_customernumber" or
+[Column1] = "mnz_tritonpersonid" or
+[Column1] = "mnz_tradingas"  or
+[Column1] = "birthdate" or
+[Column1] = "fullname" or
+[Column1] = "firstname" or
+[Column1] = "middlename" or
+[Column1] = "lastname" or
+[Column1] = "emailaddress1" or
+[Column1] = "address1_line1" or
+[Column1] = "address1_line2" or
+[Column1] = "address1_line3" or
+[Column1] = "address1_county" or
+[Column1] = "address1_city" or
+[Column1] = "address1_postalcode" or
+[Column1] = "mobilephone" or
+[Column1] = "mnz_otherphone" or
+[Column1] = "mnz_phones" or
+[Column1] = "telephone1" or
+[Column1] = "telephone2" or
+[Column1] = "mnz_custmnzsolomonid" or
+[Column1] = "mnz_custopfsolomonid" or
+[Column1] = "mnz_custsarsolomonid" or
+[Column1] = "createdby" 
+)),
+    #"Added Custom" = Table.AddColumn(#"Filtered Rows1", "Custom", each null),
+    #"Pivoted Column" = Table.Pivot(#"Added Custom", List.Distinct(#"Added Custom"[Column1]), "Column1", "Custom"),
+    #"Reordered Columns" = Table.ReorderColumns(#"Pivoted Column",{"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid", "createdby"}),
+    Join = Table.NestedJoin(#"Reordered Columns", {"mnz_customernumber"}, OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts"), {"mnz_customernumber"}, "test", JoinKind.FullOuter)
+in
+    Join
+```
 
