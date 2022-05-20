@@ -455,9 +455,9 @@ ___________________________________________
 JSON REPORT LIST
 ```VBA
 let
-    Source = Json.Document(Web.Contents("http://mnz-16-app02-p/MaritimeNewZealand/api/data/v8.0/")),
-    value = Source[value],
-    #"Converted to Table" = Table.FromList(value, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    Source = Json.Document(Web.Contents("http://mnz-16-app02-p/MaritimeNewZealand/api/data/v8.0/")),   
+    value = Source[value],   
+    #"Converted to Table" = Table.FromList(value, Splitter.SplitByNothing(), null, null, ExtraValues.Error),   
     #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"name", "kind", "url"}, {"Column1.name", "Column1.kind", "Column1.url"})
 in
     #"Expanded Column1"
@@ -508,7 +508,7 @@ in
 JSON API CALL - ALL IN ONE STEP
 
  ```VBA
-= Table.TransformColumns(Table.ExpandRecordColumn(Table.FromList(Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts")) [value] , Splitter.SplitByNothing(), null, null, ExtraValues.Error), "Column1", {"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid"}),
+= Table.TransformColumns(Table.ExpandRecordColumn(Table.FromList(Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts")) [value] ,    Splitter.SplitByNothing(), null, null, ExtraValues.Error), "Column1", {"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid"}),   
 {{"createdon", each Date.From(DateTimeZone.From(_)), type date}, {"modifiedon", each Date.From(DateTimeZone.From(_)), type date}})
 ```
 
