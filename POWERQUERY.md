@@ -448,7 +448,7 @@ Text.PadStart(Text.From([DATE]),10,"0")&" | "& Text.From([HOTEL])&" | "& Text.Fr
 in
     #"Added MIQ"
 ```
-
+#API
 API CALL - LIST AND JOIN METHOD
  ```VBA
 let
