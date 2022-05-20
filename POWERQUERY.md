@@ -449,7 +449,21 @@ in
     #"Added MIQ"
 ```
 # API   
-API CALL - LIST AND JOIN METHOD
+___________________________________________
+
+
+JSON REPORT LIST
+```VBA
+let
+    Source = Json.Document(Web.Contents("http://mnz-16-app02-p/MaritimeNewZealand/api/data/v8.0/")),
+    value = Source[value],
+    #"Converted to Table" = Table.FromList(value, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"name", "kind", "url"}, {"Column1.name", "Column1.kind", "Column1.url"})
+in
+    #"Expanded Column1"
+```    
+
+ODATA API CALL - LIST AND JOIN METHOD (TO USE LESS MEMORY, CHANGE NOT NOTICEABLE)
  ```VBA
 let
     Source = Table.ColumnNames(OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts")),
@@ -491,3 +505,28 @@ in
     Join
 ```
 
+JSON API CALL - ALL IN ONE STEP
+
+ ```VBA
+= Table.TransformColumns(Table.ExpandRecordColumn(Table.FromList(Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts")) [value] , Splitter.SplitByNothing(), null, null, ExtraValues.Error), "Column1", {"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid"}),
+{{"createdon", each Date.From(DateTimeZone.From(_)), type date}, {"modifiedon", each Date.From(DateTimeZone.From(_)), type date}})
+```
+
+
+XML API CALL (VIA JSON FUNCTION) - MULTISTEP
+ ```VBA
+let
+    Source = Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts?fetchXml=%3Cfetch+version%3D%221.0%22+output-format%3D%22xml-platform%22+mapping%3D%22logical%22+distinct%3D%22false%22%3E%0D%0A++%3Centity+name%3D%22contact%22%3E%0D%0A++++%3Cattribute+name%3D%22fullname%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22statecode%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22emailaddress1%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_customernumber%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_alert%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22birthdate%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_line3%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_postalcode%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_line2%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_country%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_city%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22address1_line1%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_tradingas%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22contactid%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_tritonpersonid%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22modifiedon%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22createdon%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22createdby%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_otherphone%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mobilephone%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22telephone2%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22telephone1%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_custsarsolomonid%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_custopfsolomonid%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_custmnzsolomonid%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_address1city%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22mnz_address1city%22+%2F%3E%0D%0A
+%3Cattribute+name%3D%22firstname%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22middlename%22+%2F%3E%0D%0A++++%3Cattribute+name%3D%22lastname%22+%2F%3E%0D%0A
+++++%3Corder+attribute%3D%22fullname%22+descending%3D%22false%22+%2F%3E%0D%0A++%3C%2Fentity%3E%0D%0A%3C%2Ffetch%3E")),
+    #"Converted to Table" = Table.FromRecords({Source}),
+    #"Removed Columns" = Table.RemoveColumns(#"Converted to Table",{"@odata.context", "@Microsoft.Dynamics.CRM.fetchxmlpagingcookie"}),
+    #"Expanded List" = Table.ExpandListColumn(#"Removed Columns", "value"),
+    #"Expanded value" = Table.ExpandRecordColumn(#"Expanded List", "value", {"createdon", "modifiedon",  "createdby", "mnz_alert", "mnz_tradingas", "mnz_customernumber", "mnz_tritonpersonid", "fullname", "firstname", "middlename", "lastname", "birthdate", "emailaddress1", "address1_composite", "mobilephone", "telephone1", "telephone2", "mnz_otherphone", "mnz_custmnzsolomonid", "mnz_custsarsolomonid", "mnz_custopfsolomonid"}),
+    #"Added Index" = Table.AddIndexColumn(#"Expanded value", "Index", 1, 1),
+    #"Reordered INDEX" = Table.ReorderColumns(#"Added Index",{"Index", "createdon", "modifiedon", "createdby", "mnz_alert", "mnz_tradingas", "mnz_customernumber", "mnz_tritonpersonid", "fullname", "firstname", "middlename", "lastname", "birthdate", "emailaddress1", "address1_composite", "mobilephone", "telephone1", "telephone2", "mnz_otherphone", "mnz_custmnzsolomonid", "mnz_custsarsolomonid", "mnz_custopfsolomonid"}),
+    #"Replaced Value" = Table.ReplaceValue(#"Reordered INDEX","#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"}),
+    #"Parsed Date" = Table.TransformColumns(#"Replaced Value",{{"createdon", each Date.From(DateTimeZone.From(_)), type date}, {"modifiedon", each Date.From(DateTimeZone.From(_)), type date}})
+in
+    #"Parsed Date"
+```
