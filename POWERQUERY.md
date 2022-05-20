@@ -9,6 +9,9 @@ O-DATA FEED
 = OData.Feed("http://mnz-16-app02-p/MaritimeNewZealand/XRMServices/2011/OrganizationData.svc/ContactSet?&$top=3")
 = OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts")
 
+= Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts?$top=10"))
+
+
 REMOVE LINE BREAKS IN ADDRESS - (SINGLE LINE)
 = Table.ReplaceValue(Reordered,"#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"})
 
