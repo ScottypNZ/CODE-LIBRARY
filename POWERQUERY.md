@@ -1,6 +1,10 @@
 # CODE-LIBRARY
 
 ```
+**TABLE PIVOT **
+DEFAULT              = Table.Pivot(Source, List.Distinct(Source[Name]), "Name", "Value")
+TABLE PIVOT MANUAL   = Table.Pivot(Source, {"value","@odata.nextLink"}, "Name", "Value")
+
 CONVERT LIST TO TABLE
 = Table.AddColumn( #"Expanded rows", "Records", each Record.FromList([rows],[columnNames] ) )
 
