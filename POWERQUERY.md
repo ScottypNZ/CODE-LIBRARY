@@ -22,87 +22,11 @@ JSON API
 REMOVE LINE BREAKS IN ADDRESS - (SINGLE LINE)
 = Table.ReplaceValue(Reordered,"#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"})
 
-REPLACE VALUES WHERE CONDITION 
-= Table.ReplaceValue(#"PREVIOUS STEP","064", 
-each if Text.Start([Mobile Phone],3) = "064" then "0064" 
-else #"PREVIOUS STEP",Replacer.ReplaceText,{"Mobile Phone"} )
-
 REMOVE NUMBERS NEW COLUMN
 = Table.AddColumn(#"Replaced PHONE -", "MOBILE", each Text.Select([Mobile Phone],{"+".."9"}))
 
 COUNT NON BLANK COLUMNS IN RANGE
 =List.NonNullCount({[Col1],[Col2],[Col3]})
-
-TEXT REPLACEMENT   
-= Text.ReplaceAll([Text], Replacements)
-
-REFERENCE QUERY  
-= "BHR"
-
-ADD YEAR AND WEEK  
-= Table.AddColumn(#"Added MONTH", "WEEK", each Date.ToText([DATE],"yyyy")&"/"&Text.From(Date.WeekOfYear([DATE])))
-
-EXTRACT YEAR AND MONTH  
-= Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
-= Table.AddColumn(#"Added WEEK", "MONTH", each Date.ToText([DATE],"yyyy") &"/"& Text.PadStart(Text.From(Date.Month([DATE])),2,"0"), type text)
-
-EXTRACT MONTH IN "MMM" FORMAT  
-= Date.ToText([Date],"MMM" ) & "_" & Text.From(Date.Year([Date]))
-
-EXTRACT MONTH IN "MM" FORMAT INCLUDING LEADING ZERO  
-= Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
-
-LEFT 10 CHARACTERS CONVERTED TO TEXT, TRIMMED AND THEN PADDED TO 10  
-= Text.PadStart(Text.Trim(Text.Start(Text.From([START]),10)),10,"0"))
-
-PAD START OF DATE AND SUBSTITUE NULL VALUES  
-= Table.AddColumn(#"Changed Type", "REFERENCE", 
-each if [ArrivalDate] = null then 
-Text.PadStart(Text.From([PassengerID]),6,"0")&" "&"00/00/0000"
-else 
-Text.PadStart(Text.From([PassengerID]),6,"0")&" "&Text.PadStart(Text.From([ArrivalDate]),10,"0"))
-
-REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING FIRST NAME  
-= Table.AddColumn(#"Changed Type", "NameRef",
-each if [FirstName] = null then "XXXXXX"
-else 
-Text.Upper(Text.BeforeDelimiter([FirstName]," "))
-
-REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING LAST NAME  
-= Table.AddColumn(#"Added NAME REF", "Custom", 
-each if [LastName] = null then "XXXXXX"
-else 
-Text.Upper(Text.AfterDelimiter([LastName]," ")))
-
-SHORT NAME  
-= Table.AddColumn(#"Added REFERENCE","TEST", each Text.Proper(List.First(Text.Split([FirstName]," ")) &" "& List.Last(Text.Split([Last.Name]," "))), type text)
-
-REMOVE EXCESS SPACES  
-= Table.AddColumn(#"Added RoomH", "ROOMI", each Text.Combine(List.Select(Text.Split([ROOMH]," "),each _ <> "")," "))
-
-TRANSPOSE DATES BETWEEN A RANGE  
-= Table.AddColumn(#"Filtered Rows", "DATE", each { Number.From([START])..Number.From([END]) })
- 
-MERGE QUERIES (AFTER GROUP BY)  
-= Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
-
-OPTION1 GROUP BY ID (2 STEPS) "ALL" NEEDS TO BE ADDED   
-= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}, {"All", each _, type table }})  
-= Table.ExpandTableColumn(#"Grouped Rows", "All", {"YEAR", "ROW3", "ROW4", "ROW5"})
-GROUPS BY ID
-NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)   
-NEW COLUMN NAME ALL/ALLROWS   
-EXPAND ALL LESS ID WHICH IS ALREADY IN TABLE.   
-UNTICK PREFIX   
-
-OPTION 2 GROUP BY ID (3 STEPS) "ALL" DOES NOT NEED TO BE ADDED   
-= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}})   
-= Table.NestedJoin(Source, {"ID"}, Table1, {"ID"}, "Grouped Rows", JoinKind.FullOuter)   
-= Table.ExpandTableColumn(#"Merged Queries", "Grouped Rows", {"MAX"}, {"MAX"})   
-GROUPS BY ID   
-NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
-MERGE QUERIES FULL OUTER ON ID/ID   
-EXPAND MAX   
 
 AVERAGE  
 = Table.AddColumn(#"Grouped REFERENCE", "AVERAGE", each List.Average(#"Grouped REFERENCE"[COUNT]), type number)
@@ -143,6 +67,18 @@ NET WORD COUNT (LESS BLANKS)
 SHORT NAME UTILISING NET WORK COUNT (TO STOP SINGLE WORD DUPLICATION)  
 =if [NetWordCount] = 1 then [FULL NAME] else Text.Upper(List.First(Text.Split([FULL NAME]," ")))&" "&Text.Upper(List.Last(Text.Split([FULL NAME]," ")))
 
+SHORT NAME  
+= Table.AddColumn(#"Added REFERENCE","TEST", each Text.Proper(List.First(Text.Split([FirstName]," ")) &" "& List.Last(Text.Split([Last.Name]," "))), type text)
+
+REMOVE EXCESS SPACES  
+= Table.AddColumn(#"Added RoomH", "ROOMI", each Text.Combine(List.Select(Text.Split([ROOMH]," "),each _ <> "")," "))
+
+TRANSPOSE DATES BETWEEN A RANGE  
+= Table.AddColumn(#"Filtered Rows", "DATE", each { Number.From([START])..Number.From([END]) })
+ 
+MERGE QUERIES (AFTER GROUP BY)  
+= Table.NestedJoin(#"Reordered Columns",{"REFERENCE"},#"Grouped Rows1",{"REFERENCE"},"Grouped Rows1",JoinKind.LeftOuter)
+
 SPIT DATE   
 = Table.SplitColumn(Table.TransformColumnTypes(#"Added SHORT NAME", {{"BirthDate", type text}}, "en-NZ"), "BirthDate", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"BirthDate.1", "BirthDate.2"})  
 
@@ -157,6 +93,72 @@ ADD ROW IF TABLE IS EMPTY
 
 IMPORT ONLY SELECTED TABLES FROM EXISTING QUERY   
  = Table.SelectColumns(Source,{"MIAS DATE", "PassengerID"}),
+
+TEXT REPLACEMENT   
+= Text.ReplaceAll([Text], Replacements)
+
+REFERENCE QUERY  
+= "BHR"
+
+ADD YEAR AND WEEK  
+= Table.AddColumn(#"Added MONTH", "WEEK", each Date.ToText([DATE],"yyyy")&"/"&Text.From(Date.WeekOfYear([DATE])))
+
+EXTRACT MONTH IN "MMM" FORMAT  
+= Date.ToText([Date],"MMM" ) & "_" & Text.From(Date.Year([Date]))
+
+EXTRACT MONTH IN "MM" FORMAT INCLUDING LEADING ZERO  
+= Text.PadStart(Text.From(Date.Month([ArrivalDate]),2,"0")))
+
+LEFT 10 CHARACTERS CONVERTED TO TEXT, TRIMMED AND THEN PADDED TO 10  
+= Text.PadStart(Text.Trim(Text.Start(Text.From([START]),10)),10,"0"))
+
+EXTRACT YEAR AND MONTH  
+= Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
+= Table.AddColumn(#"Added WEEK", "MONTH", each Date.ToText([DATE],"yyyy") &"/"& Text.PadStart(Text.From(Date.Month([DATE])),2,"0"), type text)
+
+PAD START OF DATE AND SUBSTITUE NULL VALUES  
+= Table.AddColumn(#"Changed Type", "REFERENCE", 
+each if [ArrivalDate] = null then 
+Text.PadStart(Text.From([PassengerID]),6,"0")&" "&"00/00/0000"
+else 
+Text.PadStart(Text.From([PassengerID]),6,"0")&" "&Text.PadStart(Text.From([ArrivalDate]),10,"0"))
+
+REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING FIRST NAME  
+= Table.AddColumn(#"Changed Type", "NameRef",
+each if [FirstName] = null then "XXXXXX"
+else 
+Text.Upper(Text.BeforeDelimiter([FirstName]," "))
+
+REPLACE NULL WITH "XXXXXXX" WHEN SPLITTING LAST NAME  
+= Table.AddColumn(#"Added NAME REF", "Custom", 
+each if [LastName] = null then "XXXXXX"
+else 
+Text.Upper(Text.AfterDelimiter([LastName]," ")))
+
+REPLACE VALUES WHERE CONDITION 
+= Table.ReplaceValue(#"PREVIOUS STEP","064", 
+each if Text.Start([Mobile Phone],3) = "064" then "0064" 
+else #"PREVIOUS STEP",Replacer.ReplaceText,{"Mobile Phone"} )
+
+OPTION1 GROUP BY ID (2 STEPS) "ALL" NEEDS TO BE ADDED   
+= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}, {"All", each _, type table }})  
+= Table.ExpandTableColumn(#"Grouped Rows", "All", {"YEAR", "ROW3", "ROW4", "ROW5"})
+GROUPS BY ID
+NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)   
+NEW COLUMN NAME ALL/ALLROWS   
+EXPAND ALL LESS ID WHICH IS ALREADY IN TABLE.   
+UNTICK PREFIX   
+
+OPTION 2 GROUP BY ID (3 STEPS) "ALL" DOES NOT NEED TO BE ADDED   
+= Table.Group(Source, {"ID"}, {{"MAX", each List.Max([YEAR]), type number}})   
+= Table.NestedJoin(Source, {"ID"}, Table1, {"ID"}, "Grouped Rows", JoinKind.FullOuter)   
+= Table.ExpandTableColumn(#"Merged Queries", "Grouped Rows", {"MAX"}, {"MAX"})   
+GROUPS BY ID   
+NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
+MERGE QUERIES FULL OUTER ON ID/ID   
+EXPAND MAX   
+
+
 
 _________________________________________________________________
 
