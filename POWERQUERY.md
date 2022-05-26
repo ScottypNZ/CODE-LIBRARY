@@ -538,3 +538,53 @@ let
 in
     #"Parsed Date"
 ```
+
+### JSON API ODATA PAGENATION LOOP - PRE FILTERED DATA 
+
+GetData as list
+ ```VBA
+
+(Page as number) as list =>
+let StartURL = "https://crm/maritimenewzealand/api/data/v8.0/contacts?$skiptoken=%3Ccookie%20pagenumber=%22",
+    EndURL   = "%22%20pagingcookie=%22%253ccookie%2520page%253d%25221%2522%253e%253ccontactid%2520last%253d%2522%257bD0E5305F-0085-E211-9FD1-000C29854771%257d%2522%2520first%253d%2522%257b609AF16C-120C-4E2C-9498-00015D9B0068%257d%2522%2520%252f%253e%253c%252fcookie%253e%22%20istracking=%22False%22%20/%3E&$select=createdon,modifiedon,mnz_alert,mnz_customernumber,mnz_tritonpersonid,mnz_tradingas,birthdate,fullname,firstname,middlename,lastname,emailaddress1,address1_line1,address1_line2,address1_line3,address1_county,address1_city,address1_postalcode,mobilephone,mnz_otherphone,mnz_phones,telephone1,telephone2,mnz_custmnzsolomonid,mnz_custopfsolomonid,mnz_custsarsolomonid",
+    source =Record.ToTable(Json.Document(Web.Contents( StartURL & Number.ToText(Page) & EndURL))) {1} [Value]
+in  source
+```
+GetData as table from list
+ ```VBA
+(Pages as number) as table =>
+let StartURL = "https://crm/maritimenewzealand/api/data/v8.0/contacts?$skiptoken=%3Ccookie%20pagenumber=%22",
+    EndURL   = "%22%20pagingcookie=%22%253ccookie%2520page%253d%25221%2522%253e%253ccontactid%2520last%253d%2522%257bD0E5305F-0085-E211-9FD1-000C29854771%257d%2522%2520first%253d%2522%257b609AF16C-120C-4E2C-9498-00015D9B0068%257d%2522%2520%252f%253e%253c%252fcookie%253e%22%20istracking=%22False%22%20/%3E&$select=createdon,modifiedon,mnz_alert,mnz_customernumber,mnz_tritonpersonid,mnz_tradingas,birthdate,fullname,firstname,middlename,lastname,emailaddress1,address1_line1,address1_line2,address1_line3,address1_county,address1_city,address1_postalcode,mobilephone,mnz_otherphone,mnz_phones,telephone1,telephone2,mnz_custmnzsolomonid,mnz_custopfsolomonid,mnz_custsarsolomonid",
+    Source =Table.FromList(Json.Document(Web.Contents( StartURL & Number.ToText(Pages) & EndURL)) [value] , Splitter.SplitByNothing(), null, null, ExtraValues.Error)
+in  Source
+```
+
+GetData as table from records
+ ```VBA
+(Page1 as number)  =>
+let StartURL = "https://crm/maritimenewzealand/api/data/v8.0/contacts?$skiptoken=%3Ccookie%20pagenumber=%22",
+    EndURL   = "%22%20pagingcookie=%22%253ccookie%2520page%253d%25221%2522%253e%253ccontactid%2520last%253d%2522%257bD0E5305F-0085-E211-9FD1-000C29854771%257d%2522%2520first%253d%2522%257b609AF16C-120C-4E2C-9498-00015D9B0068%257d%2522%2520%252f%253e%253c%252fcookie%253e%22%20istracking=%22False%22%20/%3E&$select=createdon,modifiedon,mnz_alert,mnz_customernumber,mnz_tritonpersonid,mnz_tradingas,birthdate,fullname,firstname,middlename,lastname,emailaddress1,address1_line1,address1_line2,address1_line3,address1_county,address1_city,address1_postalcode,mobilephone,mnz_otherphone,mnz_phones,telephone1,telephone2,mnz_custmnzsolomonid,mnz_custopfsolomonid,mnz_custsarsolomonid",
+    Source =Table.FromRecords(Json.Document(Web.Contents( StartURL & Number.ToText(Page1) & EndURL)) [value] )
+in  Source
+```
+
+List Generate Varients
+
+GetDataListRecordToTable
+GetDataTableFromList
+GetDataTableFromRecords
+
+
+
+```
+VBA
+let ListGenerate = List.Generate( () =>
+        [Result= try GetDataListRecordToTable(1) otherwise null, Page = 1], 
+        each not List.IsEmpty([Result]),
+        each [Result = try GetDataListRecordToTable([Page]+1) otherwise null, 
+        Page =[Page]+1], each [Result]),
+    ConvertedTable = Table.FromList(ListGenerate, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    ExpandedToList = Table.ExpandListColumn(ConvertedTable, "Column1"),
+    ExpandedToRecords = Table.ExpandRecordColumn(ExpandedToList, "Column1", {"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode",  "address1_composite", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid"})
+in  ExpandedToRecords
+```
