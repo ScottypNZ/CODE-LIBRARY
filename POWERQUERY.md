@@ -576,8 +576,7 @@ GetDataTableFromRecords
 
 
 
-```
-VBA
+ ```VBA
 let ListGenerate = List.Generate( () =>
         [Result= try GetDataListRecordToTable(1) otherwise null, Page = 1], 
         each not List.IsEmpty([Result]),
