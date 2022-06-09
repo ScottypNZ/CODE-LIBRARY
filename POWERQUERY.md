@@ -1,6 +1,10 @@
 # CODE-LIBRARY
 
 ```
+
+COUNT BLANK COLUMNS   
+= List.NonNullCount(Record.FieldValues(_))
+
 **TABLE PIVOT **
 DEFAULT              = Table.Pivot(Source, List.Distinct(Source[Name]), "Name", "Value")
 TABLE PIVOT MANUAL   = Table.Pivot(Source, {"value","@odata.nextLink"}, "Name", "Value")
