@@ -10,24 +10,27 @@ https://www.goodly.co.in/extract-first-and-last-name-power-query/
 https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings-in-power-query-with-text-select-and-text-remove
 
 ```
+ADD COLUMN AND FITER AT THE SAME TIME   
+= Table.AddColumn(#"Replaced NULL", "SPECIAL", each Text.Select([Full Name],{"A".."z"," "})<>[Full Name])
+
 COUNT BLANK COLUMNS   
 = List.NonNullCount(Record.FieldValues(_))
 
-**TABLE PIVOT **
+**TABLE PIVOT **  
 DEFAULT              = Table.Pivot(Source, List.Distinct(Source[Name]), "Name", "Value")
 TABLE PIVOT MANUAL   = Table.Pivot(Source, {"value","@odata.nextLink"}, "Name", "Value")
 
-CONVERT LIST TO TABLE
+CONVERT LIST TO TABLE   
 = Table.AddColumn( #"Expanded rows", "Records", each Record.FromList([rows],[columnNames] ) )
 
-O-DATA SVC
+O-DATA SVC   
 = OData.Feed("http://mnz-16-app02-p/MaritimeNewZealand/XRMServices/2011/OrganizationData.svc/ContactSet?$select=Home2&$top=3")
 = OData.Feed("http://mnz-16-app02-p/MaritimeNewZealand/XRMServices/2011/OrganizationData.svc/ContactSet?&$top=3")
 
-O-DATA API
+O-DATA API  
 = OData.Feed("https://crm/maritimenewzealand/api/data/v8.0/contacts")
 
-JSON API
+JSON API  
 = Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts?$top=10"))
 
 
