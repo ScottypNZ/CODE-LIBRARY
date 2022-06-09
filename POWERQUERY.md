@@ -1,7 +1,15 @@
-# CODE-LIBRARY
+LINKS 
+https://opdhsblobprod04-secondary.blob.core.windows.net/contents/9b520b3cc93e43f7ba25a428fd5605f4/b10c45193088c620dcde2762fc236c51?sv=2018-03-28&sr=b&si=ReadPolicy&sig=ujmH19rSqr0MgAy4GPoNrFQymGs4im8K19miED2HgCs%3D&st=2021-07-25T04%3A57%3A19Z&se=2021-07-26T05%3A07%3A19Z
+
+https://www.excelguru.ca/blog/2014/08/20/5-very-useful-text-formulas-power-query-edition/
+
+https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference
+
+https://www.goodly.co.in/extract-first-and-last-name-power-query/
+
+https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings-in-power-query-with-text-select-and-text-remove
 
 ```
-
 COUNT BLANK COLUMNS   
 = List.NonNullCount(Record.FieldValues(_))
 
@@ -162,19 +170,6 @@ NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)
 MERGE QUERIES FULL OUTER ON ID/ID   
 EXPAND MAX   
 
-
-
-_________________________________________________________________
-
-https://opdhsblobprod04-secondary.blob.core.windows.net/contents/9b520b3cc93e43f7ba25a428fd5605f4/b10c45193088c620dcde2762fc236c51?sv=2018-03-28&sr=b&si=ReadPolicy&sig=ujmH19rSqr0MgAy4GPoNrFQymGs4im8K19miED2HgCs%3D&st=2021-07-25T04%3A57%3A19Z&se=2021-07-26T05%3A07%3A19Z
-
-https://www.excelguru.ca/blog/2014/08/20/5-very-useful-text-formulas-power-query-edition/
-
-https://docs.microsoft.com/en-us/powerquery-m/power-query-m-function-reference
-
-https://www.goodly.co.in/extract-first-and-last-name-power-query/
-
-https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings-in-power-query-with-text-select-and-text-remove
 ```
 
 ### NAME REF   
