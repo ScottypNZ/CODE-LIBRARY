@@ -13,6 +13,12 @@ https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings
 ADD COLUMN AND FITER AT THE SAME TIME   
 = Table.AddColumn(#"Replaced NULL", "SPECIAL", each Text.Select([Full Name],{"A".."z"," "})<>[Full Name])
 
+ADD ADDRESS AND FORMAT AT THE SAME TIME   
+Table.AddColumn(#"Added WEEK CREATED", "ADDRESS", each 
+Text.Upper(Text.Combine(List.Select(Text.Split(
+[Address 1]&" "&[Address 2]&" "&[Suburb]&" "&[City]&" "&[Post Code]&" "&[Country],
+" "),each _ <> "")," ")))
+
 COUNT BLANK COLUMNS   
 = List.NonNullCount(Record.FieldValues(_))
 
