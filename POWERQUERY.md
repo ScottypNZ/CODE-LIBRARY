@@ -19,6 +19,10 @@ Text.Upper(Text.Combine(List.Select(Text.Split(
 [Address 1]&" "&[Address 2]&" "&[Suburb]&" "&[City]&" "&[Post Code]&" "&[Country],
 " "),each _ <> "")," ")))
 
+ADD CURRENT WEEK FILTER   
+Table.AddColumn(#"Replaced NULL", "FILTER", each Date.From(Date.StartOfWeek(Date.AddDays(DateTime.LocalNow(),-7) ) )
+    = Date.StartOfWeek([Created On]))
+
 COUNT BLANK COLUMNS   
 = List.NonNullCount(Record.FieldValues(_))
 
