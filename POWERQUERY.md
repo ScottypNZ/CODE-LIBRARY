@@ -23,6 +23,13 @@ ADD CURRENT WEEK FILTER
 Table.AddColumn(#"Replaced NULL", "FILTER", each Date.From(Date.StartOfWeek(Date.AddDays(DateTime.LocalNow(),-7) ) )
     = Date.StartOfWeek([Created On]))
 
+MODIFIED ON WEEK
+Table.AddColumn(#"Added FILTER", "WEEK MODIFIED", each Text.From(Date.Year(Date.From([Modified On])))
+    &"/"& Text.PadStart(Text.From(Date.WeekOfYear(Date.From([Modified On]))),2,"0"))
+
+CREATED ON WEEK   
+Table.AddColumn(#"Added WEEK MODIFIED", "WEEK CREATED", each Text.From(Date.Year(Date.From([Created On])))&"/"& Text.PadStart(Text.From(Date.WeekOfYear(Date.From([Created On]))),2,"0"))
+
 COUNT BLANK COLUMNS   
 = List.NonNullCount(Record.FieldValues(_))
 
