@@ -96,7 +96,7 @@ COUNT WORDS
 NET WORD COUNT (LESS BLANKS)  
 =List.Count(List.RemoveItems(Text.SplitAny([FULL NAME]," #(tab)#(lf)"),{""})))
 
-SHORT NAME UTILISING NET WORK COUNT (TO STOP SINGLE WORD DUPLICATION)  
+SHORT NAME UTILISING NET WORD COUNT (TO STOP SINGLE WORD DUPLICATION)  
 =if [NetWordCount] = 1 then [FULL NAME] else Text.Upper(List.First(Text.Split([FULL NAME]," ")))&" "&Text.Upper(List.Last(Text.Split([FULL NAME]," ")))
 
 SHORT NAME  
@@ -189,7 +189,15 @@ GROUPS BY ID
 NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
 MERGE QUERIES FULL OUTER ON ID/ID   
 EXPAND MAX   
+```
 
+### SHORT NAME REF IGNOREING INITIALS THAT GIVE A FALSE POSITIVE [STRING STANDATION]
+
+```VBA
+= Table.AddColumn(#"Renamed DOB", "SHORT NAME", each 
+if [COUNT FIRST] < 2 then "XXXXXX" &" "& Text.Upper(List.Last(Text.Split([FULL NAME]," "))) 
+else if [COUNT LAST] < 1 then Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& "XXXXXX" 
+else Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& List.Last(Text.Split([FULL NAME]," ")))
 ```
 
 ### NAME REF   
