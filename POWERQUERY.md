@@ -209,7 +209,25 @@ GROUP BY [SHORT NAME REFERENCE] | Count | ALL ROWS
 
 ```
 
+#COUNTIFS TEMPLATE
 
+```
+VBA
+let
+    Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
+
+    #"Grouped Rows" = Table.Group(Source, {"Number"}, {{"Count", each _, type table [Type=text, Number=number, Countifs=number, Index=number]}}),
+
+    #"Added Custom" = Table.AddColumn(#"Grouped Rows", "SelectB", each Table.SelectRows([Count], each ([Type] = "B"))),
+
+    #"Added Custom1" = Table.AddColumn(#"Added Custom", "CountB", each Table.RowCount([SelectB])),
+
+    #"Removed Other Columns" = Table.SelectColumns(#"Added Custom1",{"Count", "CountB"}),
+    
+    #"Expanded Count" = Table.ExpandTableColumn(#"Removed Other Columns", "Count", {"Type", "Number", "Countifs"}, {"Type", "Number", "Countifs"})
+in
+    #"Expanded Count"
+```
 
 ### SHORT NAME REF IGNOREING INITIALS THAT GIVE A FALSE POSITIVE [STRING STANDARDISATION]
 
