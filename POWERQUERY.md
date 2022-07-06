@@ -239,6 +239,19 @@ in
 5 EXPAND OCCURANCE
 ```
 
+
+
+
+### REMOVE DUPLICATES SYSTEM FUNCTION
+```VBA
+    #"Kept Duplicates" = 
+    let columnNames = {"REFERENCE"}, 
+    addCount = Table.Group(#"ReportView Application_Seafarer Application ALL", columnNames, {{"Count.1", Table.RowCount, type number}}), 
+    selectDuplicates = Table.SelectRows(addCount, each [Count.1] > 1), 
+    removeCount = Table.RemoveColumns(selectDuplicates, "Count.1") 
+    in Table.Join(#"ReportView Application_Seafarer Application ALL", columnNames, removeCount, columnNames, JoinKind.Inner)
+```
+
 ### SHORT NAME REF IGNOREING INITIALS THAT GIVE A FALSE POSITIVE [STRING STANDARDISATION]
 
 ```VBA
