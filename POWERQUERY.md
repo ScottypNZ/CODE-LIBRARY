@@ -714,6 +714,7 @@ in  ExpandedToRecords
 ###### STEP 3 | Grouped MAX to give final modified date. You then have the dates for received, ready to process, approved, closed
 ###### STEP 4 | Advisor Pivot, remove other, group / count advisors, creating occurance, merge back, then pivoting horizontally
 
+### STEP 1
 ```VBA
 let source = Table1
 
@@ -804,3 +805,162 @@ source = Table.Combine({Seafarer_Application, Seafarer_Renewal, Endorsement_Appl
 
 in source
 ```
+
+### FUZZY IND
+
+##### STEP 1 | RAW   | Get data function and data preprocessing. Used for Quality reports.
+##### STEP 2 | CLEAN | Process phone numbers and name data for Fuzzy. Used for Fuzzy, seperated for speed.
+##### STEP 3 | FUZZY | Fuzzy merge clean data into useable report.
+
+### STEP 1
+```VBA
+let
+  GetData = (Page as number) as list =>
+    let MidURL = "?$skiptoken=%3Ccookie%20pagenumber=%22",
+    PageNUM = Text.From(Page),
+    EndURL =    "%22%20pagingcookie=%22%253ccookie%2520page%253d%25221%2522%253e%253ccontactid%2520last%253d%2522%257bD0E5305F-0085-E211-9FD1-000C29854771%257d%2522%2520first%253d%2522%257b609AF16C-120C-4E2C-9498-00015D9B0068%257d%2522%2520%252f%253e%253c%252fcookie%253e%22%20istracking=%22False%22%20/%3E&$select=createdon,modifiedon,mnz_alert,statuscode,mnz_customernumber,mnz_tritonpersonid,mnz_tradingas,birthdate,fullname,firstname,middlename,lastname,emailaddress1,address1_line1,address1_line2,address1_line3,mnz_address1city,mnz_address1country,address1_postalcode,mobilephone,mnz_otherphone,telephone1,telephone2,mnz_custmnzsolomonid,mnz_custopfsolomonid,mnz_custsarsolomonid,_createdby_value",
+    source =Record.ToTable(Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts",
+    [ RelativePath=MidURL & PageNUM & EndURL,
+    Headers=[Prefer="odata.include-annotations=""OData.Community.Display.V1.FormattedValue"""]]
+    ))) {1} [Value]
+in  source,
+  ListGenerate = List.Generate( () =>
+    [Result= try GetData(1) otherwise null, Page = 1],
+    each not List.IsEmpty([Result]),
+    each [Result = try GetData([Page]+1) otherwise null,
+    Page =[Page]+1], each [Result]),
+  ConvertedTable = Table.FromList(ListGenerate, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+  ExpandedToList = Table.ExpandListColumn(ConvertedTable, "Column1"),
+  #"Expanded Column" = Table.ExpandRecordColumn(ExpandedToList, "Column1", {"@odata.etag", "createdon", "modifiedon", "mnz_alert@OData.Community.Display.V1.FormattedValue", "statuscode@OData.Community.Display.V1.FormattedValue", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "mnz_address1city@OData.Community.Display.V1.FormattedValue", "mnz_address1country@OData.Community.Display.V1.FormattedValue", "address1_postalcode", "mobilephone", "mnz_otherphone", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid", "_createdby_value@OData.Community.Display.V1.FormattedValue", "contactid"}, {"@odata.etag", "createdon", "modifiedon", "mnz_alert", "statuscode", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "mnz_address1city", "mnz_address1country", "address1_postalcode", "mobilephone", "mnz_otherphone", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid", "createdby", "contactid"}),
+  #"Parsed Date" = Table.TransformColumns(#"Expanded Column", {{"createdon", each Date.From(DateTimeZone.From(_)), type date}, {"modifiedon", each Date.From(DateTimeZone.From(_)), type date}}),
+  #"Renamed Columns" = Table.RenameColumns(#"Parsed Date", {{"mnz_tritonpersonid", "TRITON"}, {"fullname", "FULL NAME"}, {"createdon", "Created On"}, {"modifiedon", "Modified On"}, {"mnz_customernumber", "Customer Number"}, {"birthdate", "Date of Birth"}, {"mnz_alert", "Alert"}, {"mnz_tradingas", "Trading As"}, {"firstname", "First Name"}, {"middlename", "Middle Name"}, {"lastname", "Last Name"}, {"emailaddress1", "Email"}, {"address1_line1", "Address 1"}, {"address1_line2", "Address 2"}, {"address1_line3", "Suburb"}, {"mnz_address1city", "City"}, {"address1_postalcode", "Post Code"}, {"mobilephone", "Mobile Phone"}, {"telephone1", "Business Phone"}, {"telephone2", "Home Phone"}, {"mnz_custmnzsolomonid", "Customer MNZ Solomon ID"}, {"mnz_custopfsolomonid", "Customer OPF Solomon ID"}, {"mnz_custsarsolomonid", "Customer SAR Solomon ID"}, {"createdby", "Created By"}, {"statuscode", "Status"}, {"mnz_address1country", "Country"}, {"mnz_otherphone", "Other Phone"}}),
+  #"Replaced NULL" = Table.ReplaceValue(#"Renamed Columns", null, "", Replacer.ReplaceValue, {"@odata.etag", "Created On", "Modified On", "Alert", "Status", "Customer Number", "TRITON", "Trading As", "Date of Birth", "FULL NAME", "First Name", "Middle Name", "Last Name", "Email", "Address 1", "Address 2", "Suburb", "City", "Country", "Post Code", "Mobile Phone", "Other Phone", "Business Phone", "Home Phone", "Customer MNZ Solomon ID", "Customer OPF Solomon ID", "Customer SAR Solomon ID", "Created By", "contactid"}),
+  #"Added FILTER" = Table.AddColumn(#"Replaced NULL", "FILTER", each Date.From(Date.StartOfWeek(Date.AddDays(DateTime.LocalNow(),-7) ) )
+    = Date.StartOfWeek([Created On])),
+  #"Added WEEK MODIFIED" = Table.AddColumn(#"Added FILTER", "WEEK MODIFIED", each Text.From(Date.Year(Date.From([Modified On])))
+    &"/"& Text.PadStart(Text.From(Date.WeekOfYear(Date.From([Modified On]))),2,"0")),
+  #"Added WEEK CREATED" = Table.AddColumn(#"Added WEEK MODIFIED", "WEEK CREATED", each Text.From(Date.Year(Date.From([Created On])))&"/"& Text.PadStart(Text.From(Date.WeekOfYear(Date.From([Created On]))),2,"0")),
+  #"Added ADDRESS" = Table.AddColumn(#"Added WEEK CREATED", "ADDRESS", each Text.Upper(Text.Combine(List.Select(Text.Split(
+    [Address 1]&" "&[Address 2]&" "&[Suburb]&" "&[City]&" "&[Post Code]&" "&[Country],
+    " "),each _ <> "")," "))),
+  #"Added DOB" = Table.AddColumn(#"Added ADDRESS", "DOB", each if [Date of Birth] = "" then "00/00/0000" else 
+Date.ToText(Date.From(Text.From([Date of Birth])), "dd/MM/yyyy")),
+  #"Added FULL NAME REF" = Table.AddColumn(#"Added DOB", "FULL NAME REF", each [DOB]&" "& Text.Upper([FULL NAME])),
+  #"Changed Type" = Table.TransformColumnTypes(#"Added FULL NAME REF", {{"Status", type text}, {"@odata.etag", type text}, {"Created On", type text}, {"Modified On", type text}, {"Alert", type text}, {"Customer Number", type text}, {"TRITON", type text}, {"Trading As", type text}, {"Date of Birth", type text}, {"FULL NAME", type text}, {"First Name", type text}, {"Middle Name", type text}, {"Last Name", type text}, {"Email", type text}, {"Address 1", type text}, {"Address 2", type text}, {"Suburb", type text}, {"City", type text}, {"Country", type text}, {"Post Code", type text}, {"Mobile Phone", type text}, {"Other Phone", type text}, {"Business Phone", type text}, {"Home Phone", type text}, {"Customer MNZ Solomon ID", type text}, {"Customer OPF Solomon ID", type text}, {"Customer SAR Solomon ID", type text}, {"Created By", type text}, {"contactid", type text}, {"FILTER", type text}, {"WEEK MODIFIED", type text}, {"WEEK CREATED", type text}, {"ADDRESS", type text}, {"DOB", type text}, {"FULL NAME REF", type text}}),
+  #"Added index" = Table.AddIndexColumn(#"Changed Type", "Index", 1, 1, Int64.Type),
+  #"Sorted rows" = Table.Sort(#"Added index", {{"Index", Order.Descending}})
+in
+  #"Sorted rows"
+```
+
+### STEP 2
+
+```VBA
+let
+  Source = PowerBI.Dataflows(null) [Data] {0},
+  #"89198763-4791-4d4f-a39e-496037f58a15" = Source{[dataflowId = "89198763-4791-4d4f-a39e-496037f58a15"]}[Data],
+  #"Removed details" = Table.RemoveColumns(#"89198763-4791-4d4f-a39e-496037f58a15", {"IsLeaf"}),
+  #"CRM RAW" = #"Removed details"{[entity = "CRM RAW"]}[Data],
+  #"Replaced PHONE ""-""" = Table.ReplaceValue(#"CRM RAW", "-", "", Replacer.ReplaceText, {"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Replaced PHONE "" """ = Table.ReplaceValue(#"Replaced PHONE ""-""", " ", "", Replacer.ReplaceText, {"Mobile Phone", "Other Phone", "Business Phone", "Home Phone"}),
+  #"Replaced PHONE +64" = Table.ReplaceValue(#"Replaced PHONE "" """, "+64", "0", Replacer.ReplaceText, {"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Replaced PHONE 064" = Table.ReplaceValue(#"Replaced PHONE +64", "064", each if 
+Text.Start([Mobile Phone],3) = "064" or
+Text.Start([Home Phone],3) = "064" or
+Text.Start([Business Phone],3) = "064" or
+Text.Start([Other Phone],3) = "064" then "0" else null, Replacer.ReplaceText,{"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Replaced PHONE 64" = Table.ReplaceValue(#"Replaced PHONE 064", "64", each if 
+Text.Start([Mobile Phone],2) = "64" or
+Text.Start([Home Phone],2) = "64" or
+Text.Start([Business Phone],2) = "64" or
+Text.Start([Other Phone],2) = "64" then "0" else null, Replacer.ReplaceText,{"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Replaced PHONE 00" = Table.ReplaceValue(#"Replaced PHONE 64", "00", each if 
+Text.Start([Mobile Phone],2) = "00" or
+Text.Start([Home Phone],2) = "00" or
+Text.Start([Business Phone],2) = "00" or
+Text.Start([Other Phone],2) = "00" then "0" else null, Replacer.ReplaceText,{"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Replaced CHARACTERS" = List.Accumulate(Text.ToList("(){}[];',./\<>?:_+-=*&^%$#@!"),#"Replaced PHONE 00",(table,old)=> Table.ReplaceValue(table,old,"", Replacer.ReplaceText,{"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"})),
+  #"Replaced PHONE 00 INT" = Table.ReplaceValue(#"Replaced CHARACTERS", "00", each if 
+Text.Start([Mobile Phone],2) = "00" or
+Text.Start([Home Phone],2) = "00" or
+Text.Start([Business Phone],2) = "00" or
+Text.Start([Other Phone],2) = "00" then "+" else null, Replacer.ReplaceText,{"Business Phone", "Home Phone", "Mobile Phone", "Other Phone"}),
+  #"Added PHONE ERROR" = Table.AddColumn(#"Replaced PHONE 00 INT", "PHONE ERROR", each Text.Select([Mobile Phone],   {"A".."z","!".."*",","..",",":".."@","[".."`","{".."~"}) &
+        Text.Select([Business Phone], {"A".."z","!".."*",","..",",":".."@","[".."`","{".."~"}) &
+        Text.Select([Other Phone],    {"A".."z","!".."*",","..",",":".."@","[".."`","{".."~"}) &
+        Text.Select([Home Phone],     {"A".."z","!".."*",","..",",":".."@","[".."`","{".."~"})),
+  #"Replaced '-'" = Table.ReplaceValue(#"Added PHONE ERROR", "'-'", "", Replacer.ReplaceText, {"Last Name"}),
+  #"Replaced -" = Table.ReplaceValue(#"Replaced '-'", "-", "", Replacer.ReplaceText, {"Last Name"}),
+  #"Replaced ," = Table.ReplaceValue(#"Replaced -", ",", "", Replacer.ReplaceText, {"Last Name"}),
+  #"Replaced ." = Table.ReplaceValue(#"Replaced ,", ".", "", Replacer.ReplaceText, {"Last Name"}),
+  #"Replaced '_'" = Table.ReplaceValue(#"Replaced .", "'_'", "", Replacer.ReplaceText, {"Last Name"}),
+  #"Replaced FIRST -" = Table.ReplaceValue(#"Replaced '_'", "-", "", Replacer.ReplaceText, {"First Name"}),
+  #"Replaced FIRST '" = Table.ReplaceValue(#"Replaced FIRST -", "'", "", Replacer.ReplaceText, {"First Name"}),
+  #"Replaced FIRST ." = Table.ReplaceValue(#"Replaced FIRST '", ".", "", Replacer.ReplaceText, {"First Name"}),
+  #"Replaced FIRST """ = Table.ReplaceValue(#"Replaced FIRST .", """", "", Replacer.ReplaceText, {"First Name"}),
+  #"Replaced FIRST ," = Table.ReplaceValue(#"Replaced FIRST """, ",", "", Replacer.ReplaceText, {"First Name"}),
+  #"Replaced MIDDLE null" = Table.ReplaceValue(#"Replaced FIRST ,", null, "", Replacer.ReplaceValue, {"Middle Name"}),
+  #"Added COUNT FULL" = Table.AddColumn(#"Replaced MIDDLE null", "COUNT", each List.Count(Text.Split([FULL NAME]," ")), Int64.Type),
+  #"Added COUNT FIRST" = Table.AddColumn(#"Added COUNT FULL", "COUNT FIRST", each if [First Name] <> "" then Text.Length(List.First(Text.Split([First Name]," "))) else 0),
+  // = Table.AddColumn(#"Filtered FULL NULL", "COUNT", each List.Count(Text.Split([Last Name]," ")))
+  #"Added COUNT LAST" = Table.AddColumn(#"Added COUNT FIRST", "COUNT LAST", each if [Last Name] <> "" then List.Count(Text.Split([Last Name]," ")) 
+else 0, Int64.Type),
+  #"Added LEN FIRST" = Table.AddColumn(#"Added COUNT LAST", "LEN FIRST", each Text.Length([First Name]), Int64.Type),
+  #"Added SHORT" = Table.AddColumn(#"Added LEN FIRST", "SHORT NAME", each if [COUNT FIRST] < 2 then "XXXXXX" &" "& Text.Upper(List.Last(Text.Split([FULL NAME]," "))) 
+else if [COUNT LAST] < 1 then Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& "XXXXXX" else
+Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& List.Last(Text.Split([FULL NAME]," "))),
+  #"Added SHORT NAME REF" = Table.AddColumn(#"Added SHORT", "SHORT NAME REF", each if [Date of Birth] = null then 
+"00/00/0000 "&[SHORT NAME]
+else 
+Text.PadStart(Text.From([Date of Birth]),10,"0")&" "&[SHORT NAME], type text),
+  #"Removed Columns" = Table.RemoveColumns(#"Added SHORT NAME REF", {"@odata.etag", "Created On", "Modified On", "Alert", "Trading As", "Address 1", "Address 2", "Suburb", "City", "Country", "Post Code", "contactid", "COUNT", "COUNT FIRST", "COUNT LAST", "LEN FIRST", "SHORT NAME", "Status"}),
+  #"Added FINANCE" = Table.AddColumn(#"Removed Columns", "FINANCE", each if [Customer MNZ Solomon ID] <> null then [Customer MNZ Solomon ID] else if [Customer OPF Solomon ID] <> null then [Customer OPF Solomon ID] else [Customer SAR Solomon ID]),
+  #"Added COUNT" = Table.AddColumn(#"Added FINANCE", "FINANCE COUNT", each List.NonNullCount({[Customer MNZ Solomon ID], [Customer OPF Solomon ID], [Customer SAR Solomon ID]})),
+  #"Reordered Columns" = Table.ReorderColumns(#"Added COUNT", {"FILTER", "Created By", "WEEK MODIFIED", "WEEK CREATED", "Customer Number", "TRITON", "Date of Birth", "First Name", "Middle Name", "Last Name", "FULL NAME", "SHORT NAME REF", "ADDRESS", "Email", "Mobile Phone", "Home Phone", "Business Phone", "Other Phone", "Customer MNZ Solomon ID", "Customer OPF Solomon ID", "Customer SAR Solomon ID"}),
+  #"Sorted Rows" = Table.Sort(#"Reordered Columns", {{"WEEK MODIFIED", Order.Descending}}),
+  #"Changed type text" = Table.TransformColumnTypes(#"Sorted Rows", {{"FILTER", type text}, {"Created By", type text}, {"WEEK MODIFIED", type text}, {"WEEK CREATED", type text}, {"Customer Number", type text}, {"TRITON", type text}, {"Date of Birth", type text}, {"First Name", type text}, {"Middle Name", type text}, {"Last Name", type text}, {"FULL NAME", type text}, {"SHORT NAME REF", type text}, {"ADDRESS", type text}, {"Email", type text}, {"Mobile Phone", type text}, {"Home Phone", type text}, {"Business Phone", type text}, {"Other Phone", type text}, {"Customer MNZ Solomon ID", type text}, {"Customer OPF Solomon ID", type text}, {"DOB", type text}, {"FULL NAME REF", type text}, {"Index", type text}, {"PHONE ERROR", type text}, {"Customer SAR Solomon ID", type text}, {"FINANCE", type text}, {"FINANCE COUNT", type text}})
+in
+  #"Changed type text"
+```
+
+### STEP 3
+
+###### A | FUZZY JOIN ON SHORT NAME REF
+###### B | GROUP BY SHORT NAME AND ADD INDEX / GROUPING
+###### C | ADD OCCURANCE TO FILTER OUT DUPLICATES
+###### D | ADD COUNT OF FIRST OCCURANCES, THIS IS TO ENSURE THAT WHERE THERE WILL ONLY BE ONE PARTY IN THE GROUP REMAIING THE WHOLE GROUP REMAINS
+
+```VBA
+let
+  Source = PowerBI.Dataflows(null) [Data] {0},
+  DataFlow = Source{[dataflowId = "69326da1-6ec0-49da-bccb-54b5bd817e14"]}[Data],
+  #"Removed columns" = Table.RemoveColumns(DataFlow, {"Tags", "ItemKind", "ItemName", "IsLeaf", "dataCategory"}),
+  Entity = #"Removed columns"{[entity = "CRM CLEAN"]}[Data],
+  #"--- FUZZY---" = Entity,
+  #"FUZZY JOIN" = Table.FuzzyNestedJoin(#"--- FUZZY---", {"SHORT NAME REF"}, #"--- FUZZY---", {"SHORT NAME REF"}, "FUZZY", JoinKind.LeftOuter, [IgnoreCase = true, IgnoreSpace = true, Threshold = 0.8]),
+  #"Expanded FUZZY" = Table.ExpandTableColumn(#"FUZZY JOIN", "FUZZY", {"FILTER", "Created By", "WEEK MODIFIED", "WEEK CREATED", "Customer Number", "TRITON", "Date of Birth", "First Name", "Middle Name", "Last Name", "FULL NAME", "SHORT NAME REF", "ADDRESS", "Email", "Mobile Phone", "Home Phone", "Business Phone", "Other Phone", "PHONE ERROR", "Customer MNZ Solomon ID", "Customer OPF Solomon ID", "Customer SAR Solomon ID", "FINANCE", "FINANCE COUNT"}, {"FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.Customer Number", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.SHORT NAME REF", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT"}),
+  #"---GROUP SHORT NAME---" = #"Expanded FUZZY",
+  #"Grouped SHORT NAME" = Table.Group(#"---GROUP SHORT NAME---", {"SHORT NAME REF"}, {{"GROUP", each _, type table[#"Customer Number" = text, #"SHORT NAME REF" = text, #"FUZZY.Customer Number" = nullable text, #"FUZZY.SHORT NAME REF" = text, FUZZY.FILTER = text, #"FUZZY.Created By" = text, #"FUZZY.WEEK MODIFIED" = text, #"FUZZY.WEEK CREATED" = text, FUZZY.TRITON = text, #"FUZZY.Date of Birth" = text, #"FUZZY.First Name" = text, #"FUZZY.Middle Name" = text, #"FUZZY.Last Name" = text, #"FUZZY.FULL NAME" = text, FUZZY.ADDRESS = text, FUZZY.Email = text, #"FUZZY.Mobile Phone" = text, #"FUZZY.Home Phone" = text, #"FUZZY.Business Phone" = text, #"FUZZY.Other Phone" = text, #"FUZZY.PHONE ERROR" = text, #"FUZZY.Customer MNZ Solomon ID" = text, #"FUZZY.Customer OPF Solomon ID" = text, #"FUZZY.Customer SAR Solomon ID" = text, FUZZY.FINANCE = text, #"FUZZY.FINANCE COUNT" = text]}, {"COUNT", each Table.RowCount(_), Int64.Type}}),
+  #"Filtered SINGLE COUNT" = Table.SelectRows(#"Grouped SHORT NAME", each [COUNT] <> 1),
+  #"Sorted SHORT NAME" = Table.Sort(#"Filtered SINGLE COUNT", {{"COUNT", Order.Descending}, {"SHORT NAME REF", Order.Ascending}}),
+  #"Added Index" = Table.AddIndexColumn(#"Sorted SHORT NAME", "Index", 1, 1, Int64.Type),
+  #"Added Custom" = Table.AddColumn(#"Added Index", "GROUPING", each Text.PadStart(Text.From([Index]),5,"0"), type text),
+  #"Expanded GROUP" = Table.ExpandTableColumn(#"Added Custom", "GROUP", {"Customer Number", "FUZZY.Customer Number", "FUZZY.SHORT NAME REF", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT"}, {"Customer Number", "FUZZY.Customer Number", "FUZZY.SHORT NAME REF", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT"}),
+  #"---CUSTOMER NO OCCURANCE ---" = #"Expanded GROUP",
+  #"Grouped Customer Occurance" = Table.Group(#"---CUSTOMER NO OCCURANCE ---", {"FUZZY.Customer Number"}, {{"RELATED", each Table.AddIndexColumn(_, "Occurence", 1,1), type table}}),
+  #"Expanded Customer Occurance" = Table.ExpandTableColumn(#"Grouped Customer Occurance", "RELATED", {"GROUPING", "SHORT NAME REF", "Customer Number", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.SHORT NAME REF", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT", "Occurence", "COUNT", "Index"}),
+  #"Reordered Customer Occurance" = Table.ReorderColumns(#"Expanded Customer Occurance", {"GROUPING", "Customer Number", "SHORT NAME REF", "FUZZY.Customer Number", "FUZZY.SHORT NAME REF", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT", "Occurence", "COUNT"}),
+  #"---GROUP SHORT NAME REF---" = #"Reordered Customer Occurance",
+  #"Group FILTER SHORT" = Table.Group(#"---GROUP SHORT NAME REF---", {"SHORT NAME REF"}, {{"Count", each _, type table[GROUPING = text, #"Customer Number" = text, #"SHORT NAME REF" = text, #"FUZZY.Customer Number" = nullable text, #"FUZZY.SHORT NAME REF" = text, FUZZY.FILTER = text, #"FUZZY.Created By" = text, #"FUZZY.WEEK MODIFIED" = text, #"FUZZY.WEEK CREATED" = text, FUZZY.TRITON = text, #"FUZZY.Date of Birth" = text, #"FUZZY.First Name" = text, #"FUZZY.Middle Name" = text, #"FUZZY.Last Name" = text, #"FUZZY.FULL NAME" = text, FUZZY.ADDRESS = text, FUZZY.Email = text, #"FUZZY.Mobile Phone" = text, #"FUZZY.Home Phone" = text, #"FUZZY.Business Phone" = text, #"FUZZY.Other Phone" = text, #"FUZZY.PHONE ERROR" = text, #"FUZZY.Customer MNZ Solomon ID" = text, #"FUZZY.Customer OPF Solomon ID" = text, #"FUZZY.Customer SAR Solomon ID" = text, FUZZY.FINANCE = text, #"FUZZY.FINANCE COUNT" = text, Occurence = number, COUNT = number, Index = number]}}),
+  #"Added FILTER" = Table.AddColumn(#"Group FILTER SHORT", "FILTER", each Table.SelectRows([Count], each ([Occurence] = 1))),
+  #"Added FILTER COUNT" = Table.AddColumn(#"Added FILTER", "COUNT FILTER", each Table.RowCount([FILTER])),
+  #"Removed FILTER" = Table.RemoveColumns(#"Added FILTER COUNT", {"SHORT NAME REF", "FILTER"}),
+  #"Expanded Count" = Table.ExpandTableColumn(#"Removed FILTER", "Count", {"GROUPING", "Customer Number", "SHORT NAME REF", "FUZZY.Customer Number", "FUZZY.SHORT NAME REF", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT", "Occurence", "COUNT", "Index"}, {"GROUPING", "Customer Number", "SHORT NAME REF", "FUZZY.Customer Number", "FUZZY.SHORT NAME REF", "FUZZY.FILTER", "FUZZY.Created By", "FUZZY.WEEK MODIFIED", "FUZZY.WEEK CREATED", "FUZZY.TRITON", "FUZZY.Date of Birth", "FUZZY.First Name", "FUZZY.Middle Name", "FUZZY.Last Name", "FUZZY.FULL NAME", "FUZZY.ADDRESS", "FUZZY.Email", "FUZZY.Mobile Phone", "FUZZY.Home Phone", "FUZZY.Business Phone", "FUZZY.Other Phone", "FUZZY.PHONE ERROR", "FUZZY.Customer MNZ Solomon ID", "FUZZY.Customer OPF Solomon ID", "FUZZY.Customer SAR Solomon ID", "FUZZY.FINANCE", "FUZZY.FINANCE COUNT", "Occurence", "COUNT.1", "Index"}),
+  #"Transform columns" = Table.TransformColumnTypes(#"Expanded Count", {{"COUNT FILTER", type text}}),
+  #"Replace errors" = Table.ReplaceErrorValues(#"Transform columns", {{"COUNT FILTER", null}})
+in
+  #"Replace errors"
+```
+
+
+
