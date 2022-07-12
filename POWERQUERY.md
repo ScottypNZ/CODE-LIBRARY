@@ -742,3 +742,39 @@ let source = Table1
 in #"Expanded Pivoted column"
 
 ```
+
+## DATA FLOW
+
+##### PULL DATA FROM DATA FLOW AND MERGE WITHOUT PREMIUM
+
+```VBA 
+let 
+
+Seafarer_Application = 
+   
+PowerBI.Dataflows(null) [Data] {0} 
+{[dataflowId="a8224ddc-9ecc-40c2-96d2-dd42060baf08"]}[Data] 
+{[entity="ReportView Application_Seafarer Application DEDUPE"]}[Data],
+
+Seafarer_Renewal = 
+
+PowerBI.Dataflows(null) [Data] {0} 
+{[dataflowId="a8224ddc-9ecc-40c2-96d2-dd42060baf08"]}[Data] 
+{[entity="ReportView Application_Seafarer Certificate Renewal Application DEDUPE"]}[Data],
+
+Endorsement_Application = 
+
+PowerBI.Dataflows(null) [Data] {0} 
+{[dataflowId="a8224ddc-9ecc-40c2-96d2-dd42060baf08"]}[Data] 
+{[entity="ReportView Application_Endorsement Application DEUPE"]}[Data],
+
+Personnel_Certificate = 
+
+PowerBI.Dataflows(null) [Data] {0} 
+{[dataflowId="a8224ddc-9ecc-40c2-96d2-dd42060baf08"]}[Data] 
+{[entity="ReportView Application_Personnel Certificate Application DUPE"]}[Data],
+
+source = Table.Combine({Seafarer_Application, Seafarer_Renewal, Endorsement_Application, Personnel_Certificate})
+
+in source
+```
