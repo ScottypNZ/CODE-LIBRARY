@@ -683,10 +683,10 @@ in  ExpandedToRecords
 ```
 
 ### APPLICATION EFFICIENCY
-###### STEP 1 | Create decision column giving status (approved etc), remove other columns, group min associated date, merge back  
-###### STEP 2 | Create ready column giving admin ready (if received different), remove other columns, group min associated date, merge back  
-###### STEP 3 | Grouped MAX to give final modified date. You then have the dates for received, ready to process, approved, closed.  
-###### STEP 4 | Advisor Pivot, remove other, group / count advisors, creating occurance, merge back, then pivoting horizontally  
+###### STEP 1 | Create decision column giving status (approved etc), remove other columns, group min associated date, merge back
+###### STEP 2 | Create ready column giving admin ready (if received different), remove other columns, group min associated date, merge back
+###### STEP 3 | Grouped MAX to give final modified date. You then have the dates for received, ready to process, approved, closed
+###### STEP 4 | Advisor Pivot, remove other, group / count advisors, creating occurance, merge back, then pivoting horizontally
 
 ```VBA
 let source = Table1
