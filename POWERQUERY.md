@@ -681,3 +681,64 @@ let ListGenerate = List.Generate( () =>
     ExpandedToRecords = Table.ExpandRecordColumn(ExpandedToList, "Column1", {"createdon", "modifiedon", "mnz_alert", "mnz_customernumber", "mnz_tritonpersonid", "mnz_tradingas", "birthdate", "fullname", "firstname", "middlename", "lastname", "emailaddress1", "address1_line1", "address1_line2", "address1_line3", "address1_county", "address1_city", "address1_postalcode",  "address1_composite", "mobilephone", "mnz_otherphone", "mnz_phones", "telephone1", "telephone2", "mnz_custmnzsolomonid", "mnz_custopfsolomonid", "mnz_custsarsolomonid"})
 in  ExpandedToRecords
 ```
+
+### APPLICATION EFFICIENCY
+####### STEP 1 | Create decision column giving status (approved etc), remove other columns, group min associated date, merge back
+####### STEP 2 | Create ready column giving admin ready (if received different), remove other columns, group min associated date, merge back
+####### STEP 3 | Grouped MAX to give final modified date. You then have the dates for received, ready to process, approved, closed.
+####### STEP 4 | Advisor Pivot, remove other, group / count advisors, creating occurance, merge back, then pivoting horizontally
+
+```VBA
+let source = Table1
+
+  #"---DESCISION---" = source,
+
+  #"Added DECISION" = Table.AddColumn(#"---DESCISION---", "DECISION", each [status] = "Application Approved" or [status] = "Application Declined" or [status] = "Application Approved Re-Assessment" or [status] = "Certificate Issued" or [sub_status] = "Approved" or [sub_status] = "Declined", type text),
+  #"Removed other columns" = Table.SelectColumns(#"Added DECISION", {"code", "DECISION", "TYPE CODE", "updated_datetime_local"}),
+  #"Changed column type" = Table.TransformColumnTypes(#"Removed other columns", {{"updated_datetime_local", type date}}),
+  #"Filtered DECISION" = Table.SelectRows(#"Changed column type", each ([DECISION] = true)),
+  #"Grouped rows" = Table.Group(#"Filtered DECISION", {"TYPE CODE"}, {{"DECISION", each List.Min([updated_datetime_local]), type nullable datetime}}),
+  #"Merged queries" = Table.NestedJoin(#"Grouped rows", {"TYPE CODE"}, #"Added DECISION", {"TYPE CODE"}, "Grouped rows", JoinKind.LeftOuter),
+  #"Expanded Grouped rows" = Table.ExpandTableColumn(#"Merged queries", "Grouped rows", {"TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "created_datetime_local", "Index", "REFERENCE", "YEAR"}) ,
+
+  #"---READY---" = #"Expanded Grouped rows",
+
+  #"Added READY" =Table.AddColumn(#"---READY---", "READY", each [status] = "Ready for Assessment" or [bpm_previous_status] = "Ready for Assessment", type text),
+  #"Removed NON READY" = Table.SelectColumns(#"Added READY", {"code", "READY", "TYPE CODE", "updated_datetime_local"}),
+  #"Changed READY" = Table.TransformColumnTypes(#"Removed NON READY", {{"updated_datetime_local", type date}}),
+  #"Filtered READY" = Table.SelectRows(#"Changed READY", each ([READY] = true)),
+  #"Grouped READY" = Table.Group(#"Filtered READY", {"TYPE CODE"}, {{"READY",  each List.Min([updated_datetime_local]), type nullable datetime}}),
+  #"Merged READY" = Table.NestedJoin(#"Grouped READY", {"TYPE CODE"}, #"Added READY", {"TYPE CODE"}, "Grouped READY", JoinKind.LeftOuter),
+  #"Expanded Grouped READY" = Table.ExpandTableColumn(#"Merged READY", "Grouped READY", {"DECISION", "TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "created_datetime_local", "Index", "REFERENCE", "YEAR"}),
+
+  #"---MAX---" = #"Expanded Grouped READY",
+
+  #"Grouped MAX" = Table.Group(#"---MAX---", {"TYPE CODE"}, {{"MAX", each List.Max([updated_datetime_local]), type nullable date}, 
+{"ALL", each _, type nullable table[#"TYPE CODE" = nullable text, #"READY" = nullable Int64.Type, #"DECISION" = nullable Int64.Type, TypeName = nullable text, SubClassName = nullable text, status = nullable text, bpm_previous_status = nullable text, code = nullable text, COUNT = nullable Int64.Type, OCCURANCE = nullable Int64.Type, updated_datetime_local = nullable Int64.Type, created_by = nullable text, generated_description = nullable text, sub_status = nullable text, sub_status_changed_datetime = nullable Int64.Type, ADVISOR = nullable text, ADMIN = nullable text, created_datetime_local = nullable Int64.Type, Index = nullable Int64.Type, REFERENCE = nullable text, YEAR = nullable number]}}),
+  #"Expanded ALL" = Table.ExpandTableColumn(#"Grouped MAX", "ALL", {"READY", "DECISION", "TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "created_datetime_local", "Index", "REFERENCE", "YEAR"}),
+  #"Changed column type 1" = Table.TransformColumnTypes(#"Expanded ALL", {{"DECISION", type date}, {"READY", type date}, {"created_datetime_local", type date}, {"MAX", type date}}),
+  #"Added TOTAL TIME" = Table.AddColumn(#"Changed column type 1", "TOTAL TIME", each [MAX] - [created_datetime_local]),
+  #"Added DECISION TIME" = Table.AddColumn(#"Added TOTAL TIME", "DECISION TIME", each [DECISION]  - [READY], Int64.Type),
+  #"Added ADMIN TIME" = Table.AddColumn(#"Added DECISION TIME", "ADMIN TIME", each [READY]  - [created_datetime_local], Int64.Type),
+  #"Changed column type 2" = Table.TransformColumnTypes(#"Added ADMIN TIME", {{"ADMIN TIME", Int64.Type}, {"TOTAL TIME", Int64.Type}, {"DECISION TIME", Int64.Type}}),
+  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 2", {"TYPE CODE", "TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "Index", "REFERENCE", "YEAR", "TOTAL TIME", "DECISION TIME", "ADMIN TIME", "created_datetime_local", "READY", "DECISION", "MAX"}),
+
+  #"---ADVISOR---" = #"Reordered columns",
+
+  #"Removed non CODE" = Table.SelectColumns(#"---ADVISOR---", {"TYPE CODE", "ADVISOR"}),
+  #"Filtered NULL ADVISOR" = Table.SelectRows(#"Removed non CODE", each ([ADVISOR] <> "")),
+  #"Filtered BLANK CODE" = Table.SelectRows(#"Filtered NULL ADVISOR", each [TYPE CODE] <> null and [TYPE CODE] <> ""),
+  #"Removed duplicates" = Table.Distinct(#"Filtered BLANK CODE", {"TYPE CODE", "ADVISOR"}),
+  #"Grouped TYPE" = Table.Group(#"Removed duplicates", {"TYPE CODE"}, {{"Advisor Count", each Table.RowCount(_), Int64.Type}, {"ALL", each _, type nullable table[#"TYPE CODE" = nullable text, ADVISOR = nullable text]}}),
+  #"Added OWNER OCCURANCE" = Table.AddColumn(#"Grouped TYPE", "OCC", each Table.AddIndexColumn([ALL], "OWNER", 1, 1)),
+  #"Expanded OCC" = Table.ExpandTableColumn(#"Added OWNER OCCURANCE", "OCC", {"ADVISOR", "OWNER"}, {"ADVISOR", "OWNER"}),
+  #"Removed ALL" = Table.RemoveColumns(#"Expanded OCC", {"ALL"}),
+  #"Pivoted ADVISOR" = Table.Pivot(Table.TransformColumnTypes(#"Removed ALL", {{"OWNER", type text}}), List.Distinct(Table.TransformColumnTypes(#"Removed ALL", {{"OWNER", type text}})[OWNER]), "OWNER", "ADVISOR"),
+  #"Merged ADVISOR" = Table.NestedJoin(#"Pivoted ADVISOR", {"TYPE CODE"}, #"Reordered columns", {"TYPE CODE"}, "Pivoted column", JoinKind.LeftOuter),
+  #"Changed ADVISOR TYPE" = Table.TransformColumnTypes(#"Merged ADVISOR", {{"1", type text}, {"2", type text}, {"3", type text}, {"4", type text}, {"5", type text}}),
+  #"Reordered GROUP" = Table.ReorderColumns(#"Changed ADVISOR TYPE", {"TYPE CODE", "Pivoted column", "Advisor Count", "1", "2", "3", "4", "5"}),
+  #"Expanded Pivoted column" = Table.ExpandTableColumn(#"Reordered GROUP", "Pivoted column", {"TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "Index", "REFERENCE", "YEAR", "TOTAL TIME", "DECISION TIME", "ADMIN TIME", "created_datetime_local", "READY", "DECISION", "MAX"}, {"TypeName", "SubClassName", "status", "bpm_previous_status", "code", "COUNT", "OCCURANCE", "updated_datetime_local", "created_by", "generated_description", "sub_status", "sub_status_changed_datetime", "ADVISOR", "ADMIN", "Index", "REFERENCE", "YEAR", "TOTAL TIME", "DECISION TIME", "ADMIN TIME", "created_datetime_local", "READY", "DECISION", "MAX"})
+
+in #"Expanded Pivoted column"
+
+```
