@@ -234,9 +234,15 @@ in
 ```VBA
 1 ADD INDEX COLUMN
 2 GROUP BY RELEVANT VARIABLE (ALL ROWS [ALL] & COUNT ROWS [COUNT]
-3 ADD COLUMN Table.AddIndexColumn([ALL], "OCCURANCE", 1, 1))
+3 ADD CUSTOM COLUMN Table.AddIndexColumn([ALL], "OCCURANCE", 1, 1))
 4 REMOVE ALL 
 5 EXPAND OCCURANCE
+
+NB: Count is not necessary.
+NB: Make sure Group name is distinct
+NB: Make sure occurance is not in the data 
+NB: Index is to make sure the data stays in the correct order, without it it will be unsorted.
+NB: LINK https://musamomodu.com/count-occurrences-countif-in-power-query/
 ```
 
 
