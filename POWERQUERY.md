@@ -1,3 +1,22 @@
+=====================
+
+### INDEX
+
+ * [GENERAL](#GENERAL)
+ * [MBIE](#MBIE)
+ * [MARITIME](#MARITIME)
+
+ 
+
+
+
+
+
+
+# GENERAL
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
 LINKS 
 https://opdhsblobprod04-secondary.blob.core.windows.net/contents/9b520b3cc93e43f7ba25a428fd5605f4/b10c45193088c620dcde2762fc236c51?sv=2018-03-28&sr=b&si=ReadPolicy&sig=ujmH19rSqr0MgAy4GPoNrFQymGs4im8K19miED2HgCs%3D&st=2021-07-25T04%3A57%3A19Z&se=2021-07-26T05%3A07%3A19Z
 
@@ -266,6 +285,9 @@ if [COUNT FIRST] < 2 then "XXXXXX" &" "& Text.Upper(List.Last(Text.Split([FULL N
 else if [COUNT LAST] < 1 then Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& "XXXXXX" 
 else Text.Upper(List.First(Text.Split([FULL NAME]," "))) &" "& List.Last(Text.Split([FULL NAME]," ")))
 ```
+# MBIE
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
 
 ### NAME REF   
 ```VBA
@@ -561,6 +583,10 @@ let
 in
     #"Expanded Column1"
 ```    
+
+# MARITIME
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
 
 ODATA API CALL - LIST AND JOIN METHOD (TO USE LESS MEMORY, CHANGE NOT NOTICEABLE)
  ```VBA
