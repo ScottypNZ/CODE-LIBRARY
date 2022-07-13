@@ -398,6 +398,52 @@ CREATE TABLE [dbo].[NEW] (
 );
 ```
 
+UNION WHERE COLUMNS INCONSISTENT
+
+```VBA
+select 
+	TypeName as [Type_Name],
+	code as ORG_Code,
+	[status] as [Status],
+	active_from_datetime_local as Active_From,
+    active_to_datetime_local as Active_To,
+	generated_name as OrganisationName,
+	[Organisation_OrganisationSection_CRM_Customer_ID] as CRM_ID,
+    [Organisation_OrganisationSection_Solomon_ID] as SOLOMON_ID,
+    [Organisation_OrganisationSection_f_org_nzbn] as NZBN_ID,
+	[created_by] as Created_by,
+	[updated_by] as Updated_by,
+	[created_datetime_local] as Created_Date,
+	[updated_datetime_local] as Updated_Date
+from
+	[ReportView].[Organisation_Charitable Trust]
+where
+	IsCurrent=1
+
+union all
+
+select 
+	TypeName,
+	code as ORGCode,
+	[status] as [Status],
+	active_from_datetime_local as ActiveFrom,
+    active_to_datetime_local as ActiveTo,
+	generated_name as OrganisationName,
+	[Organisation_OrganisationSection_CRM_Customer_ID] as CRM_ID,
+    [Organisation_OrganisationSection_Solomon_ID] as SOLOMON_ID,
+    NULL as [Organisation_OrganisationSection_f_org_nzbn] ,
+	[created_by],
+	[updated_by],
+	[created_datetime_local],
+	[updated_datetime_local]
+
+from
+	[ReportView].[Organisation_Maori Trust Board]
+where
+	IsCurrent=1
+;
+```
+
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
 https://www.w3schools.com/sql/sql_datatypes.asp
