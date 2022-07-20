@@ -1,6 +1,16 @@
 # CODE-LIBRARY
 
 #### PIVOT MEASURES
+
+MAXIF
+```DAX
+LastCertOfGivenType = 
+VAR maxDate = CALCULATE(
+              MAX('Navigator Certificate'[Expiry Due Date]),
+                FILTER('Navigator Certificate', Navigator Certificate'[VesselCertType] 
+		    = EARLIER('Navigator Certificate'[VesselCertType]) ) )
+RETURN IF('Navigator Certificate'[Expiry Due Date] = maxDate,1,0)
+```
 FILTERS A FIELD WITHIN A TABLE WHERE CONDITION IN ISSUE COLUMN IS 'DUPE'
 ```DAX
 =COUNTX(FILTER(PEOPLE_CLEAN,PEOPLE_CLEAN[ISSUE]="DUPE"),PEOPLE_CLEAN[ISSUE])
