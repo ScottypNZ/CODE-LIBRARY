@@ -444,6 +444,92 @@ where
 ;
 ```
 
+UNION WITH COUNT IF SUBQUERY
+```VBA
+SELECT * 
+FROM
+	(
+		SELECT *, 
+		ROW_NUMBER() OVER(PARTITION BY [VesselId] ORDER BY [Id] desc) as [OCCURANCE],
+		count(*) over(partition by [VesselId]) as [COUNT]
+		FROM
+		  (
+				SELECT TOP (1000) 
+				[VesselId],
+				[PreviousName] as NAME,
+				[Id],
+				CONVERT(date,[LastModifiedDateTime],112) as LastModified,
+				[IsMigrated]
+				FROM [Poseidon_Navigator].[dbo].[VesselPreviousName] vpn
+				
+		union all
+
+				SELECT TOP (1000)
+				[Id] as VesselId,
+				[Name],
+				100000 as [Id] ,
+				CONVERT(date,[LastModifiedDateTime],112) as LastModified,
+				[IsMigrated]
+				FROM [Poseidon_Navigator].[dbo].[Vessel]
+			) 
+			SUB   
+	) 
+FTR
+WHERE [COUNT] > 1
+ORDER BY [VesselId] asc, [OCCURANCE] asc
+```
+
+JOIN WITH THREE SUBQUERIES, FILTERING OUT DUPLICATES THEN INDEX REMAINING DATA
+```VBA
+	SELECT VesselId, GrossTonnage, NAME, PREVIOUS, UpdateID, Lastmodified, [YEAR] FROM
+	(
+		SELECT *, 
+		count(*) over(partition by [YEAR]) as [YearCount],
+		count(*) over(partition by [VesselId]) as [COUNT],
+		ROW_NUMBER() OVER(PARTITION BY [VesselId] ORDER BY [UpdateID] desc) as [OCCURANCE]   
+		FROM
+			(  
+			   SELECT *,
+			   YEAR(LastModified) as [YEAR],
+			   CASE WHEN [NAME] = [PREVIOUS] THEN 'TRUE' ELSE 'FALSE' END as [MATCH]
+			   FROM
+					 (    
+						  
+						SELECT 
+						v.[Id] as VesselId,
+						v.GrossTonnage,
+						v.[Name] as NAME,
+						vpn.PreviousName as PREVIOUS,
+						vpn.Id as UpdateID,
+						convert(date,vpn.LastModifiedDateTime,112) as LastModified
+						FROM [Poseidon_Navigator].[dbo].[Vessel] v
+						inner join VesselPreviousName vpn on v.[Id] = vpn.[VesselId]	
+					 ) 
+				SUB1
+				WHERE [NAME] <> [PREVIOUS]
+			  --L1 is a simple join between Vessel and Vessel Previous Name
+			  )
+		 SUB2
+	   --L2 Adds in year, 'MATCH' which shows name change errors, COUNT which shows number of previous names, OCCURANCE which shows a running count of the Vessel IDs so that only the most recent can be filtered out
+	)
+SUB3
+--L3 Counts the YEAR, this is so you can see if there are any issues in the relevant year of report
+  
+-- This can then be filtered by year, Tonnage and any other data that you may need to join.
+-- Where LastModified > '2020-01-01' and GrossTonnage is not null and GrossTonnage >= 100		
+
+--from Vessel v
+--join SafetyCertificationLookup sc on sc.id=v.SafetyCertificationLookupid
+--join VesselStatusHistory vsh on v.id=vsh.Vesselid
+--and vsh.Id = (select max(Id) from VesselStatusHistory where VesselId = v.Id group by VesselId)
+--join VesselStatusLookup vs on vsh.VesselStatusLookupid=vs.id
+--where
+--v.GrossTonnage >=100
+--and vs.name='Active'
+--and sc.Name<>'Registered Pleasure'
+--order by sc.Name,v.id
+```
+
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
 https://www.w3schools.com/sql/sql_datatypes.asp
