@@ -1,6 +1,21 @@
-### CODE-LIBRARY
+### INDEX
 
-### BASICS
+ * [GENERAL](#GENERAL)
+ * [MBIE](#MBIE)
+ * [MARITIME](#MARITIME)
+
+ 
+
+
+
+
+
+
+
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+
+### GENERAL
  
 ```SQL 
 
@@ -397,6 +412,8 @@ CREATE TABLE [dbo].[NEW] (
 [ScanRoomNumbers] NVARCHAR (255) NULL
 );
 ```
+
+### MARITIME
 
 UNION WHERE COLUMNS INCONSISTENT
 
