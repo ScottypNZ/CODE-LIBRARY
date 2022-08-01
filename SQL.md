@@ -546,6 +546,24 @@ SUB3
 --and sc.Name<>'Registered Pleasure'
 --order by sc.Name,v.id
 ```
+LIST ALL COLUMNS AND FIELDS
+```VBA
+SELECT schema_name(tab.schema_id) as schema_name,
+    tab.name as table_name, 
+    col.column_id,
+    col.name as column_name, 
+    t.name as data_type,    
+    col.max_length,
+    col.precision
+FROM sys.tables as tab
+    INNER JOIN sys.columns as col
+        on tab.object_id = col.object_id
+    LEFT JOIN sys.types as t
+    on col.user_type_id = t.user_type_id
+ORDER BY schema_name,
+    table_name, 
+    column_id;
+```
 
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
