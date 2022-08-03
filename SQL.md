@@ -19,6 +19,8 @@
  
 ```SQL 
 
+select CONVERT (date,convert(char(8),'202101010202'))
+
 CREATE TABLE NEW SELECT * FROM DATA$;  
   
 CREATE TABLE NEW([MAX] VARCHAR(255))   
