@@ -20,6 +20,7 @@
 ```SQL 
 
 select CONVERT (date,convert(char(8),'202101010202'))
+convert(date,vpn.LastModifiedDateTime,112) as LastModified
 
 CREATE TABLE NEW SELECT * FROM DATA$;  
   
