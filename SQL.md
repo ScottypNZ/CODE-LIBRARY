@@ -566,7 +566,7 @@ ORDER BY schema_name,
     column_id;
 ```
 LIST TABLES AND NUMBERS
-```
+```VBA
 SELECT
     TAB.name as Table_Name, 
     COL.name as Column_Name,
