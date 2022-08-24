@@ -69,7 +69,6 @@ O-DATA API
 JSON API  
 = Json.Document(Web.Contents("https://crm/maritimenewzealand/api/data/v8.0/contacts?$top=10"))
 
-
 REMOVE LINE BREAKS IN ADDRESS - (SINGLE LINE)
 = Table.ReplaceValue(Reordered,"#(cr)#(lf)",", ",Replacer.ReplaceText,{"address1_composite"})
 
@@ -208,6 +207,16 @@ GROUPS BY ID
 NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
 MERGE QUERIES FULL OUTER ON ID/ID   
 EXPAND MAX   
+```
+FINANCIAL YEAR FROM DATE
+```
+= Table.AddColumn(#"Added YEAR", "Financial Year", each 
+if Date.Month([LastModified]) < 7 then "FY" &
+Text.End(Text.From(Date.Year([LastModified])-1),2) &"/"&
+Text.End(Text.From(Date.Year([LastModified])),2)
+ else "FY" &
+Text.End(Text.From(Date.Year([LastModified])),2) &"/"&
+Text.End(Text.From(Date.Year([LastModified])+1),2))
 ```
 
 ### COUNTIFS
