@@ -970,6 +970,57 @@ let
 in
   #"Replace errors"
 ```
+### WORD ASSOCIATIONS PIVOT
 
+```VBA
 
+let
+    Source = Excel.CurrentWorkbook(){[Name="COMPANY!Query_from_Microsoft_CRM"]}[Content],
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Organisation Name"}),
+    #"Removed Duplicates1" = Table.Distinct(#"Removed Other Columns"),
+    #"Uppercased Text" = Table.TransformColumns(#"Removed Duplicates1",{{"Organisation Name", Text.Upper, type text}}),
+    #"Duplicated Column" = Table.DuplicateColumn(#"Uppercased Text", "Organisation Name", "Organisation"),
+    #"Reordered Columns" = Table.ReorderColumns(#"Duplicated Column",{"Organisation", "Organisation Name"}),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Reordered Columns", "Organisation Name", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Organisation Name.1", "Organisation Name.2", "Organisation Name.3", "Organisation Name.4", "Organisation Name.5", "Organisation Name.6", "Organisation Name.7"}),
+    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Split Column by Delimiter", {"Organisation"}, "Attribute", "Value"),
+    #"Removed Columns" = Table.RemoveColumns(#"Unpivoted Columns",{"Attribute"}),
+    #"Added Custom" = Table.AddColumn(#"Removed Columns", "LEN", each Text.Length([Value])),
+    #"Filtered Rows" = Table.SelectRows(#"Added Custom", each ([LEN] <> 1 and [LEN] <> 2)),
+    #"Added Custom1" = Table.AddColumn(#"Filtered Rows", "START", each Text.Start([Value],3)),
+    #"Removed Other" = Table.SelectColumns(#"Added Custom1",{"START", "Value"}),
+    #"Grouped Rows" = Table.Group(#"Removed Other", {"START"}, {{"Count", each Table.RowCount(_), Int64.Type}}),
+    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"Count", Order.Descending}}),
+    #"Merged Queries" = Table.NestedJoin(#"Sorted Rows", {"START"}, #"Removed Other", {"START"}, "Removed Other", JoinKind.LeftOuter),
+    #"Expanded Removed Other" = Table.ExpandTableColumn(#"Merged Queries", "Removed Other", {"Value"}, {"Value"}),
+    #"Removed Duplicates" = Table.Distinct(#"Expanded Removed Other", {"Value"}),
+    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+    #"GroupedRows" = Table.Group(#"Added Index", {"START"}, {{"tmp", each Table.AddIndexColumn(_, "Occurence", 1,1), type table}}),
+    #"Expanded tmp" = Table.ExpandTableColumn(GroupedRows, "tmp", {"Value", "Count", "Index", "Occurence"}, {"Value", "Count", "Index", "Occurence"}),
+    #"Removed Index" = Table.RemoveColumns(#"Expanded tmp",{"Index"}),
+    #"Grouped Rows1" = Table.Group(#"Removed Index", {"START"}, {{"WORDS", each Table.RowCount(_), Int64.Type}}),
+    Merged = Table.NestedJoin(#"Grouped Rows1", {"START"}, #"Removed Index", {"START"}, "Removed Index", JoinKind.LeftOuter),
+    #"Expanded Removed Index" = Table.ExpandTableColumn(Merged, "Removed Index", {"Value", "Count", "Occurence"}, {"Value", "Count", "Occurence"}),
+    #"Pivoted Column" = Table.Pivot(Table.TransformColumnTypes(#"Expanded Removed Index", {{"Occurence", type text}}, "en-NZ"), List.Distinct(Table.TransformColumnTypes(#"Expanded Removed Index", {{"Occurence", type text}}, "en-NZ")[Occurence]), "Occurence", "Value"),
+    #"Sorted Rows1" = Table.Sort(#"Pivoted Column",{{"Count", Order.Descending}}),
+    #"Reordered Columns1" = Table.ReorderColumns(#"Sorted Rows1",{"START", "Count", "WORDS", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84"})
+in
+    #"Reordered Columns1"
+```
 
+### WORD COUNT
+
+```VBA
+let
+    Source = Excel.CurrentWorkbook(){[Name="NZBN"]}[Content],
+    #"Uppercased Text" = Table.TransformColumns(Source,{{"Organisation Name", Text.Upper, type text}}),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Uppercased Text", "Organisation Name", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Organisation Name.1", "Organisation Name.2", "Organisation Name.3", "Organisation Name.4", "Organisation Name.5", "Organisation Name.6", "Organisation Name.7"}),
+    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Split Column by Delimiter", {"NZBN", "ENTITYSTATUS", "ENTITYNAME"}, "Attribute", "Value"),
+    #"Grouped Rows" = Table.Group(#"Unpivoted Columns", {"Value"}, {{"Count", each Table.RowCount(_), Int64.Type}}),
+    #"Added Custom" = Table.AddColumn(#"Grouped Rows", "LEN", each Text.Length([Value])),
+    #"Sorted Rows" = Table.Sort(#"Added Custom",{{"Count", Order.Descending}}),
+    #"Filtered Rows" = Table.SelectRows(#"Sorted Rows", each ([LEN] <> 1)),
+    #"Added Custom1" = Table.AddColumn(#"Filtered Rows", "PERC", each [Count] / Table.RowCount(#"Filtered Rows"))
+in
+    #"Added Custom1"
+```
