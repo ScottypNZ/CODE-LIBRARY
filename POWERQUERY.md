@@ -1024,3 +1024,19 @@ let
 in
     #"Added Custom1"
 ```
+### FUZZY ADDRESS
+
+```VBA
+let
+    Source = #"COMPANY",
+    #"Filtered Rows" = Table.SelectRows(Source, each ([Status] = "Active") and ([ADDRESS] <> "" and [ADDRESS] <> "ANK, CNK, NEW ZEALAND" and [ADDRESS] <> "NEW ZEALAND")),
+    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Customer Number", "Organisation Name", "MONTH", "ADDRESS", "FULL ORG NAME"}),
+    #"Removed Columns" = Table.RemoveColumns(#"Removed Other Columns",{"Organisation Name"}),
+    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Columns",{"MONTH", "Customer Number", "ADDRESS", "FULL ORG NAME"}),
+    #"Grouped INDEX RELATED ORG" = Table.Group(#"Reordered Columns1", {"ADDRESS"}, {{"RELATED", each Table.AddIndexColumn(_, "Occurence", 1,1), type table}}),
+    #"Expanded RELATED" = Table.ExpandTableColumn(#"Grouped INDEX RELATED ORG", "RELATED", {"MONTH", "Customer Number", "FULL ORG NAME", "Occurence"}),
+    #"Reordered Columns" = Table.ReorderColumns(#"Expanded RELATED",{"Occurence", "MONTH", "ADDRESS", "Customer Number", "FULL ORG NAME"}),
+    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"ADDRESS", Order.Ascending}, {"FULL ORG NAME", Order.Ascending}})
+in
+    #"Sorted Rows"
+```
