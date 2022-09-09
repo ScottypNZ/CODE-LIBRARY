@@ -549,6 +549,75 @@ SUB3
 --and sc.Name<>'Registered Pleasure'
 --order by sc.Name,v.id
 ```
+
+LIST TABLES AND NUMBERS
+```VBA
+select * into ##tab1 from 
+(
+	select *, 
+	count(*) over(partition by BillName) as [COUNT ALL]
+
+	from 
+(
+
+	SELECT       [CpnyID] = 'MSA',
+				 c.CustId, 
+				 [InUse] = CASE WHEN a.LastInvcDate IS NULL THEN 'N' WHEN a.LastInvcDate < DATEADD(Year, - 2, GETDATE()) THEN 'N' ELSE 'Y' END,
+				 [FLDB] = CASE WHEN ARD.Crtd_Prog IS NULL THEN 'N' ELSE 'Y' END,
+				 convert(date,a.LastInvcDate,112) as InvDate,
+				 convert(date,a.LUpd_DateTime,112) as Updated,
+				 c.BillName,
+				 a.CurrBal
+	FROM         SolomonMSAApp.dbo.Customer c 
+				 LEFT OUTER JOIN SolomonMSAApp.dbo.AR_Balances a ON a.CustID = c.CustId
+				 LEFT JOIN	(SELECT max(Crtd_Prog) as Crtd_Prog, CustId, MAX(BatNbr) AS BatNbr FROM ARDoc WHERE CustId <>'' and [Crtd_Prog] = 'FLDB_SQL'  GROUP BY CustId ) ARD ON  ARD.CustId = c.CustId
+
+	)SUB1
+	
+)
+SUB2
+ORDER BY [COUNT ALL] DESC, InUse desc
+
+
+
+select *, 
+count(*) over(partition by BillName) as [COUNT YES] into  ##tab2
+from 
+	(
+	select  c.CustId, BillName, [InUse] = CASE WHEN a.LastInvcDate IS NULL THEN 'N' WHEN a.LastInvcDate < DATEADD(Year, - 2, GETDATE()) THEN 'N' ELSE 'Y' END
+	from SolomonMSAApp.dbo.Customer c
+	LEFT OUTER JOIN SolomonMSAApp.dbo.AR_Balances a ON a.CustID = c.CustId
+	)
+	SUB3
+where [InUse] = 'y'
+
+
+----------------
+
+select *, 
+count(*) over(partition by BillName) as [COUNT NO] into  ##tab3
+from 
+	(
+	select  c.CustId, BillName, [InUse] = CASE WHEN a.LastInvcDate IS NULL THEN 'N' WHEN a.LastInvcDate < DATEADD(Year, - 2, GETDATE()) THEN 'N' ELSE 'Y' END
+	from SolomonMSAApp.dbo.Customer c
+	LEFT OUTER JOIN SolomonMSAApp.dbo.AR_Balances a ON a.CustID = c.CustId
+	)
+	SUB4
+where [InUse] = 'N'
+
+----------------
+
+select distinct t1.*, t2.[COUNT YES], t3.[COUNT NO]
+from ##tab1 t1
+inner join ##tab2 t2 on t1.BillName = t2.BillName
+inner join ##tab3 t3 on t1.BillName = t3.BillName
+order by t1.[COUNT ALL] desc, BillName, InUse desc
+
+drop table ##tab1
+drop table ##tab2
+drop table ##tab3
+```
+
 LIST TABLES AND NUMBERS
 ```VBA
 SELECT
