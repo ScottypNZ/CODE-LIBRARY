@@ -634,6 +634,43 @@ WHERE indid = 1 and TAB.Name not like '%audit_%'
 order by rowsort DESC
 ```
 
+MARITIME HISTORY JOIN WITH MAX DATES
+```
+	select * from
+	(
+		SELECT 
+		 VES.[Id] as [MNZ Number]
+		,VES.[Name] as [MNZ Name]
+		,SCL.Name as [SafetyCertification]
+		,VES.[OverallLengthInMetres]
+		,VSL.Name as [Status]
+		,VSH.LastModifiedDateTime as [Modifed On]
+		,YEAR(VSH.LastModifiedDateTime) AS	DATE
+		,USR.Fullname
+
+		,ROW_NUMBER() over (partition by VesselId order by VSH.Id desc) as OCC
+		,count(*) over(partition by VesselId) as COUNT 
+
+		,MAX(VSH.LastModifiedDateTime) OVER(PARTITION BY VES.[Id]) AS MAX
+
+		,CASE WHEN (MONTH(VSH.[LastModifiedDateTime]))  <=6 THEN convert(varchar(4),
+		 YEAR(VSH.[LastModifiedDateTime])-1)  + '-' + convert(varchar(4), YEAR(VSH.[LastModifiedDateTime])%100)    
+		 ELSE convert(varchar(4),YEAR(VSH.[LastModifiedDateTime]))+ '-' + convert(varchar(4),
+		 (YEAR(VSH.[LastModifiedDateTime])%100)+1)END AS [FINANCIAL YEAR]
+
+		,CONCAT_WS('-',YEAR(MAX(VSH.LastModifiedDateTime) OVER(PARTITION BY VES.[Id])),FORMAT(MONTH(MAX(VSH.LastModifiedDateTime) OVER(PARTITION BY VES.[Id])),'00')) AS 'MAX MONTH'
+
+		FROM 
+		[Poseidon_Navigator].[dbo].[Vessel] 				VES
+		left join SafetyCertificationLookup 				SCL on VES.SafetyCertificationLookupId 	= SCL.Id
+		left join VesselStatusHistory						VSH on VES.Id							= VSH.VesselId
+		left join VesselStatusLookup						VSL on VSH.VesselStatusLookupid			= VSL.Id
+		left join UserSecurity								USR on USR.UserName						= VSH.CreatedByUserName
+		
+	) sub
+	where count  > 1
+```
+
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
 https://www.w3schools.com/sql/sql_datatypes.asp
