@@ -635,8 +635,8 @@ order by rowsort DESC
 ```
 
 MARITIME HISTORY JOIN WITH MAX DATES
-```
-	select * from
+```VBA
+	SELECT * FROM
 	(
 		SELECT 
 		 VES.[Id] as [MNZ Number]
