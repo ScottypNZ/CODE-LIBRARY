@@ -671,7 +671,7 @@ MARITIME HISTORY JOIN WITH MAX DATES
 	where count  > 1
 ```
 
-MERGE TWO TABLES, WITH THE MOST RECENT RECORD AS CURRENT, SECOND AS PREVIOUS, FILTERING OUT DUPLICATES
+MERGE TWO TABLES, WITH THE MOST RECENT RECORD AS CURRENT, SECOND AS PREVIOUS, FILTERING OUT DUPLICATES AND NO CHANGE
 ```VBA
 	SELECT [MNZ Number], [MNZ Name], [SafetyCertification], [OverallLengthInMetres],  [Current Status], [Previous Status], [Modified By], [Modified On], [Fin Year]
 
@@ -731,9 +731,47 @@ MERGE TWO TABLES, WITH THE MOST RECENT RECORD AS CURRENT, SECOND AS PREVIOUS, FI
 	ORDER BY [MNZ Number], [FIN YEAR] DESC
 ```
 
+
+AS ABOVE BUT WITH FULL DATA, FILTER OUT SINGLES.
+```VBA
+	select * from
+	(
+		SELECT 
+		 VES.[Id] as [MNZ Number]
+		,VES.[Name] as [MNZ Name]
+		,SCL.Name as [SafetyCertification]
+		,VES.[OverallLengthInMetres]
+		,VSL.Name as [Current Status]
+		,USR.Fullname as [Modified By]
+		,CONVERT(NVarchaR,vsh.LastModifiedDateTime,103) AS [Modified On]
+
+		,CASE WHEN (MONTH(VSH.[LastModifiedDateTime]))  <=6 THEN convert(varchar(4),
+		 YEAR(VSH.[LastModifiedDateTime])-1)  + '/' + convert(varchar(4), YEAR(VSH.[LastModifiedDateTime])%100)    
+		 ELSE convert(varchar(4),YEAR(VSH.[LastModifiedDateTime]))+ '/' + convert(varchar(4),
+		 (YEAR(VSH.[LastModifiedDateTime])%100)+1)END AS [FIN YEAR]
+
+		,CONCAT_WS('-',YEAR(VSH.LastModifiedDateTime),FORMAT(MONTH(VSH.LastModifiedDateTime),'00') ) AS 'MONTH'
+
+		,ROW_NUMBER() over (partition by VesselId order by VSH.Id desc) as OCC
+		,count(*) over(partition by VesselId) as COUNT 
+
+		FROM 
+		[Poseidon_Navigator].[dbo].[Vessel] 				VES
+		left join SafetyCertificationLookup 				SCL on VES.SafetyCertificationLookupId 	= SCL.Id
+		left join VesselStatusHistory						VSH on VES.Id							= VSH.VesselId
+		left join VesselStatusLookup						VSL on VSH.VesselStatusLookupid			= VSL.Id
+		left join UserSecurity								USR on USR.UserName						= VSH.CreatedByUserName
+		
+	) sub
+	where count  > 1 
+	--AND [MNZ Number] = '101445' AND [FIN YEAR] = '2021/22'
+```
+
 EX
 ```VBA
 ```
+
+
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
 https://www.w3schools.com/sql/sql_datatypes.asp
