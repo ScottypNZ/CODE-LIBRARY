@@ -634,6 +634,13 @@ WHERE indid = 1 and TAB.Name not like '%audit_%'
 order by rowsort DESC
 ```
 
+LIST USER VIEWS
+```VBA
+SELECT * FROM tempdb.sys.objects
+WHERE type = 'U'
+ORDER BY NAME DESC
+```
+
 MARITIME HISTORY JOIN WITH MAX DATES
 ```VBA
 	SELECT * FROM
