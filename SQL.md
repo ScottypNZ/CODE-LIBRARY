@@ -767,6 +767,139 @@ AS ABOVE BUT WITH FULL DATA, FILTER OUT SINGLES.
 	--AND [MNZ Number] = '101445' AND [FIN YEAR] = '2021/22'
 ```
 
+
+MARITIME METRICS, FILTERING OUT DUPLICATES
+```VBA
+	
+	select distinct
+	v.Id					as 'MNZ Id',
+	v.[Name]				as 'MNZ Name',
+	sc.[Name]				as 'Safety Certification',
+	av.OverallLengthInMetres		as 'New LOA',
+	prev.OverallLengthInMetres		as 'Previous LOA',
+	av.GrossTonnage				as 'New GT',
+	prev.GrossTonnage			as 'Previous GT',
+	av.DeadweightTonnage			as 'New DWT',
+	prev.DeadweightTonnage			as 'Previous DWT',
+	usr.FullName				as 'Updated By',
+	av.[Modified On]			as 'Updated On',
+
+	CASE WHEN (MONTH(AV.[Modified On]))  <=6 THEN convert(varchar(4),
+			 YEAR(AV.[Modified On])-1)  + '/' + convert(varchar(4), YEAR(AV.[Modified On])%100)    
+			 ELSE convert(varchar(4),YEAR(AV.[Modified On]))+ '/' + convert(varchar(4),
+			 (YEAR(AV.[Modified On])%100)+1)END AS [Fin Year]
+
+	from Vessel v
+	join 
+	(
+				select 
+				VesselId,
+				OverallLengthInMetres,
+				GrossTonnage,
+				DeadweightTonnage,
+				LastModifiedByUserName,
+				CONVERT(NVarchaR,LastModifiedDateTime,111) AS [Modified On],
+				UpdateId,
+			    MAX(UpdateId) OVER(PARTITION BY [VesselId]) as [Max] 
+			  --MAX(convert(nvarchar, lastmodifieddatetime, 111)) OVER(PARTITION BY [VesselId]) AS [MAX]
+				from Audit_Vessel
+	) 
+	as av on av.VesselId	=	v.Id
+
+	left join 
+	(
+				select
+				VesselId,
+				OverallLengthInMetres,
+				GrossTonnage,
+				DeadweightTonnage,
+				LastModifiedByUserName,
+				LastModifiedDateTime,
+				UpdateId
+				from Audit_Vessel
+	) 
+	as prev on v.Id = prev.VesselId and prev.updateid = av.updateid - 1
+
+	join UserSecurity usr on usr.UserName=av.LastModifiedByUserName
+	join SafetyCertificationLookup sc on sc.Id=v.SafetyCertificationLookupId
+ 
+	WHERE 
+
+	(
+	   av.OverallLengthInMetres<>prev.OverallLengthInMetres
+	or av.DeadweightTonnage<>prev.DeadweightTonnage
+	or av.GrossTonnage <> prev.GrossTonnage
+	)
+	ORDER BY [MNZ Id], [FIN YEAR] DESC
+```
+MARITIME METRICS, FILTERING OUT DUPLICATES, AND RETURNING THE LATEST RECORD (ALSO MAY WANT TO DO ALL, AND FILTER BY YEAR)
+```VBA
+	
+	select distinct
+	v.Id,
+	v.[Name]					as 'MNZ Name',
+	sc.[Name]					as 'Safety Certification',
+	av.OverallLengthInMetres	as 'New LOA',
+	prev.OverallLengthInMetres	as 'Previous LOA',
+	av.GrossTonnage				as 'New GT',
+	prev.GrossTonnage			as 'Previous GT',
+	av.DeadweightTonnage		as 'New DWT',
+	prev.DeadweightTonnage		as 'Previous DWT',
+	usr.FullName				as 'Updated By',
+	av.[Modified On]			as 'Updated On',
+
+	CASE WHEN (MONTH(AV.[Modified On]))  <=6 THEN convert(varchar(4),
+			 YEAR(AV.[Modified On])-1)  + '/' + convert(varchar(4), YEAR(AV.[Modified On])%100)    
+			 ELSE convert(varchar(4),YEAR(AV.[Modified On]))+ '/' + convert(varchar(4),
+			 (YEAR(AV.[Modified On])%100)+1)END AS [Fin Year]
+
+	from Vessel v
+	join 
+	(
+				select 
+				VesselId,
+				OverallLengthInMetres,
+				GrossTonnage,
+				DeadweightTonnage,
+				LastModifiedByUserName,
+				CONVERT(NVarchaR,LastModifiedDateTime,111) AS [Modified On],
+				UpdateId,
+			    MAX(UpdateId) OVER(PARTITION BY [VesselId]) as [Max] 
+			  --MAX(convert(nvarchar, lastmodifieddatetime, 111)) OVER(PARTITION BY [VesselId]) AS [MAX]
+				from Audit_Vessel
+	) 
+	as av on av.VesselId	=	v.Id
+
+	left join 
+	(
+				select
+				VesselId,
+				OverallLengthInMetres,
+				GrossTonnage,
+				DeadweightTonnage,
+				LastModifiedByUserName,
+				LastModifiedDateTime,
+				UpdateId
+				from Audit_Vessel
+	) 
+	as prev on v.Id = prev.VesselId and prev.updateid = av.updateid - 1
+
+	join UserSecurity usr on usr.UserName=av.LastModifiedByUserName
+	join SafetyCertificationLookup sc on sc.Id=v.SafetyCertificationLookupId
+ 
+	WHERE 
+	av.[Max] = av.UpdateId
+	and
+	(
+	   av.OverallLengthInMetres<>prev.OverallLengthInMetres
+	or av.DeadweightTonnage<>prev.DeadweightTonnage
+	or av.GrossTonnage <> prev.GrossTonnage
+	)
+	ORDER BY ID, [FIN YEAR] DESC
+
+```
+
+
 EX
 ```VBA
 ```
