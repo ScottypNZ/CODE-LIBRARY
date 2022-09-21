@@ -671,6 +671,69 @@ MARITIME HISTORY JOIN WITH MAX DATES
 	where count  > 1
 ```
 
+MERGE TWO TABLES, WITH THE MOST RECENT RECORD AS CURRENT, SECOND AS PREVIOUS, FILTERING OUT DUPLICATES
+```VBA
+	SELECT [MNZ Number], [MNZ Name], [SafetyCertification], [OverallLengthInMetres],  [Current Status], [Previous Status], [Modified By], [Modified On], [Fin Year]
+
+	FROM
+	(
+		--- ALL VESSELES WITH CURRENT STATUS LOOKUP ---
+				 SELECT 
+				 VES.[Id] as [MNZ Number]
+				,VES.[Name] as [MNZ Name]
+				,SCL.Name as [SafetyCertification]
+				,VES.[OverallLengthInMetres]
+				,VSL.Name as [Current Status]
+				,HISTORY.[Previous Status]
+				,HISTORY.[Modified By]
+				,CONVERT(NVarchaR,HISTORY.[Modifed On],103) AS [Modified On]
+				,HISTORY.OCC
+				,CASE WHEN [occ] = min([occ]) OVER(PARTITION BY ves.[id]) THEN 'TRUE' ELSE 'FALSE' END [MAX] 
+
+				
+				,CASE WHEN (MONTH(HISTORY.[Modifed On]))  <=6 THEN convert(varchar(4),
+				 YEAR(HISTORY.[Modifed On])-1)  + '-' + convert(varchar(4), YEAR(HISTORY.[Modifed On])%100)    
+				 ELSE convert(varchar(4),YEAR(HISTORY.[Modifed On]))+ '-' + convert(varchar(4),
+				 (YEAR(HISTORY.[Modifed On])%100)+1)END AS [Fin Year]
+
+				FROM 
+				[Poseidon_Navigator].[dbo].[Vessel] 				VES
+				left join SafetyCertificationLookup 				SCL on VES.SafetyCertificationLookupId 	= SCL.Id
+				join VesselStatusHistory							VSH on VES.Id							= VSH.VesselId
+				and VSH.Id = (select max(Id) from VesselStatusHistory where VesselId						= VES.Id group by VesselId)
+				join VesselStatusLookup								VSL on VSH.VesselStatusLookupid			= VSL.Id
+
+		RIGHT JOIN 
+		(
+		SELECT * FROM
+			(
+			--- VESSEL WITH A PREVIOUS STATUS ---
+							select 
+							VSH.VesselId,
+							VSL.Name as [Previous Status],
+							VSH.LastModifiedDateTime as [Modifed On],
+							USR.FullName [Modified By],
+							ROW_NUMBER() over (partition by VesselId order by VSH.Id desc) as OCC,
+						    CONCAT_WS('-',YEAR(MAX(VSH.LastModifiedDateTime) OVER(PARTITION BY VSH.VesselId)),FORMAT(MONTH(MAX(VSH.LastModifiedDateTime) OVER(PARTITION BY VSH.VesselId)),'00')) AS 'MAX MONTH'
+							from VesselStatusHistory VSH
+							left join dbo.VesselStatusLookup VSL on VSH.VesselStatusLookupId = VSL.Id	
+							left join UserSecurity			 USR on USR.UserName			 = VSH.CreatedByUserName
+			)
+		SUB
+		WHERE OCC > 1 
+		)
+		as HISTORY on VES.ID	=	HISTORY.VesselId
+	)
+	SUB2
+	WHERE [Current Status] <> [Previous Status] 
+	AND  ([Current Status] LIKE 'Active' OR [Previous Status] LIKE 'Active') 
+	AND MAX = 'TRUE'
+	ORDER BY [MNZ Number], [FIN YEAR] DESC
+```
+
+EX
+```VBA
+```
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
 https://www.w3schools.com/sql/sql_datatypes.asp
