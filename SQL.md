@@ -906,6 +906,38 @@ MARITIME METRICS, FILTERING OUT DUPLICATES, AND RETURNING THE LATEST RECORD (ALS
 
 ```
 
+FILTER BY MAX FINANCIAL YEAR
+```VBA	
+	Select * from
+	(
+	SELECT	  VES.[Id] as [MNZ Number],
+			  VES.[NAME] as [MNZ Name],
+			  SCL.Name as [SafetyCertification],
+			  CONVERT(date,VES.[CreatedDateTime]) as [Created On],
+			  CASE WHEN (MONTH(VES.[CreatedDateTime]))  <=6 THEN convert(varchar(4), YEAR(VES.[CreatedDateTime])-1)  + '/' + convert(varchar(4), YEAR(VES.[CreatedDateTime])%100)    
+			  ELSE convert(varchar(4),YEAR(VES.[CreatedDateTime]))+ '/' + convert(varchar(4), (YEAR(VES.[CreatedDateTime])%100)+1)
+			  END AS [Fin Year],
+			  'CREATED' AS [TYPE]
+
+			  From Vessel VES
+			  left join SafetyCertificationLookup 				SCL on VES.SafetyCertificationLookupId 	= SCL.Id
+	)
+	SUB
+	where [SafetyCertification] <> 'Registered Pleasure' 
+
+	and [Fin Year] in 
+	(	
+	SELECT MAX ([Fin Year]) from
+		(
+		SELECT	  CASE WHEN (MONTH(VES.[CreatedDateTime]))  <=6 THEN convert(varchar(4), YEAR(VES.[CreatedDateTime])-1)  + '/' + convert(varchar(4), YEAR(VES.[CreatedDateTime])%100)    
+				  ELSE convert(varchar(4),YEAR(VES.[CreatedDateTime]))+ '/' + convert(varchar(4), (YEAR(VES.[CreatedDateTime])%100)+1)
+				  END AS [Fin Year]
+				  from Vessel VES
+		)
+		SUB1
+	)
+	
+```
 
 EX
 ```VBA
