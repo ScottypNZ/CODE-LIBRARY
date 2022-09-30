@@ -940,48 +940,75 @@ FILTER BY MAX FINANCIAL YEAR
 
 FILTER OUT DUPLICATES USING CREATED REFERENCE
 ```VBA
-select * from (
 
-select *, 
-count(*) over(partition by SUB.VesselId) as [VES CNT]
-,count(*) over(partition by SUB.REF) as [REF CNT]
-,ROW_NUMBER() over (Partition by sub.LimitId,  sub.[Modified On]  order by sub.RecordID desc) as RankId
-
-from
+SELECT * FROM
 (
-select 									  
-AVL.VesselId,
-OLT.[Name]                                             as LimitType,
-FPT.[Name]                                             as FitAsPly,
-AVL.MaximumNumberOfPassengers						   as Pax,
-AVL.MinimumNumberOfCrew								   as Crew,
-AVL.MaximumNumberOfPersons                             as Pers,
-AVL.VesselOperatingLimitLinkId                         as LimitId,
+	SELECT *
+	,COUNT(*) over(partition by SUB3.LimitId) as [CNT]
+	,count(case when SUB3.FitASPly like '%passenger%' then SUB3.limitid end ) over(partition by SUB3.LimitId) as PASS 
+	,MAX(SUB3.[Fin Year]) OVER(PARTITION BY SUB3.LimitId) AS [MAX YEAR]
+	 FROM 
+			(
+			SELECT *
+			,ROW_NUMBER() over (Partition by SUB2.LimitId order by SUB2.RecordID DESC) as OCC_RANK
+			FROM 
+				(
+				SELECT *
+				,ROW_NUMBER() over (Partition by SUB1.REF order by SUB1.LimitId desc, sub1.recordid ASC) as OCC_REF 
+				FROM
+					(
+					SELECT 									  
+					AVL.VesselId,
+					OLT.[Name]                                             as LimitType,
+					AVL.VesselOperatingLimitLinkId                         as LimitId,
+					AVL.id                                                 as RecordID,
+					FPT.[Name]                                             as FitAsPly,
+					AVL.MaximumNumberOfPassengers						   as Pax,
+					AVL.MinimumNumberOfCrew								   as Crew,
+					VOL.MaximumNumberOfPersons                             as Pers,
 
-case when AVL.AuditTypeInd='D' then 'Remove' 
- else 
- case when AVL.AuditTypeInd='U' then 'Update' 
- else 'Add' end end									   AS 'Change Type',
+					case when AVL.AuditTypeInd='D' then 'Remove' else case when AVL.AuditTypeInd='U' then 'Ammend' else 'New' end end as 'Change Type',
 
-USR.FullName                                           as UserName,
-CONVERT(NVarchaR,AVL.LastModifiedDateTime,103)		   as [Modified On],
-AVL.UpdateId                                           as UpdatedId,
-AVL.AuditTypeInd,
-AVL.id                                                 as RecordID,
+					USR.FullName,     
 
-CONCAT(CONVERT(NVarchaR,AVL.LastModifiedDateTime,103),' ', CAST(AVL.VesselOperatingLimitLinkId AS NVarchaR)) AS REF
+					CONVERT(NVarchaR,AVL.LastModifiedDateTime,103)		   as [Modified On],
+					CONVERT(NVarchaR,AVL.CreatedDateTime,103)			   as [Created On],
 
-from Audit_VesselOperatingLimitLink AVL
-left join OperatingLimitTypeLookup olt on OLT.id            = AVL.OperatingLimitTypeLookupId
-left join FitToPlyAsTypeLookup     fpt on FPT.id            = AVL.FitToPlyAsTypeLookupId
-left join UserSecurity             usr on USR.UserName      = AVL.LastModifiedByUserName
-)
-SUB
-)
-SUB2
-WHERE VesselId       = '100176' 
-AND RankId = '1'
-order by vesselid, LimitId, RecordID desc
+					CASE WHEN (MONTH(AVL.LastModifiedDateTime))  <=6 
+					THEN convert(varchar(4), YEAR(AVL.LastModifiedDateTime)-1)  + '/' + convert(varchar(4), YEAR(AVL.LastModifiedDateTime)%100)    
+					ELSE convert(varchar(4),YEAR(AVL.LastModifiedDateTime))+ '/' + convert(varchar(4), (YEAR(AVL.LastModifiedDateTime)%100)+1)
+					END													   as [Fin Year]
+
+					,CONCAT(AVL.VesselId,' | ',OLT.[Name],' | ',AVL.VesselOperatingLimitLinkId,' | ',FPT.[Name],' | ',ISNULL(AVL.MaximumNumberOfPassengers,'0'),' | ',ISNULL(AVL.MinimumNumberOfCrew,'0'),' | ',ISNULL(AVL.MaximumNumberOfPersons,'0')) AS REF
+
+					,AVL.UpdateId                                           as UpdatedId
+
+					,ROW_NUMBER() over (Partition by AVL.VesselId, OLT.[Name], AVL.id order by AVL.VesselId DESC, AVL.VesselOperatingLimitLinkId DESC, AVL.id DESC) as OCC_LMT
+
+					FROM Audit_VesselOperatingLimitLink AVL
+					left join OperatingLimitTypeLookup		olt on OLT.id					= AVL.OperatingLimitTypeLookupId
+					left join FitToPlyAsTypeLookup			fpt on FPT.id					= AVL.FitToPlyAsTypeLookupId
+					left join UserSecurity					usr on USR.UserName				= AVL.LastModifiedByUserName
+					left join VesselVesselCategoryLink		VVL ON VVL.VesselId				= AVL.VesselId
+					left join VesselTypeLookup				VTL ON VTL.ID					= VVL.VesselTypeLookupId
+					left join VesselOperatingLimitLink		VOL ON VOL.ID					= AVL.VesselOperatingLimitLinkId
+
+					)SUB1
+					WHERE OCC_LMT = 1 
+					-- REMOVES DUPLICATES CAUSED BY NON CORE CHANGES SUCH AS DESCRIPTION (SAME RECORD ID)
+			
+				)SUB2
+				WHERE OCC_REF = 1
+				-- REMOVES DUPLICATES CAUSED BY NON CORE CHANGES SUCH AS DESCRIPTION (DIFFERENT RECORD ID)
+
+			)SUB3
+			WHERE OCC_RANK  < 3 
+			-- REMOVES ONLY THE CURRENT AND PREVIOUS RECORD
+		
+		)SUB4
+		-- REMVOES RECORDS WHERE THERE ISN'T A PASSENGER RECORD
+		WHERE PASS > 0	AND vesselid = '100098'
+		ORDER BY VesselId ASC, LimitId ASC, RecordID DESC
 ```
 
 EX
