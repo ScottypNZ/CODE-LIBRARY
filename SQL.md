@@ -1010,11 +1010,80 @@ SELECT * FROM
 		WHERE PASS > 0	AND vesselid = '100098'
 		ORDER BY VesselId ASC, LimitId ASC, RecordID DESC
 ```
+PASSENGER NUMBER BY TYPE
+```VBA
+		SELECT 
+		VES.[Id]									as [VesselID],
+		VES.[Name]									as [Name],
+		SCL.Name									as [Safety Certification],		
+		FTP.NAME									as [Fit to Ply],
+		OLT.[Name]                                  as [LimitType],
+		VOL.MaximumNumberOfPassengers				as [Max Pass],
+		VOL.MaximumNumberOfPersons					as [Max Per],
+		VOL.MinimumNumberOfCrew						as [Max Crew],
+		convert(date,VSL.LastModifiedDateTime,112)  as [Last Modified],	
+		VSL.NAME									as [Status]
+
+		FROM [Poseidon_Navigator].[dbo].[Vessel] VES
+
+		 LEFT join VesselOperatingLimitLink	         VOL on VES.id						= VOL.VesselID 
+		 AND VOL.Id = (select max(Id) from VesselOperatingLimitLink where VesselId	= VES.Id group by VesselId)
+
+		 LEFT join VesselStatusHistory				 VSH on VES.Id						= VSH.VesselId
+		 and VSH.Id = (select max(Id) from VesselStatusHistory where VesselId		= VES.Id group by VesselId)
+
+		 LEFT join VesselStatusLookup				 VSL on VSH.VesselStatusLookupid	= VSL.Id
+		 LEFT join FitToPlyAsTypeLookup				 FTP on FTP.id						= VOL.FitToPlyAsTypeLookupId
+		 LEFT join SafetyCertificationLookup		 SCL on SCL.id						= VES.SafetyCertificationLookupid
+		 LEFT join UserSecurity						 USR on USR.UserName				= VOL.LastModifiedByUserName
+		 LEFT join OperatingLimitTypeLookup			 OLT on OLT.id                      = VOL.OperatingLimitTypeLookupId
+```
+
+CERFIFICATE HYPERLINKS
+```VBA
+	   select 
+	   VES.[Id]												as [MNZ Number]
+	  ,APP.ID												as [Application ID]
+	  ,CRT.Id												as [Certificate ID]
+	  ,CSH.Id												as [Record ID]
+	  ,VES.NAME												as [MNZ Name]
+	  ,CTL.NAME												as [Cert Name]
+	  ,CSL.Name												as [Status]
+	  ,[OwnersAtDateOfIssue]								as [Owners At Issue]
+	  ,ATD.Meridio_DocumentId								as [Meridio ID]
+	  ,USC.FullName											as [Created By]
+	  ,USM.FullName											as [Modified By]
+
+	  ,convert(date,CRT.ValidFromDate,112)					as [Valid From Date]  
+	  ,convert(date,CRT.ExpiryDueDate,112)					as [Expiry Due Date] 
+	  ,convert(date,CSH.LastModifiedDateTime,112)			as [Modified Date Time]
+
+	  ,CASE WHEN (MONTH(CSH.[LastModifiedDateTime]))  <=6 THEN convert(varchar(4),
+		 YEAR(CSH.[LastModifiedDateTime])-1)  + '-' + convert(varchar(4), YEAR(CSH.[LastModifiedDateTime])%100)    
+		 ELSE convert(varchar(4),YEAR(CSH.[LastModifiedDateTime]))+ '-' + convert(varchar(4),
+		 (YEAR(CSH.[LastModifiedDateTime])%100)+1)END AS [FY Year]
+
+	  ,replace(reverse(left(LTRIM(reverse(REPLACE(TRANSLATE([DocumentName], 'abcdefghijklmnopqrstuvwxyz+()-,#+&;/\_.:', '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'), '@', ''))),8)),' ','')  as [Doc Date]
+	  ,CONCAT('http://mnz-16-app01-p.maritime.local/Poseidon/Datacom/DocumentServices/ViewDocument.aspx?docId=','',ATD.Meridio_DocumentId) as Link
+
+	   FROM [Poseidon_Navigator].[dbo].[Vessel]		    VES
+	   join SafetyCertificationLookup					SCL on SCL.id							= VES.SafetyCertificationLookupiD
+	   join Application									APP on APP.ParentObjectPrimaryKeyId		= VES.Id
+	   join ApplicationTypeLookup						ATL	on ATL.ID							= APP.ApplicationTypeLookupId
+	   Join Certificate									CRT on CRT.ApplicationId				= APP.Id
+	   join CertificateTypeLookup						CTL on CTL.Id							= CRT.CertificateTypeLookupId	
+	   join CertificateStatusHistory					CSH on CSH.CertificateId				= CRT.ID
+	   and CSH.ID = (select max(id) from CertificateStatusHistory where  CertificateId = CRT.Id  group by CertificateId)
+	   join CertificateStatusLookup						CSL on CSL.Id							= CSH.CertificateStatusLookupId
+	   join UserSecurity								USM on USM.UserName						= CRT.LastModifiedByUserName
+	   join UserSecurity								USC on USC.UserName						= CRT.CreatedByUserName
+	   join AttachedDocument							ATD	on ATD.ParentObjectPrimaryKeyId		= CRT.Id	
+
+```
 
 EX
 ```VBA
 ```
-
 
 https://jackworthen.com/2017/02/01/a-guide-to-creating-a-sql-server-integration-services-catalog-and-deploying-an-ssis-package/#:~:text=The%20first%20step%20to%20creating%20a%20catalog%20is,Catalog%20window%20will%20be%20displayed%20as%20shown%20below.
 
