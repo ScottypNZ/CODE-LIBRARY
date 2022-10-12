@@ -550,7 +550,7 @@ SUB3
 --order by sc.Name,v.id
 ```
 
-LIST TABLES AND NUMBERS
+LIST TABLE COLUMNS AND NUMBERS
 ```VBA
 select * into ##tab1 from 
 (
