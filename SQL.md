@@ -1080,6 +1080,140 @@ CERFIFICATE HYPERLINKS
 	   join AttachedDocument							ATD	on ATD.ParentObjectPrimaryKeyId		= CRT.Id	
 
 ```
+NAV DOC JOIN
+
+```VBA
+/****** VISIT SOP  ******/
+SELECT 
+POL.Name									as 'Type'
+,'SOP'										as 'Entity'
+,SOP.Name									as 'Entity Name'
+,SOL.Name									as 'SOP Type'
+,SOP.SOPNumber							    as 'SOP ID'
+,VES.OperationId							as 'OPN'
+,SVL.VesselId								as 'VesselId'
+--,ATD.Id									as 'NAV ID'
+,ATD.Meridio_DocumentId						as 'Meridio ID'
+,NULL										as 'App ID'
+,NULL										as 'Cert ID'
+,VTL.Name									as 'Doc Type'
+,DRL.Name									as 'Doc Cat'
+,ATD.DocumentName							as 'Doc Name'
+,convert(date,ATD.CreatedDateTime,112)		as 'Doc Created'
+,NULL 										as 'Expiry Date'
+--,CONCAT('http://mnz-16-app01-p.maritime.local/Poseidon/Datacom/DocumentServices/ViewDocument.aspx?docId=','',ATD.Meridio_DocumentId) as Link
+
+ FROM [AttachedDocument]					ATD
+ LEFT join ParentObjectTypeLookup			POL on POL.Id			 = ATD.ParentObjectTypeLookupId
+ LEFT JOIN Visit							VST on VST.Id			 = ATD.ParentObjectPrimaryKeyId
+ LEFT JOIN VisitTypeLookup					VTL on VTL.Id			 = VST.VisitTypeLookupId
+ LEFT join DocumentRelationshipTypeLookup   DRL on DRL.Id		     = ATD.DocumentRelationshipTypeLookupId
+ LEFT join SOPOPERATION						SOP on SOP.Id			 = VST.ParentObjectPrimaryKeyId	
+ LEFT join SOPOperationVesselLink			SVL on SVL.SOPOperationId = SOP.ID
+ LEFT join SOPOperationTypeLookup			SOL on SOL.Id			 = SOP.SOPOperationTypeLookupId
+ LEFT join Vessel							VES on VES.Id		     = VST.ParentObjectPrimaryKeyId	
+ WHERE ATD.ParentObjectTypeLookupId = 8 AND VST.ParentObjectTypeLookupId = 12
+
+ union all
+
+  /****** CERT SOP  ******/
+SELECT
+POL.Name									as 'Type'
+,'SOP'										as 'Entity'
+,SOP.Name									as 'Entity Name'
+,SOL.Name									as 'SOP Type'
+,SOP.SOPNumber							    as 'SOP ID'
+,VES.OperationId							as 'OPN'
+,SVL.VesselId								as 'VesselId'
+--,ATD.Id										as 'NAV ID'
+,ATD.Meridio_DocumentId						as 'Meridio ID'
+,NULL										as 'App ID'
+,CRT.Id										as 'Cert ID'
+,CTL.Name									as 'Doc Type'
+,DRL.Name									as 'Doc Cat'
+,ATD.DocumentName							as 'Doc Name'
+,convert(date,ATD.CreatedDateTime,112)		as 'Doc Created'
+,convert(date,CRT.ExpiryDueDate,112)		as 'Expiry Date'
+							
+--,CONCAT('http://mnz-16-app01-p.maritime.local/Poseidon/Datacom/DocumentServices/ViewDocument.aspx?docId=','',ATD.Meridio_DocumentId) as Link
+
+ FROM [AttachedDocument]					ATD
+ LEFT join ParentObjectTypeLookup			POL on POL.Id			 = ATD.ParentObjectTypeLookupId
+ LEFT JOIN Certificate						CRT on CRT.Id			 = ATD.ParentObjectPrimaryKeyId
+ LEFT JOIN Application						APP on APP.Id			 = CRT.ApplicationId
+ LEFT join ApplicationTypeLookup			ATL	on ATL.ID			 = APP.ApplicationTypeLookupId
+ LEFT join CertificateTypeLookup			CTL on CTL.Id			 = CRT.CertificateTypeLookupId	
+ LEFT join DocumentRelationshipTypeLookup   DRL on DRL.Id		     = ATD.DocumentRelationshipTypeLookupId
+ LEFT join SOPOPERATION						SOP on SOP.Id			 = APP.ParentObjectPrimaryKeyId
+ LEFT join SOPOperationVesselLink			SVL on SVL.SOPOperationId			 = SOP.ID
+ LEFT join SOPOperationTypeLookup			SOL on SOL.Id			 = SOP.SOPOperationTypeLookupId
+ LEFT join Vessel							VES on VES.Id		     = SVL.VesselId	
+ WHERE ATD.ParentObjectTypeLookupId = 4 AND  APP.ParentObjectPrimaryKeyId < '100000'-- CERTIFICATE VES
+
+  union all
+
+ /****** VISIT VESSEL  ******/
+ SELECT 
+ POL.Name									as 'Type'
+ ,'Vessel'									as 'Entity'
+,VES.Name									as 'Entity Name'
+,null										as 'SOP Type'
+,null										as 'SOP ID'
+,VES.OperationId							as 'OPN'
+,VST.ParentObjectPrimaryKeyId				as 'VesselId'
+--,ATD.Id										as 'NAV ID'
+,ATD.Meridio_DocumentId						as 'Meridio ID'
+,NULL										as 'App ID'
+,NULL										as 'Cert Id'
+,VTL.Name									as 'Doc Type'	
+,DRL.Name									as 'Doc Cat'
+,ATD.DocumentName							as 'Doc Name'
+,convert(date,ATD.CreatedDateTime,112)		as 'Doc Created'
+,NULL 										as 'Expiry Date'
+
+--,CONCAT('http://mnz-16-app01-p.maritime.local/Poseidon/Datacom/DocumentServices/ViewDocument.aspx?docId=','',ATD.Meridio_DocumentId) as Link
+
+ FROM [AttachedDocument]					ATD
+ LEFT join ParentObjectTypeLookup			POL on POL.Id			 = ATD.ParentObjectTypeLookupId
+ LEFT JOIN Visit							VST on VST.Id			 = ATD.ParentObjectPrimaryKeyId
+ LEFT JOIN VisitTypeLookup					VTL on VTL.Id			 = VST.VisitTypeLookupId
+ LEFT join DocumentRelationshipTypeLookup   DRL on DRL.Id		     = ATD.DocumentRelationshipTypeLookupId
+ LEFT join Vessel							VES on VES.Id		     = VST.ParentObjectPrimaryKeyId	
+ WHERE ATD.ParentObjectTypeLookupId = 8 AND VST.ParentObjectTypeLookupId = 1
+
+ union all
+
+ /****** CERT VESSEL  ******/
+ SELECT
+POL.Name									as 'Type'
+,'Vessel'									as 'Entity'
+,VES.NAME									as 'Entity Name'
+,null										as 'SOP Type'
+,null										as 'SOP ID'
+,VES.OperationId							as 'OPN'
+,app.ParentObjectPrimaryKeyId				as 'VesselId'
+--,ATD.Id										as 'NAV ID'
+,ATD.Meridio_DocumentId						as 'Meridio ID'
+,App.Id										as 'App ID'
+,CRT.Id										as 'Cert ID'
+,CTL.Name									as 'Doc Type'
+,DRL.Name									as 'Doc Cat'
+,ATD.DocumentName							as 'Doc Name'
+,convert(date,ATD.CreatedDateTime,112)		as 'Doc Created'
+,convert(date,CRT.ExpiryDueDate,112)		as 'Expiry Date'
+
+--,CONCAT('http://mnz-16-app01-p.maritime.local/Poseidon/Datacom/DocumentServices/ViewDocument.aspx?docId=','',ATD.Meridio_DocumentId) as Link
+
+ FROM [AttachedDocument]					ATD
+ LEFT join ParentObjectTypeLookup			POL on POL.Id			 = ATD.ParentObjectTypeLookupId
+ LEFT JOIN Certificate						CRT on CRT.Id			 = ATD.ParentObjectPrimaryKeyId
+ LEFT JOIN Application						APP on APP.Id			 = CRT.ApplicationId
+ LEFT join ApplicationTypeLookup			ATL	on ATL.ID			 = APP.ApplicationTypeLookupId
+ LEFT join CertificateTypeLookup			CTL on CTL.Id			 = CRT.CertificateTypeLookupId	
+ LEFT join DocumentRelationshipTypeLookup   DRL on DRL.Id		     = ATD.DocumentRelationshipTypeLookupId
+ LEFT join Vessel							VES on VES.Id		     = app.ParentObjectPrimaryKeyId	
+ WHERE ATD.ParentObjectTypeLookupId = 4 AND  APP.ParentObjectPrimaryKeyId > '100000'-- CERTIFICATE VES
+```
 
 EX
 ```VBA
