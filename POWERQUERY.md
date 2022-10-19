@@ -162,6 +162,10 @@ EXTRACT MONTH IN "MM" FORMAT INCLUDING LEADING ZERO
 LEFT 10 CHARACTERS CONVERTED TO TEXT, TRIMMED AND THEN PADDED TO 10  
 = Text.PadStart(Text.Trim(Text.Start(Text.From([START]),10)),10,"0"))
 
+COUNT SPECIFIC NUMBER IN SPECIFIED LIST OF COLUMNS
+= Table.AddColumn(#"Changed column type", "ISSUE", each 
+List.Count(List.Select(Record.ToList(Record.SelectFields(_,{"INITIAL FIRST","INITIAL SECOND","INITIAL LAST"} ) ), each _ = "1") ) )
+
 EXTRACT YEAR AND MONTH  
 = Table.AddColumn(#"Added DATE REF", "MONTH", each Date.ToText([DATE],"yyyy")&"/"&Date.ToText([DATE],"MM"))
 = Table.AddColumn(#"Added WEEK", "MONTH", each Date.ToText([DATE],"yyyy") &"/"& Text.PadStart(Text.From(Date.Month([DATE])),2,"0"), type text)
@@ -207,7 +211,11 @@ GROUPS BY ID
 NEW COLUMN NAME MAX/MAX/YEAR (LAST IS MAX IF VALUE)  
 MERGE QUERIES FULL OUTER ON ID/ID   
 EXPAND MAX   
+
 ```
+
+
+
 FINANCIAL YEAR FROM DATE
 ```
 = Table.AddColumn(#"Added YEAR", "Financial Year", each 
