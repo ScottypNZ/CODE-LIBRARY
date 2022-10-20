@@ -39,7 +39,23 @@ DROP TABLE [DATA];
 DELETE FROM [DATA$];   
 
 WHERE [MIAS DATE] IS NULL  
-WHERE [MIAS DATE] ='20210720'    
+WHERE [MIAS DATE] ='20210720'   
+
+FINANCIAL QUARTER
+=case when DATEPART(quarter,RGT.LastModifiedDateTime) > 2 then FORMAT(DATEPART(quarter,RGT.LastModifiedDateTime)-2,'0#') 
+else FORMAT(DATEPART(quarter,RGT.LastModifiedDateTime)+2,'0#') end as [QTR]
+
+FORMAT AS TWO DIGITS / PAD TEXT
+=FORMAT(DATEPART(quarter,RGT.LastModifiedDateTime)+2,'0#')
+
+MAX RECORD ASSOCIATED WITH A FIELD IN A JOIN
+= and VSH.Id = (select max(Id) from VesselStatusHistory where VesselId	= VES.Id group by VesselId)
+
+IS THE CURRENT RECORD THE MAX ASSOCIATED WITH A VESSEL (ENTITY)
+= CASE WHEN [occ] = min([occ]) OVER(PARTITION BY ves.[id]) THEN 'TRUE' ELSE 'FALSE' END [MAX] 
+
+MAX IF, MAX OVER PARTITION
+= MAX([Fin Year]) over(partition by [Limit Id]) as 'MAX',			
 
 SELECT * FROM [LOCAL DATABASE].[dbo].[DATA$]    
 SELECT COUNT (*) FROM [LOCAL DATABASE].[dbo].[DATA$]    
