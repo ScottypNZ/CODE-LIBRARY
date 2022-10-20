@@ -1214,6 +1214,177 @@ POL.Name									as 'Type'
  LEFT join Vessel							VES on VES.Id		     = app.ParentObjectPrimaryKeyId	
  WHERE ATD.ParentObjectTypeLookupId = 4 AND  APP.ParentObjectPrimaryKeyId > '100000'-- CERTIFICATE VES
 ```
+PIVOT FIELDS
+
+```VBA
+
+  SELECT * FROM 
+  (
+  SELECT DISTINCT CustomerNumber, FullName, CTL.Name
+  FROM CustomerRelationshipHistory											CRH
+  JOIN CustomerRelationshipTypeLookup									CTL ON CTL.ID = CRH.CustomerRelationshipTypeLookupId
+  JOIN ParentObjectTypeLookup											POL ON POL.ID = CRH.ParentObjectTypeLookupId
+  WHERE CRM_ContactId IS NOT NULL
+  )
+  SUB
+  PIVOT( COUNT ( NAME) FOR NAME IN (
+
+[Authorised Person Diving]
+,[Authorised Person Fishing]
+,[Authorised Person Hovercraft]
+,[Authorised Person Jet Boat]
+,[Authorised Person Rafting]
+,[Authorised Person Safety Case]
+,[Authorised Person SLP]
+,[Authorised Surveyor]
+,[Fit Proper Person]
+,[Registered Owner]
+,[Representative]
+,[SOP Owner]
+,[SOP Owner Contact]
+,[SOP SAR Contact]
+,[Trading Operation Contact]
+,[Vessel Contact]
+,[Vessel Operator]
+,[Vessel Owner]
+,[Vessel SAR Contact]
+,[Visit Contact])
+) 
+AS PIVOT_TBL
+order by FullName
+```
+
+LIST ALL RECORDS
+```VBA
+--- ALL DATA ---
+
+SELECT * from 
+(
+SELECT 
+SUB.TYPE,
+SUB.VesselId,
+SUB.[Limit Id],
+SUB.[Record Id],
+SUB.[Operating Limit],
+SUB.[Fit to Ply],
+SUB.[Max Pass],
+SUB.[Modified On],
+SUB.[Fin Year],
+count(SUB.[Limit Id]) over(partition by SUB.[Limit Id]) AS COUNT,
+count(case when sub.[Fit to Ply] like 'Passenger%' then sub.[Limit Id] end ) over(partition by sub.[Limit Id]) as PASS,
+ROW_NUMBER() over (Partition by SUB.[Limit Id] ORDER BY SUB.[Record Id] DESC) as OCC
+FROM
+
+(
+	SELECT DISTINCT
+	CASE WHEN AVL.[AuditTypeind] ='D' THEN 'DELETE' ELSE 
+	case when AVL.[AuditTypeind] ='I' THEN 'NEW' ELSE 
+	case when count(CASE WHEN AuditTypeInd ='D' THEN AuditTypeInd END) over(partition by VesselOperatingLimitLinkId) = 0 then 'AMMEND' else
+	case when MAX(AVL.UPDATEID) over(partition by AVL.VesselOperatingLimitLinkID) = AVL.updateid and AVL.[AuditTypeind] ='U' THEN 'REMOVE' ELSE 'AMMEND'
+	END END END END									as[TYPE],
+
+	AVL.VesselId,
+	VesselOperatingLimitLinkId						as [Limit Id],
+	AVL.ID											as [Record Id],
+	CONVERT(NVarchaR,AVL.LastModifiedDateTime,103)	as [Modified On],
+	olt.name										as [Operating Limit],
+	fpt.name										as [Fit to Ply],
+	AVL.MaximumNumberOfPassengers					as [Max Pass],
+
+	CASE WHEN (MONTH(AVL.LastModifiedDateTime))  <=6 
+	THEN convert(varchar(4), YEAR(AVL.LastModifiedDateTime)-1)  + '/' + convert(varchar(4), YEAR(AVL.LastModifiedDateTime)%100)    
+	ELSE convert(varchar(4),YEAR(AVL.LastModifiedDateTime))+ '/' + convert(varchar(4), (YEAR(AVL.LastModifiedDateTime)%100)+1)
+	END												as [Fin Year]
+
+	FROM Audit_VesselOperatingLimitLink		AVL
+	left join OperatingLimitTypeLookup		olt on OLT.id					= AVL.OperatingLimitTypeLookupId
+
+	left join FitToPlyAsTypeLookup			fpt on FPT.id					= AVL.FitToPlyAsTypeLookupId
+	left join UserSecurity					usr on USR.UserName				= AVL.LastModifiedByUserName
+	left join VesselVesselCategoryLink		VVL ON VVL.VesselId				= AVL.VesselId
+	left join VesselOperatingLimitLink		VOL ON VOL.ID					= AVL.VesselOperatingLimitLinkId
+					
+)
+SUB
+
+)
+SUB1
+WHERE SUB1.PASS > 0
+-- and WHERE Sub.[Limit Id] = '6577' or Sub.[Limit Id] = '7807' or Sub.[Limit Id] = '4084' or Sub.[Limit Id] = '7808'
+ORDER BY Sub1.[Limit Id], Sub1.[Record Id] ASC
+```
+
+LAST RECORD FILTERED
+```VBA
+
+SELECT
+SUB3.TYPE,
+SUB3.VesselId,
+SUB3.[Limit Id],
+SUB3.[Record Id],
+SUB3.[Operating Limit],
+SUB3.[Fit to Ply],
+SUB3.[Max Pass],
+SUB3.[Modified On],
+SUB3.[Fin Year],
+MAX(SUB3.[Fin Year]) over(partition by SUB3.[Limit Id]) as 'MAX',
+count(SUB3.[Limit Id]) over(partition by SUB3.[Limit Id]) AS COUNT,
+count(case when SUB3.[Fit to Ply] like 'Passenger%' then SUB3.[Limit Id] end ) over(partition by SUB3.[Limit Id]) as PASS,
+SUB3.OCC
+FROM
+(
+	SELECT *, 
+	
+	ROW_NUMBER() over (Partition by SUB2.[Limit Id] ORDER BY SUB2.[Record Id] DESC) as [OCC]
+	FROM 
+	(
+		SELECT *,  
+	
+		CASE WHEN TYPE = 'DELETE' THEN 1 ELSE ROW_NUMBER() over (Partition by SUB1.[Limit Id], SUB1.[Operating Limit], SUB1.[FIT TO PLY], SUB1.[Max Pass] order by SUB1.VESSELID, SUB1.[Limit Id], SUB1.[RECORD ID] ASC) END as RANK
+		FROM 
+		(
+					Select DISTINCT
+					CASE WHEN AVL.[AuditTypeind] ='D' THEN 'DELETE' ELSE 
+					case when AVL.[AuditTypeind] ='I' THEN 'NEW' ELSE 
+					case when count(CASE WHEN AuditTypeInd ='D' THEN AuditTypeInd END) over(partition by VesselOperatingLimitLinkId) = 0 then 'AMMEND' else
+					case when MAX(AVL.UPDATEID) over(partition by AVL.VesselOperatingLimitLinkID) = AVL.updateid and AVL.[AuditTypeind] ='U' THEN 'REMOVE' ELSE 'AMMEND'
+					END END END END									as[TYPE],
+
+					AVL.VesselId,
+					VesselOperatingLimitLinkId						as [Limit Id],
+					AVL.ID											as [Record Id],
+					CONVERT(NVarchaR,AVL.LastModifiedDateTime,103)	as [Modified On],
+					olt.name										as [Operating Limit],
+					fpt.name										as [Fit to Ply],
+					AVL.MaximumNumberOfPassengers					as [Max Pass],
+
+
+					CASE WHEN (MONTH(AVL.LastModifiedDateTime))  <=6 
+					THEN convert(varchar(4), YEAR(AVL.LastModifiedDateTime)-1)  + '/' + convert(varchar(4), YEAR(AVL.LastModifiedDateTime)%100)    
+					ELSE convert(varchar(4),YEAR(AVL.LastModifiedDateTime))+ '/' + convert(varchar(4), (YEAR(AVL.LastModifiedDateTime)%100)+1)
+					END												as [Fin Year],
+
+					count(AVL.VesselOperatingLimitLinkId) over(partition by AVL.VesselOperatingLimitLinkId ) AS [COUNTALL],
+
+					count(case when fpt.name like 'Passenger%' then VesselOperatingLimitLinkId end ) over(partition by VesselOperatingLimitLinkId) as PASS
+
+					FROM Audit_VesselOperatingLimitLink		AVL
+					left join OperatingLimitTypeLookup		olt on OLT.id					= AVL.OperatingLimitTypeLookupId
+					left join FitToPlyAsTypeLookup			fpt on FPT.id					= AVL.FitToPlyAsTypeLookupId
+					left join UserSecurity					usr on USR.UserName				= AVL.LastModifiedByUserName
+					left join VesselVesselCategoryLink		VVL ON VVL.VesselId				= AVL.VesselId
+					left join VesselOperatingLimitLink		VOL ON VOL.ID					= AVL.VesselOperatingLimitLinkId
+				    --WHERE VesselOperatingLimitLinkId = '6577' or VesselOperatingLimitLinkId = '7807' or VesselOperatingLimitLinkId = '4084' or VesselOperatingLimitLinkId = '7808' OR VesselOperatingLimitLinkId = '12198'
+		)
+		SUB1
+		where TYPE <> 'Remove' AND SUB1.PASS > 0
+	)
+	SUB2
+	WHERE SUB2.RANK = 1
+)
+SUB3
+ORDER BY SUB3.[LIMIT ID], SUB3.[Record Id]
+```
 
 EX
 ```VBA
