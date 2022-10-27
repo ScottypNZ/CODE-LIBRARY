@@ -1402,6 +1402,61 @@ SUB3
 ORDER BY SUB3.[LIMIT ID], SUB3.[Record Id]
 ```
 
+TRITON ALL PEOPLE
+```VBA
+
+SELECT 
+	   [code]																						AS 'Triton'
+	  ,[Person_Details_Person_Details_CRM_Customer_ID]												AS 'CRM'
+	  ,[status]																						AS 'Status'
+	  ,[birth_date]																					AS 'DOB'
+	  ,[given_name]																					AS 'First Name'
+	  ,[family_name]																				AS 'Last Name'
+	  ,[given_name]+' '+[family_name]																AS 'Full Name'
+
+	   ,isnull(cast([birth_date] as nvarchar),'0000-00-00')   +' '+
+	   
+	   CASE WHEN (LEN ([given_name]) - LEN (REPLACE ([given_name], ' ', '')) ) = 0
+       THEN upper([given_name])
+	   ELSE upper(LEFT([given_name],CHARINDEX(' ',([given_name])  )))
+       END 
+
+	    +' '+
+
+	   CASE WHEN (LEN ([family_name]) - LEN (REPLACE ([family_name], ' ', '')) ) = 0
+       THEN upper([family_name])
+	   ELSE upper(REVERSE(LEFT(REVERSE ([family_name]),CHARINDEX(' ',REVERSE ([family_name]))-1)))
+	   END
+
+	   as [SHORT NAME REF]		
+	   
+	   ,CASE WHEN (LEN ([given_name]) - LEN (REPLACE ([given_name], ' ', '')) ) = 0
+       THEN upper([given_name])
+	   ELSE upper(LEFT([given_name],CHARINDEX(' ',([given_name])  )))
+       END 
+
+	    +' '+
+
+	   CASE WHEN (LEN ([family_name]) - LEN (REPLACE ([family_name], ' ', '')) ) = 0
+       THEN upper([family_name])
+	   ELSE upper(REVERSE(LEFT(REVERSE ([family_name]),CHARINDEX(' ',REVERSE ([family_name]))-1)))
+	   END
+
+	   as [SHORT NAME]	
+	 
+	  ,[created_by]																					AS 'Created By'
+	  ,convert(Nvarchar,[created_datetime_local],111)												AS 'Created On'
+	  ,convert(nvarchar,[updated_datetime_local],111)												AS 'Modified On'
+
+	  ,cast(year([created_datetime_local]) as nvarchar) +'/'+ cast(format(datepart(WEEK,[created_datetime_local]),'00') as nvarchar) as 'Week Created'
+
+	  ,cast(year([created_datetime_local]) as nvarchar) +'/'+ format(datepart(QUARTER,[created_datetime_local]),'0') as 'Qtr Created'
+
+FROM [TRITON_RDS].[REPORT].[Person_Individual]
+where IsCurrent = 'TRUE' AND STATUS = 'Active' 
+order by code
+```
+
 EX
 ```VBA
 ```
