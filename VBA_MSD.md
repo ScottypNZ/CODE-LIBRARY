@@ -1,4 +1,7 @@
 # CODE-LIBRARY
+
+### THIS WORKBOOK 
+BEFORE SAVE
 ``` vba
 Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
 
@@ -16,8 +19,9 @@ Dim counter As Integer
     End If
 
 End Sub
-
-
+```
+WORKSHEET ACTIVATE
+``` VBA
 Private Sub Workbook_SheetActivate(ByVal Sh As Object)
 
 Dim Sheet1 As String
