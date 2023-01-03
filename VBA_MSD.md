@@ -145,3 +145,48 @@ End If
 
 End Sub
 ```
+
+### PIVOTED 
+
+```VBA
+Private Sub Worksheet_PivotTableUpdate(ByVal Target As PivotTable)
+
+Dim Sheet As String
+
+If ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
+    Sheet = "Alternative_Paid_Accommodation"
+ElseIf ActiveSheet.Name = "Transitional_Housing" Then
+    Sheet = "Transitional_Housing"
+Else
+    Exit Sub
+    
+End If
+
+For x = 21 To Sheets(Sheet).Range("K:K").Cells.SpecialCells(xlCellTypeConstants).Count + 10
+    
+    If Sheets(Sheet).Range("K" & x).Value <> "" Then
+        Sheets(Sheet).Range("K" & x & ":M" & x).Delete Shift:=xlUp
+        x = x - 1
+    End If
+    
+Next x
+
+End Sub
+```
+
+### VACANCIES 
+
+```VBA
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim A As Range, B As Range, Inte As Range, r As Range
+    Set A = Range("A:A")
+    Set Inte = Intersect(A, Target)
+    If Inte Is Nothing Then Exit Sub
+    Application.EnableEvents = False
+        For Each r In Inte
+            r.Offset(0, 1).Value = Date
+        Next r
+    Application.EnableEvents = True
+End Sub
+```
