@@ -45,7 +45,10 @@ ThisWorkbook.Sheets(Sheet1).Range("e11").Value = ThisWorkbook.Sheets(sheet2).Ran
 ThisWorkbook.Sheets(Sheet1).Range("e12").Value = ThisWorkbook.Sheets(sheet2).Range("e12").Value
 
 End Sub
+```
 
+WORKSHEET OPEN
+``` VBA
 
 Private Sub Workbook_Open()
 
@@ -68,9 +71,10 @@ Next x
   " unlock icon to carry out a search", vbOKOnly + vbOKOnly, "Welcome to the Transitional Housing Centralised Register"
 
 End Sub
+```
 
-
-
+WORKBOOK ENABLE VBA ON PROTECTED SHEET
+```VBA
 Private Sub Workbook_SheetSelectionChange(ByVal Sh As Object, ByVal Target As Range)
 
 '=================[protect]
@@ -91,8 +95,8 @@ Dim Sheet1 As String
 
 If ActiveSheet.Name = "Transitional_Housing" Then
     Sheet1 = "Transitional_Housing"
-'ElseIf ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
-'    sheet1 = "Alternative_Paid_Accommodation"
+' ElseIf ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
+' sheet1 = "Alternative_Paid_Accommodation"
 Else
     Exit Sub
 End If
