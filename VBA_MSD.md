@@ -141,9 +141,7 @@ On Error Resume Next
     End If
     Sheets(Sheet1).Range("K15").Value = WorksheetFunction.VLookup(Sheets(Sheet1).Range("K9"), Sheets("Register_data").Range("A1:r" & last), 18, False)
 
-
 End If
-
 
 End Sub
 ```
