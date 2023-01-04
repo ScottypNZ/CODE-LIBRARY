@@ -1234,6 +1234,147 @@ End Sub
 
 # FORMS NOTES
 
+```
+Private Sub CancelNotes_Click()
+Unload Me
+End Sub
+
+Private Sub CopyNotes_Click()
+
+'ActiveSheet.Range("a3").Value = "What is the clients household type?:"
+'ActiveSheet.Range("a4").Value = Household.Value
+'ActiveSheet.Range("a5").Value = "Reason for need?:"
+'ActiveSheet.Range("a6").Value = ResonsWhy.Value
+'
+'ActiveSheet.Range("a8").Value = "Client Situation:"
+'ActiveSheet.Range("a9").Value = ClientsSituation.Value
+'
+'ActiveSheet.Range("a11").Value = "Client event note"
+'ActiveSheet.Range("a12").Value = Notes.Value
+
+Dim clipboard As MSForms.DataObject
+Set clipboard = New MSForms.DataObject
+clipboard.SetText "Client Number:" & ClientNumber.Value & _
+                  "          Is client in receipt of assistance?:" & Assistance.Value & _
+                  "          What is the clients household type?:" & Household.Value & _
+                  "          Reason for need?:" & ResonsWhy.Value & _
+                  "          Client Situation:" & ClientsSituation.Value & _
+                  "          Reason for need?:" & Notes.Value
+
+clipboard.PutInClipboard
+
+
+End Sub
+
+Private Sub Email_Manager_Click()
+
+Sheets.Add.Name = "DeleteMe"
+
+Sheets("DeleteMe").Range("a1").Value = "Client Number:"
+Sheets("DeleteMe").Range("b1").Value = ClientNumber.Value
+Sheets("DeleteMe").Range("c1").Value = "Is client in receipt of assistance?:"
+Sheets("DeleteMe").Range("d1").Value = Assistance.Value
+
+Sheets("DeleteMe").Range("a3").Value = "What is the clients household type?:"
+Sheets("DeleteMe").Range("a4").Value = Household.Value
+Sheets("DeleteMe").Range("a5").Value = "Reason for need?:"
+Sheets("DeleteMe").Range("a6").Value = ResonsWhy.Value
+
+Sheets("DeleteMe").Range("a8").Value = "Client Situation:"
+Sheets("DeleteMe").Range("a9").Value = ClientsSituation.Value
+
+Sheets("DeleteMe").Range("a11").Value = "Client event note"
+Sheets("DeleteMe").Range("a12").Value = Notes.Value
+
+Sheets("DeleteMe").Columns("A:D").EntireColumn.AutoFit
+
+Dim Email_Subject, Email_Send_From, Email_Send_To, _
+Email_Cc, Email_Bcc, Email_Body As String
+Dim Mail_Object, Mail_Single As Variant
+Email_Subject = "Requesting approval for hardship using EHouseCentral"
+Email_Send_To = EmailList.Value
+Email_Body = Sheets("DeleteMe").Range("a1").Value & "     " & Sheets("DeleteMe").Range("b1").Value & "                    " _
+           & Sheets("DeleteMe").Range("c1").Value & "     " & Sheets("DeleteMe").Range("d1").Value & "                    " _
+           & Sheets("DeleteMe").Range("a3").Value & "     " & Sheets("DeleteMe").Range("a4").Value & "                    " _
+           & Sheets("DeleteMe").Range("a5").Value & "     " & Sheets("DeleteMe").Range("a6").Value & "                    " _
+           & Sheets("DeleteMe").Range("a8").Value & "     " & Sheets("DeleteMe").Range("a9").Value & "                    " _
+           & Sheets("DeleteMe").Range("a11").Value & "     " & Sheets("DeleteMe").Range("a12").Value & "                    "
+On Error GoTo debugs
+Set Mail_Object = CreateObject("Outlook.Application")
+Set Mail_Single = Mail_Object.CreateItem(0)
+
+With Mail_Single
+   .Subject = Email_Subject
+   .To = Email_Send_To
+   .cc = Email_Cc
+   .BCC = Email_Bcc
+   .Body = Email_Body
+   .Send
+End With
+
+debugs:
+If Err.Description <> "" Then MsgBox Err.Description
+
+Application.DisplayAlerts = False
+    Sheets("DeleteMe").Delete
+Application.DisplayAlerts = True
+
+End Sub
+
+Private Sub PrintNotes_Click()
+
+CopyNotes_Click
+ActiveSheet.PrintOut
+
+End Sub
+
+Private Sub UserForm_Activate()
+
+Notes.Value = Sheets("Drop downs").Range("AB4").Value
+
+Dim Sheet As String
+
+If ActiveSheet.Name = "Transitional_Housing" Then
+    Sheet = "Transitional_Housing"
+    
+    ClientNumber.BackColor = RGB(242, 221, 220)
+    Assistance.BackColor = RGB(242, 221, 220)
+    Household.BackColor = RGB(242, 221, 220)
+    ResonsWhy.BackColor = RGB(242, 221, 220)
+    ClientsSituation.BackColor = RGB(242, 221, 220)
+    Notes.BackColor = RGB(242, 221, 220)
+    Label4.BackColor = RGB(242, 221, 220)
+    Label3.BackColor = RGB(242, 221, 220)
+    Label2.BackColor = RGB(242, 221, 220)
+    CopyNotes.BackColor = RGB(242, 221, 220)
+    Email_Manager.BackColor = RGB(242, 221, 220)
+    PrintNotes.BackColor = RGB(242, 221, 220)
+    
+    Banner.ForeColor = RGB(200, 0, 0)
+
+ElseIf ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
+    Sheet = "Alternative_Paid_Accommodation"
+Else
+    Unload Me
+    Exit Sub
+End If
+
+    ClientNumber.Value = Sheets(Sheet).Range("E9").Value
+    Assistance = Sheets(Sheet).Range("E10").Value
+    Household = Sheets(Sheet).Range("E11").Value
+    ResonsWhy = Sheets(Sheet).Range("E12").Value
+    
+For x = 4 To Sheets("Drop Downs").Range("p:P").Cells.SpecialCells(xlCellTypeConstants).Count + 2
+
+    With EmailList
+        .AddItem Sheets("Drop Downs").Range("P" & x).Value
+    End With
+
+Next x
+
+End Sub
+```
+
 # FORMS SUITABILITY
 
 
