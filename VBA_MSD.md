@@ -146,7 +146,7 @@ End If
 End Sub
 ```
 
-# PIVOTED 
+# PIVOTED SHEET
 
 ```VBA
 Private Sub Worksheet_PivotTableUpdate(ByVal Target As PivotTable)
@@ -174,7 +174,7 @@ Next x
 End Sub
 ```
 
-# VACANCIES 
+# VACANCIES SHEET
 
 ```VBA
 
@@ -190,23 +190,8 @@ Private Sub Worksheet_Change(ByVal Target As Range)
     Application.EnableEvents = True
 End Sub
 ```
-# UNHIDE
-```VBA
-Sub UnhideALL()
-            Sheets("Home").Visible = True
-            Sheets("Navigation").Visible = True
-            Sheets("Vacancies").Visible = True
-            Sheets("Register_data").Visible = True
-            Sheets("Drop Downs").Visible = True
-            Sheets("Pivoted").Visible = True
-            Sheets("Form control").Visible = True 
-            Sheets("Provider Information").Visible = True
-            Sheets("Alternative_Paid_Accommodation").Visible = True
-            Sheets("Transitional_Housing").Visible = True
-End Sub
-```
 
-# DIRECTIONS
+# DIRECTIONS MODULE
 
 CLEAN HTML
 ```VBA
@@ -383,7 +368,7 @@ End If
  
 End Function
 ```
-# MAIN
+# MAIN MODULE
 
 ```VBA
 'Declare global variables for userform
@@ -745,5 +730,17 @@ End Sub
 ```
 
 # UNHIDE
-
-
+```VBA
+Sub UnhideALL()
+            Sheets("Home").Visible = True
+            Sheets("Navigation").Visible = True
+            Sheets("Vacancies").Visible = True
+            Sheets("Register_data").Visible = True
+            Sheets("Drop Downs").Visible = True
+            Sheets("Pivoted").Visible = True
+            Sheets("Form control").Visible = True 
+            Sheets("Provider Information").Visible = True
+            Sheets("Alternative_Paid_Accommodation").Visible = True
+            Sheets("Transitional_Housing").Visible = True
+End Sub
+```
