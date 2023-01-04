@@ -490,7 +490,7 @@ End Sub
 ```
 
 INFORM ADMIN
-```
+```VBA
 Sub InformAdmin()
 
 'Email search information to admin
@@ -617,7 +617,7 @@ End If
 End Sub
 ```
 
-UNLOCK ICON
+
 ```VBA 
 'Select Case Application.UserName
 'Case "Gerald Higgins"
@@ -627,9 +627,10 @@ UNLOCK ICON
 '        ChangeFileAccess Mode:=xlReadOnly
 'bypass:
 'End Select
-
+```
+UNLOCK ICON
+```VBA 
 Sub UnlockIcon()
-
 'User Logins
 '' Lets the user use the tool if their user name matches the cell in Range "D12" _
    of the "EHouseCentral" sheet
