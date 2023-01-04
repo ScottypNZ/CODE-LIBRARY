@@ -729,7 +729,7 @@ Sub GotoAlternativePaid()
 End Sub
 ```
 
-# UNHIDE
+# UNHIDE MODULE
 ```VBA
 Sub UnhideALL()
             Sheets("Home").Visible = True
