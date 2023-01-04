@@ -744,3 +744,496 @@ Sub UnhideALL()
             Sheets("Transitional_Housing").Visible = True
 End Sub
 ```
+
+# FORMS ABOUT
+
+AUCKLAND TRANSPORT LINK
+```VBA
+Private Sub AucklandTransport_Click()
+
+ ThisWorkbook.FollowHyperlink "https://at.govt.nz/"
+ 
+End Sub
+```
+
+CONTACT US
+```VBA
+Private Sub ContactUs_Change()
+
+End Sub
+```
+GET DIRECTIONS
+```VBA
+Private Sub GetDirections_Click()
+
+If ServiceC.Value = "" Then
+    MsgBox "Pick the closest service centre"
+End If
+
+Dim SiteAddress As String
+
+For x = 4 To 37
+
+If ServiceC.Value = ThisWorkbook.Sheets("Drop downs").Range("AT" & x).Value Then
+    SiteAddress = ThisWorkbook.Sheets("Drop downs").Range("AU" & x).Value
+End If
+
+Next x
+
+
+On Error Resume Next
+
+Drivetime.Value = getGoogleTravelTime(SiteAddress, Address.Value)
+Distance.Value = getGoogleDistance(SiteAddress, Address.Value)
+Directions.Value = getGoogleDirections(SiteAddress, Address.Value)
+
+End Sub
+```
+GOOGLEMAPS LINK
+```VBA
+
+Private Sub Googlemaps_Click()
+
+ ThisWorkbook.FollowHyperlink "https://www.google.co.nz/maps/@"
+ 
+End Sub
+```
+LABEL 20
+```VBA
+Private Sub Label20_Click()
+
+End Sub
+```
+ACTIVATE USER FORM
+```VBA
+Private Sub UserForm_Activate()
+
+For x = 4 To 37
+
+With ServiceC
+    .AddItem ThisWorkbook.Sheets("Drop downs").Range("At" & x).Value
+End With
+
+Next x
+
+
+Dim Sheet As String
+
+If ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
+    Sheet = "Alternative_Paid_Accommodation"
+    Suitability.Caption = "Suitability - Alternative Paid Accommodation"
+ElseIf ActiveSheet.Name = "Transitional_Housing" Then
+    Sheet = "Transitional_Housing"
+    Suitability.Caption = "Suitability - Transitional Housing"
+
+    Registered.BackColor = RGB(242, 221, 220)
+    CURAM.BackColor = RGB(242, 221, 220)
+    WhatWeDo.BackColor = RGB(242, 221, 220)
+    YouShouldKnow.BackColor = RGB(242, 221, 220)
+    ContactUs.BackColor = RGB(242, 221, 220)
+    
+    GetDirections.BackColor = RGB(242, 221, 220)
+    Googlemaps.BackColor = RGB(242, 221, 220)
+    AucklandTransport.BackColor = RGB(242, 221, 220)
+    Address.BackColor = RGB(242, 221, 220)
+    Distance.BackColor = RGB(242, 221, 220)
+    Directions.BackColor = RGB(242, 221, 220)
+    Drivetime.BackColor = RGB(242, 221, 220)
+    
+    Label8.ForeColor = RGB(200, 0, 0)
+
+Else
+    Unload Me
+    Exit Sub
+End If
+
+ProviderName = Sheets(Sheet).Range("K9")
+
+'For x = 1 To Sheets("Register_data").Range("a:a").Cells.SpecialCells(xlCellTypeConstants).Count
+For x = 1 To Sheets("Register_data").Range("A1").SpecialCells(xlCellTypeLastCell).Row
+
+    If ProviderName.Value = Sheets("Register_data").Range("a" & x).Value Then
+        Registered.Value = Sheets("Register_data").Range("b" & x).Value
+        CURAM.Value = Sheets("Register_data").Range("c" & x).Value
+        WhatWeDo.Value = Sheets("Register_data").Range("d" & x).Value
+        YouShouldKnow.Value = Sheets("Register_data").Range("e" & x).Value
+        ContactUs.Value = Sheets("Register_data").Range("k" & x).Value
+        Address.Value = Sheets("Register_data").Range("J" & x).Value
+    End If
+
+Next x
+           
+End Sub
+```
+
+# FORMS ADD VACANCY
+
+```VBA
+Private Sub Banner_Click()
+End Sub
+```
+
+```VBA
+Private Sub Cancel_Click()
+Unload Me
+End Sub
+```
+
+```VBA
+Private Sub Label16_Click()
+End Sub
+```
+
+```VBA
+Private Sub Label34_Click()
+End Sub
+```
+
+```VBA
+Private Sub Label6_Click()
+End Sub
+```
+RESET CLICK
+```VBA
+Private Sub Reset_Click()
+
+Provider.Value = ""
+VacancyType.Value = ""
+Beds.Value = ""
+Lengthofstay.Value = ""
+VacancyAddress.Value = ""
+NearestServiceCenter.Value = ""
+AreaOfAuckland.Value = ""
+MostSutible.Value = ""
+CostPerWeek.Value = ""
+KeyContact.Value = ""
+ContactMethod.Value = ""
+ContactDetail.Value = ""
+DateAvaliable.Value = ""
+WrapAround.Value = ""
+
+End Sub
+```
+SAVE AND CLOSE
+```VBA
+Private Sub SaveAndClose_Click()
+
+Dim Sheet1 As String
+    Sheet1 = "Vacancy Database"
+
+Dim x As String
+    x = Sheets(Sheet1).Range("a:a").Cells.SpecialCells(xlCellTypeConstants).Count + 6
+    Sheets(Sheet1).Range("a" & x).Value = Format(Date, "DD/MM/YYYY")
+    Sheets(Sheet1).Range("b" & x).Value = Provider.Value
+    Sheets(Sheet1).Range("c" & x).Value = VacancyType
+    Sheets(Sheet1).Range("d" & x).Value = Beds
+    Sheets(Sheet1).Range("e" & x).Value = Lengthofstay
+    Sheets(Sheet1).Range("f" & x).Value = VacancyAddress
+    Sheets(Sheet1).Range("g" & x).Value = NearestServiceCenter
+    Sheets(Sheet1).Range("h" & x).Value = AreaOfAuckland
+    Sheets(Sheet1).Range("i" & x).Value = MostSutible
+    Sheets(Sheet1).Range("j" & x).Value = CostPerWeek
+    Sheets(Sheet1).Range("k" & x).Value = KeyContact
+    Sheets(Sheet1).Range("l" & x).Value = ContactMethod
+    Sheets(Sheet1).Range("m" & x).Value = ContactDetail
+    Sheets(Sheet1).Range("n" & x).Value = DateAvaliable
+    Sheets(Sheet1).Range("o" & x).Value = WrapAround
+
+    Unload Me
+
+End Sub
+```
+
+SAVE AND NEW
+```VBA
+Private Sub SaveAndNew_Click()
+
+Dim Sheet1 As String
+    Sheet1 = "Vacancy Database"
+
+Dim x As String
+    x = Sheets(Sheet1).Range("a:a").Cells.SpecialCells(xlCellTypeConstants).Count + 6
+    Sheets(Sheet1).Range("a" & x).Value = Format(Date, "DD/MM/YYYY")
+    Sheets(Sheet1).Range("b" & x).Value = Provider.Value
+    Sheets(Sheet1).Range("c" & x).Value = VacancyType
+    Sheets(Sheet1).Range("d" & x).Value = Beds
+    Sheets(Sheet1).Range("e" & x).Value = Lengthofstay
+    Sheets(Sheet1).Range("f" & x).Value = VacancyAddress
+    Sheets(Sheet1).Range("g" & x).Value = NearestServiceCenter
+    Sheets(Sheet1).Range("h" & x).Value = AreaOfAuckland
+    Sheets(Sheet1).Range("i" & x).Value = MostSutible
+    Sheets(Sheet1).Range("j" & x).Value = CostPerWeek
+    Sheets(Sheet1).Range("k" & x).Value = KeyContact
+    Sheets(Sheet1).Range("l" & x).Value = ContactMethod
+    Sheets(Sheet1).Range("m" & x).Value = ContactDetail
+    Sheets(Sheet1).Range("n" & x).Value = DateAvaliable
+    Sheets(Sheet1).Range("o" & x).Value = WrapAround
+    Reset_Click
+End Sub
+```
+
+# FORMS DATA
+USER FORM INITIALISE
+```VBA
+Private Sub UserForm_Initialize()
+Application.ScreenUpdating = False
+    Dim sht As String
+    sht = ActiveSheet.Name
+
+                init = True
+                '-----------------[ initialize scrollbar ]
+                'number of records
+                ScrollBar1.Min = 1
+                ScrollBar1.Max = Range("lastrow").Row - Range("header").Row - 1
+                ScrollBar1.Value = ActiveCell.Row - Range("header").Row
+    
+Dim vars As Variant, r As Integer, c As Integer
+
+'****************** Load array of form variables ******************
+If Sheets("Form control").Visible = False Then Sheets("Form control").Visible = True
+
+Application.GoTo Reference:="formvariables"
+'===================================================================
+    Dim rows As Integer, cols As Integer
+        rows = Selection.rows.Count ' Get rows of selected range
+            cols = Selection.Columns.Count ' Get columns of selected range
+        ReDim vars(1 To rows, 1 To cols)
+        ' If multiple cells are selected, Selection returns an array.
+        If IsArray(Selection) Then
+            vars = Selection
+        Else
+            vars(1, 1) = Selection.Value ' If single cell is selected, return single value
+        End If
+
+If Sheets("Form control").Visible = True Then Sheets("Form control").Visible = False
+
+On Error GoTo errorHandler1
+
+'-----[loop through all controls in form]
+Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        '-----[loop through array]
+        For r = 1 To rows
+
+                If ctrl.Name = vars(r, 1) Then
+                    ctrl.Caption = vars(r, 2)
+                End If
+                
+                If ctrl.Name = vars(r, 4) Then
+                    If InStr(1, ctrl.Name, "Combo", vbTextCompare) > 0 Then Me.Controls(ctrl.Name).RowSource = vars(r, 5)
+                End If
+
+        Next r
+        '-----[end loop through array]
+    Next ctrl
+'-----[end loop through all controls in form]
+
+On Error GoTo 0
+'******************
+
+Sheets(sht).Select
+Range("A" & Selection.Row).Select 'go to first column
+                '-----------------[ populating data ]
+                TextBox1.Value = ActiveCell.Offset(0, 0).Formula
+                TextBox2.Value = ActiveCell.Offset(0, 1).Formula
+                TextBox3.Value = ActiveCell.Offset(0, 2).Formula
+                TextBox4.Value = ActiveCell.Offset(0, 3).Formula
+                TextBox5.Value = ActiveCell.Offset(0, 4).Formula
+                TextBox6.Value = ActiveCell.Offset(0, 5).Formula
+                TextBox7.Value = ActiveCell.Offset(0, 6).Formula
+                TextBox8.Value = ActiveCell.Offset(0, 7).Formula
+                TextBox9.Value = ActiveCell.Offset(0, 8).Formula
+                TextBox10.Value = ActiveCell.Offset(0, 9).Formula
+                TextBox11.Value = ActiveCell.Offset(0, 10).Formula
+                TextBox12.Value = ActiveCell.Offset(0, 11).Formula
+                ComboBox1.Value = ActiveCell.Offset(0, 12).Formula
+                ComboBox2.Value = ActiveCell.Offset(0, 13).Formula
+                TextBox13.Value = ActiveCell.Offset(0, 14).Formula
+                TextBox14.Value = ActiveCell.Offset(0, 15).Formula
+                TextBox15.Value = ActiveCell.Offset(0, 16).Formula
+                TextBox16.Value = ActiveCell.Offset(0, 17).Formula
+                TextBox17.Value = ActiveCell.Offset(0, 18).Formula
+                TextBox18.Value = ActiveCell.Offset(0, 19).Formula
+                ComboBox3.Value = ActiveCell.Offset(0, 20).Formula
+                TextBox19.Value = ActiveCell.Offset(0, 21).Formula
+
+                    t_1 = TextBox1.Value
+                    t_2 = TextBox2.Value
+                    t_3 = TextBox3.Value
+                    t_4 = TextBox4.Value
+                    t_5 = TextBox5.Value
+                    t_6 = TextBox6.Value
+                    t_7 = TextBox7.Value
+                    t_8 = TextBox8.Value
+                    t_9 = TextBox9.Value
+                    t_10 = TextBox10.Value
+                    t_11 = TextBox11.Value
+                    t_12 = TextBox12.Value
+                    t_13 = ComboBox1.Value
+                    t_14 = ComboBox2.Value
+                    t_15 = TextBox13.Value
+                    t_16 = TextBox14.Value
+                    t_17 = TextBox15.Value
+                    t_18 = TextBox16.Value
+                    t_19 = TextBox17.Value
+                    t_20 = TextBox18.Value
+                    t_21 = ComboBox3.Value
+                    t_22 = TextBox19.Value
+
+        init = False
+Exit Sub
+
+errorHandler1:
+    MsgBox ("Error!"), vbOKOnly
+    Application.ScreenUpdating = True
+
+End Sub
+```
+SUB SAVE
+```VBA
+Private Sub save()
+Application.ScreenUpdating = False
+
+Dim r As Integer: r = Selection.Row
+Range("A" & r).Select 'go to first column
+
+                '-----------------[ entering data ]
+                ActiveCell.Offset(0, 0).Formula = TextBox1.Value
+                ActiveCell.Offset(0, 1).Formula = TextBox2.Value
+                ActiveCell.Offset(0, 2).Formula = TextBox3.Value
+                ActiveCell.Offset(0, 3).Formula = TextBox4.Value
+                ActiveCell.Offset(0, 4).Formula = TextBox5.Value
+                ActiveCell.Offset(0, 5).Formula = TextBox6.Value
+                ActiveCell.Offset(0, 6).Formula = TextBox7.Value
+                ActiveCell.Offset(0, 7).Formula = TextBox8.Value
+                ActiveCell.Offset(0, 8).Formula = TextBox9.Value
+                ActiveCell.Offset(0, 9).Formula = TextBox10.Value
+                ActiveCell.Offset(0, 10).Formula = TextBox11.Value
+                ActiveCell.Offset(0, 11).Formula = TextBox12.Value
+                ActiveCell.Offset(0, 12).Formula = ComboBox1.Value
+                ActiveCell.Offset(0, 13).Formula = ComboBox2.Value
+                ActiveCell.Offset(0, 14).Formula = TextBox13.Value
+                ActiveCell.Offset(0, 15).Formula = TextBox14.Value
+                ActiveCell.Offset(0, 16).Formula = TextBox15.Value
+                ActiveCell.Offset(0, 17).Formula = TextBox16.Value
+                ActiveCell.Offset(0, 18).Formula = TextBox17.Value
+                ActiveCell.Offset(0, 19).Formula = TextBox18.Value
+                ActiveCell.Offset(0, 20).Formula = ComboBox3.Value
+                ActiveCell.Offset(0, 21).Formula = TextBox19.Value
+
+                    t_1 = TextBox1.Value
+                    t_2 = TextBox2.Value
+                    t_3 = TextBox3.Value
+                    t_4 = TextBox4.Value
+                    t_5 = TextBox5.Value
+                    t_6 = TextBox6.Value
+                    t_7 = TextBox7.Value
+                    t_8 = TextBox8.Value
+                    t_9 = TextBox9.Value
+                    t_10 = TextBox10.Value
+                    t_11 = TextBox11.Value
+                    t_12 = TextBox12.Value
+                    t_13 = ComboBox1.Value
+                    t_14 = ComboBox2.Value
+                    t_15 = TextBox13.Value
+                    t_16 = TextBox14.Value
+                    t_17 = TextBox15.Value
+                    t_18 = TextBox16.Value
+                    t_19 = TextBox17.Value
+                    t_20 = TextBox18.Value
+                    t_21 = ComboBox3.Value
+                    t_22 = TextBox19.Value
+
+UserForm_Initialize
+Application.ScreenUpdating = True
+    
+End Sub
+```
+USERFORM CLOSE
+```VBA 
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    Call chkmodified
+    If chkmodified = True Then
+        'save before closing
+            If vbOK = MsgBox("Do you want to save the changes made on the form? Press 'OK' to save, otherwise 'Cancel' to close without saving.", _
+            vbOKCancel, "Save changes?") Then
+                'If press OK
+                Call save
+            End If
+    End If
+
+Unload Data
+End 'halts ALL exectution and also clears all global and static variables
+End Sub
+```
+
+FUNCTION CHECK MODIFIED
+```VBA
+Private Function chkmodified() As Boolean
+                If TextBox1.Value = t_1 And _
+                TextBox2.Value = t_2 And _
+                TextBox3.Value = t_3 And _
+                TextBox4.Value = t_4 And _
+                TextBox5.Value = t_5 And _
+                TextBox6.Value = t_6 And _
+                TextBox7.Value = t_7 And _
+                TextBox8.Value = t_8 And _
+                TextBox9.Value = t_9 And _
+                TextBox10.Value = t_10 And _
+                TextBox11.Value = t_11 And _
+                TextBox12.Value = t_12 And _
+                ComboBox1.Value = t_13 And _
+                ComboBox2.Value = t_14 And _
+                TextBox13.Value = t_15 And _
+                TextBox14.Value = t_16 And _
+                TextBox15.Value = t_17 And _
+                TextBox16.Value = t_18 And _
+                TextBox17.Value = t_19 And _
+                TextBox18.Value = t_20 And _
+                ComboBox3.Value = t_21 And _
+                TextBox19.Value = t_22 Then
+                    chkmodified = False 'no changes made
+                Else
+                    chkmodified = True 'changes made
+                End If
+End Function
+```
+
+COMMAND BUTTON 1
+```VBA
+Private Sub CommandButton1_Click()
+    Call save
+    MsgBox "Saved!", vbOKOnly, "Save changes"
+End Sub
+```
+
+COMMAND BUTTON 2
+```VBA
+Private Sub CommandButton2_Click()
+    Unload Data
+End Sub
+```
+SCROLL BAR CHANGE
+```VBA
+Private Sub ScrollBar1_Change()
+If init = False Then
+        Call chkmodified
+        If chkmodified = True Then
+            'save before closing
+                If vbOK = MsgBox("Do you want to save the changes made on the form? Press 'OK' to save, otherwise 'Cancel' to continue without saving.", _
+                vbOKCancel, "Save changes?") Then
+                    'If press OK
+                    Call save
+                End If
+        End If
+    Range("A" & Range("header").Row + ScrollBar1.Value).Select
+    UserForm_Initialize
+End If
+End Sub
+```
+
+# FORMS NOTES
+
+# FORMS SUITABILITY
+
+
