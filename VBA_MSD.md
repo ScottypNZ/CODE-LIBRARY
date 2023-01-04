@@ -146,7 +146,7 @@ End If
 End Sub
 ```
 
-## PIVOTED 
+# PIVOTED 
 
 ```VBA
 Private Sub Worksheet_PivotTableUpdate(ByVal Target As PivotTable)
@@ -174,7 +174,7 @@ Next x
 End Sub
 ```
 
-## VACANCIES 
+# VACANCIES 
 
 ```VBA
 
@@ -190,7 +190,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
     Application.EnableEvents = True
 End Sub
 ```
-## UNHIDE
+# UNHIDE
 ```VBA
 Sub UnhideALL()
             Sheets("Home").Visible = True
@@ -206,14 +206,19 @@ Sub UnhideALL()
 End Sub
 ```
 
-# SHAPES
+# SHAPES MODULE
+
+HIDE SHAPES
 ```VBA
 Sub HideShapes()
     Sheets("Transitional_Housing").Shapes("Rounded Rectangle 5").Visible = False
     Sheets("Transitional_Housing").Shapes("Rounded Rectangle 14").Visible = False
     Sheets("Transitional_Housing").Shapes("Rounded Rectangle 12").Visible = False
 End Sub
+```
 
+INFORM ADMIN
+```
 Sub InformAdmin()
 
 'Email search information to admin
@@ -337,10 +342,11 @@ If Sheets(Sheet).Range("K21").Value = "" Then
     MsgBox "No Results"
 End If
 
-
-
 End Sub
+```
 
+UNLOCK ICON
+```VBA 
 'Select Case Application.UserName
 'Case "Gerald Higgins"
 'GoTo bypass
@@ -421,30 +427,43 @@ debugs:
          If Err.Description <> "" Then MsgBox Err.Description
 
 End Sub
+```
 
+AMOUT THE PROVIDER
+```VBA
 Sub AboutTheProvider()
 
 About.Show
 
 End Sub
-
+```
+SUITABILITY CHECK
+```VBA
 Sub Suitability_check()
 
 Suitability.Show
 
 End Sub
-
+```
+CLIENT EVENT
+```VBA
 Sub ClientEvent()
 
 Notes.Show
 
 End Sub
-
+```
+GO TO EMERGENCY HOUSING
+```VBA
 Sub GotoEmergencyHousing()
 
     Sheets("Transitional_Housing").Activate
 
 End Sub
+```
+GO TO ALTERNATIVE
+
+```VBA
 Sub GotoAlternativePaid()
 '
     Sheets("Alternative_Paid_Accommodation").Activate
@@ -454,7 +473,7 @@ End Sub
 
 
 # NOTES
-
+CANCEL NOTES CLICK
 ```VBA 
 Private Sub CancelNotes_Click()
 Unload Me
