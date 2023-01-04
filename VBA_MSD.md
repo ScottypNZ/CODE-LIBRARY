@@ -1388,6 +1388,57 @@ End Sub
 
 # FORMS SUITABILITY
 
+```VBA
+Private Sub Label6_Click()
+End Sub
+```
+
+```VBA
+Private Sub Label8_Click()
+End Sub
+```
+
+```VBA
+Private Sub ProviderName_Change()
+End Sub
+```
+USER FORM ACTIVATED
+```VBA
+Private Sub UserForm_Activate()
+
+Dim Sheet As String
+
+If ActiveSheet.Name = "Alternative_Paid_Accommodation" Then
+    Sheet = "Alternative_Paid_Accommodation"
+    Suitability.Caption = "Suitability - Alternative Paid Accommodation"
+ElseIf ActiveSheet.Name = "Transitional_Housing" Then
+    Sheet = "Transitional_Housing"
+    Suitability.Caption = "Suitability - Emergency Housing"
+    
+    SuitabilityCheck.BackColor = RGB(242, 221, 220)
+    SuitabilityCheck2.BackColor = RGB(242, 221, 220)
+    Label8.ForeColor = RGB(200, 0, 0)
+Else
+    Unload Me
+    Exit Sub
+End If
+
+ProviderName = Sheets(Sheet).Range("K9")
+
+For x = 1 To Sheets("Register_data").Range("a:a").Cells.SpecialCells(xlCellTypeConstants).Count
+    If ProviderName.Value = Sheets("Register_data").Range("a" & x).Value Then
+        SuitabilityCheck.Value = Sheets("Register_data").Range("n" & x).Value
+        SuitabilityCheck2.Value = Sheets("Register_data").Range("V" & x).Value
+    End If
+Next x
+
+End Sub
+```
+
+
+
+
+
 
 
 
