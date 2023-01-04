@@ -1233,12 +1233,15 @@ End Sub
 ```
 
 # FORMS NOTES
-
-```
+CANCEL NOTES
+```VBA
 Private Sub CancelNotes_Click()
 Unload Me
 End Sub
+```
 
+COPY NOTES
+```
 Private Sub CopyNotes_Click()
 
 'ActiveSheet.Range("a3").Value = "What is the clients household type?:"
@@ -1263,9 +1266,11 @@ clipboard.SetText "Client Number:" & ClientNumber.Value & _
 
 clipboard.PutInClipboard
 
-
 End Sub
+```
 
+EMAIL MANAGER
+```VBA
 Private Sub Email_Manager_Click()
 
 Sheets.Add.Name = "DeleteMe"
@@ -1320,14 +1325,20 @@ Application.DisplayAlerts = False
 Application.DisplayAlerts = True
 
 End Sub
+```
 
+PRINT NOTES
+```VBA
 Private Sub PrintNotes_Click()
 
 CopyNotes_Click
 ActiveSheet.PrintOut
 
 End Sub
+```
 
+USER FORM ACTIVATE
+``` VBA
 Private Sub UserForm_Activate()
 
 Notes.Value = Sheets("Drop downs").Range("AB4").Value
@@ -1376,5 +1387,7 @@ End Sub
 ```
 
 # FORMS SUITABILITY
+
+
 
 
