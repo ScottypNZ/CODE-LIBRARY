@@ -306,7 +306,7 @@ ORIGINAL
 </html>
 ```
 
-UPDATED
+UPDATED BASE
 ```HTML
 <!DOCTYPE html>
 <html>
@@ -502,16 +502,25 @@ UPDATED
           <h1>  </h1>
         </div>
         <div class="item">
+
+<!-- QUESTION 1, DATE OF EVENT --> 
+
           <p>Date of Event</p>
           <input type="date" name="bdate" />
           <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="item">
+
+<!-- QUESTION 2, TIME EVENT --> 
+
           <p>Time of Event</p>
           <input type="time" name="name" />
           <i class="fas fa-clock"></i>
         </div>
         <div class="item">
+
+<!-- QUESTION 3, SELECT ARTIST--> 
+
           <p>Select Artist</p>
           <select>
             <option value=""></option>
@@ -523,18 +532,30 @@ UPDATED
           </select>
         </div>
         <div class="item">
+
+<!-- QUESTION 4, Description of Event --> 
+
           <p>Description of Event</p>
           <textarea rows="3" ></textarea>
         </div>
         <div class="item">
+
+<!-- QUESTION 5, PROMOTERS NAME --> 
+
           <p>Promoter's Name</p>
           <input type="text" name="name"/>
         </div>
         <div class="item">
           <p>Venue Name</p>
+
+<!-- QUESTION 6, VENUE NAME --> 
+
           <input type="text" name="name"/>
         </div>
         <div class="item">
+
+<!-- QUESTION  7, VENUE ADDRESS--> 
+
           <p>Venue Address</p>
           <input type="text" name="name" placeholder="Street address" />
           <input type="text" name="name" placeholder="Street address line 2" />
@@ -542,6 +563,7 @@ UPDATED
             <input type="text" name="name" placeholder="City" />
             <input type="text" name="name" placeholder="Region" />
             <input type="text" name="name" placeholder="Postal / Zip code" />
+
             <select>
               <option value="">Country</option>
               <option value="1">Russia</option>
@@ -553,14 +575,23 @@ UPDATED
           </div>
         </div>
         <div class="item">
+
+<!-- QUESTION 8, VENUE CAPACITY --> 
+
           <p>Venue Capacity</p>
           <input type="text" name="name"/>
         </div>
         <div class="item">
+
+<!-- QUESTION 9, EXPECTED ATTENDANCE  --> 
+
           <p>Expected Attendance</p>
           <input type="text" name="name"/>
         </div>
         <div class="item">
+
+<!-- QUESTION 10, TYPE OF PERFORMANCE --> 
+
           <p>Type of Performance</p>
           <select>
             <option value=""></option>
@@ -570,10 +601,16 @@ UPDATED
           </select>
         </div>
         <div class="item">
+
+<!-- QUESTION 11, SET TIME  --> 
+
           <p>Set Time (in minutes)</p>
           <input type="text" name="name"/>
         </div>
         <div class="item">
+
+<!-- QUESTION 12, CONTACT PERSON  --> 
+
           <p>Contact Person</p>
           <div class="name-item">
             <input type="text" name="name" placeholder="First" />
@@ -581,14 +618,23 @@ UPDATED
           </div>
         </div>
         <div class="item">
+
+<!-- QUESTION 13, CONTACT EMAIL  --> 
+
           <p>Contact Email</p>
           <input type="text" name="name"/>
         </div>
         <div class="item">
+
+<!-- QUESTION 14, CONTACT NUMBER  --> 
+
           <p>Contact Number</p>
           <input type="text" name="name"/>
         </div>
         <div class="question">
+
+<!-- QUESTION 15, WILL THIS EVENT BE RECORDED --> 
+
           <p>Will this event be recorded?</p>
           <div class="question-answer">
             <div>
