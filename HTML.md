@@ -353,6 +353,9 @@ ORIGINAL
             </div>
           </div>
         </div>
+
+<!-- BUTTON --> 
+
         <div class="btn-block">
           <button type="submit" href="/">SEND</button>
         </div>
