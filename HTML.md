@@ -2,13 +2,13 @@
 
 HTML FORM - https://www.w3docs.com/tools/editor/5943
 
- * [TEMPLATE](#TEMPLATE)
- * [ORIGINAL](#ORIGINAL)
- * [NEW](#NEW)
+ * [TEMPLATE](###TEMPLATE)
+ * [ORIGINAL](###ORIGINAL)
+ * [NEW](###NEW)
 
 ----------------------------------------------------------
 
-TEMPLATE
+###TEMPLATE
 
 ```HTML
 <!DOCTYPE html>
@@ -535,7 +535,7 @@ TEMPLATE
 
 ```
 
-ORIGINAL
+###ORIGINAL
 
 ```HTML
 <!DOCTYPE html>
@@ -937,7 +937,7 @@ ORIGINAL
 ```
 
 
-NEW
+###NEW
 
 <!DOCTYPE html>
 <html>
