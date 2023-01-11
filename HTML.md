@@ -2,10 +2,538 @@
 
 HTML FORM - https://www.w3docs.com/tools/editor/5943
 
+ * [TEMPLATE](#TEMPLATE)
  * [ORIGINAL](#ORIGINAL)
  * [NEW](#NEW)
 
 ----------------------------------------------------------
+
+TEMPLATE
+
+```HTML
+<!DOCTYPE html>
+<html>
+
+<!-- FONT, LIKELY IF NOT USING A PICTURE--> 
+
+  <head>
+    <title>x </title>
+    <link href=https://fonts.googleapis.com/css?family=Roboto:300,400,500,700 rel="stylesheet">
+    <link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+<style>
+
+      html, body {
+      min-height: 100%;
+      }
+
+      body, div, form, input, select, textarea, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 32px;
+      color: #fff;
+      z-index: 2;
+      }
+
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 20px;
+      }
+
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 20px 0 #a82877; 
+      }
+
+      .banner {
+      position: relative;
+      height: 210px;
+      background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);      
+      background-size: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-repeat: no-repeat;
+      }
+
+      .banner::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.5); 
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      }
+
+      input, textarea, select {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+
+     input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color: #a82877;
+      }
+
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 6px 0 #a82877;
+      color: #a82877;
+      }
+
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+
+      .item i {
+      right: 1%;
+      top: 30px;
+      z-index: 1;
+      }
+
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 0;_30px
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+
+     input[type="time"]::-webkit-inner-spin-button {
+      margin: 2px 22px 0 0;
+      }
+
+
+      .btn-block {
+      margin-top: 10px;
+      text-align: center;
+      }
+
+      
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px; 
+      background: #a82877;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+
+      button:hover {
+      background: #bf1e81;
+      }
+
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+     }
+
+      .name-item input, .city-item input {
+      width: calc 50% - 20px);
+      }
+
+      .city-item select {
+      width: calc(50% - 8px);
+      }
+
+            /*  -----------------------------------------------------RADIO --------------------------------------------------- */
+
+     input[type=radio], input.other {
+      display: none;
+      }
+      label.radio {
+      position: relative;
+      display: inline-block;
+      margin: 10px 0px 0px 0px;
+      cursor: pointer;
+      padding-left: 30px;
+      }
+
+      .question span {
+      margin-left: 0px;
+  
+
+      }
+      label.radio:before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+     
+      }
+      #radio_5:checked ~ input.other {
+      display: block;
+      }
+      input[type=radio]:checked + label.radio:before {
+      border: 2px solid #a82877;
+      background: #a82877;
+      }
+      label.radio:after {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 5px;
+      width: 7px;
+      height: 4px;
+      border: 3px solid #fff;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      opacity: 0;
+      }
+      input[type=radio]:checked + label:after {
+      opacity: 1;
+      }
+
+
+      /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
+
+  .checkbox-inline {
+  columns: 1;
+  border: solid 1px ;
+  display: inline-block;
+  position: relative;
+  text-align: top;  
+ margin: -2px -2px -2px -2px;
+}
+
+/*  --------------------------------------------------CHECK BOX SPECIFIC ------------------------------------------------- */
+
+  .box {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-right: 5px
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 10px;
+        text-align:left;  
+        columns: 1;
+        display: inline-block;
+        border: solid 1px ;
+        width: 110px;
+        height: 27px;
+        }
+
+      }
+      /* Hide the default style of the checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+      /* Create a custom checkbox */
+      .mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        border: 1px solid #ccc;
+        background-color: #999999;
+
+      }
+
+.mark-inline {
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  columns: 5
+  rows 3;
+}
+
+      /* Specify the background color for the checkbox while hovering */
+      .box:hover input + .mark {
+       background-color: #1c87c9;
+      }
+
+      /* Specify the background color for the checkbox when the checkbox is active */
+      .box input:active + .mark {
+        background-color: #ffcc00;
+      }
+
+      /* Specify the background color for the checkbox when it is checked */
+      .box input:checked + .mark {
+       background-color: #8ebf42;
+      }
+
+      /* Checkmark to be shown in checkbox */
+      /* It will not be shown when not checked */
+      .mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Display checkmark when checked */
+      .box input:checked + .mark:after {
+        display: block;
+      }
+
+      /* Styling the checkmark using webkit */
+      /* Rotated the rectangle by 45 degree and showing only two border to make it look like a tick mark */
+      .box .mark:after {
+        left: 8px;
+        bottom: 5px;
+        width: 6px;
+        height: 12px;
+        border: solid #eee;
+        border-width: 0 4px 4px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      }
+      /*  --------------------------------------------------CHECK BOX END------------------------------------------------- */
+
+  </style>
+  </head>
+
+<!-- HEADER --> 
+
+  <body>
+    <div class="testbox">
+      <form action="/">
+
+<!-- BANNER TEXT --> 
+
+        <div class="banner">
+          <h1>  </h1>
+        </div>
+        <div class="item">
+
+  <!--    --------------------------------------------------QUESTIONS------------------------------------------------- --> 
+
+
+<!-- DATE --> 
+
+          <p>Date </p>
+          <input type="date" name="bdate" />
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="item">
+
+<!-- TIME --> 
+
+          <p>Time </p>
+          <input type="time" name="name" />
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="item">
+
+<!-- BOOLEAN --> 
+
+        <p>Boolean</p>
+          <select>
+            <option value="1">*Please select*</option>
+            <option value="2">Yes </option>
+            <option value="3">No</option>
+          </select>
+        </div>
+        <div class="item">
+
+<!-- DROPDOWN --> 
+
+          <p>Dropdown</p>
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">Wellington</option>
+              <option value="2">Christchurch</option>
+              <option value="3">Auckland</option>
+              <option value="4">Southern</option>
+              <option value="5">Central</option>
+            </select>
+          </div>
+        <div class="item">
+
+<!-- NAME  --> 
+
+          <p>Name</p>
+          <div class="name-item">
+            <input type="text" name="name" placeholder="First" />
+            <input type="text" name="name" placeholder="Last" />
+          </div>
+</div>
+        <div class="item">
+
+
+
+<!-- FREE TEXTBOX  --> 
+
+          <p>Text</p>
+          <input type="text" name="name"/>
+        </div>
+        <div class="item">
+
+<!-- CHECKBOX INLINE  --> 
+
+<fieldset class="checkbox-inline">
+  <legend>Checkbox List</legend>
+
+      <label class="box">Test
+        <input type="checkbox"> 
+        <span class="mark"></span>
+      </label>
+
+        <label class="box">Test
+        <input type="checkbox">
+        <span class="mark"></span>
+      </label>
+
+      <label class="box">Test
+        <input type="checkbox">
+        <span class="mark"></span>
+      </label>
+
+      <label class="box">Test
+        <input type="checkbox">
+        <span class="mark"></span>
+      </label>
+
+      <label class="box">Test
+        <input type="checkbox">
+        <span class="mark"></span>
+      </label>
+
+</fieldset>
+
+<!-- CHECKBOX --> 
+
+     <p style="margin-top:15px">Custom checkboxes</p>
+     
+      <label class="box">One
+        <input type="checkbox" >
+        <span class="mark"></span>
+      </label>
+
+      <label class="box">Two
+        <input type="checkbox" checked="checked">
+        <span class="mark"></span>
+      </label>
+
+      <label class="box">Three
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+      <label class="box">Four
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+      <label class="box">Five
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+      <label class="box">Six
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+     <label class="box">Seven
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+     <label class="box">Eight
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+     <label class="box">Nine
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+     <label class="box">Ten
+        <input type="checkbox">
+        <span class="mark"> </span>
+        </label>
+
+<!-- RADIO BUTTON -->
+
+   <p style="margin-top:10px">Radio Button</p> 
+
+            <div>
+              <input type="radio" value="none" id="radio_1" name="recorded" />
+              <label for="radio_1" class="radio"><span>Yes</span></label>
+            </div>
+
+            <div>
+              <input type="radio" value="none" id="radio_2" name="recorded" />
+              <label for="radio_2" class="radio"><span>No</span></label>
+            </div>
+
+            <div>
+              <input type="radio" value="none" id="radio_3" name="recorded" />
+              <label for="radio_3" class="radio"><span>Other</span></label>
+            </div>
+
+            </div>
+       </div>
+
+<!-- COMPLETE BUTTON --> 
+
+        <div class="btn-block">
+          <button type="submit" href="/">COPY</button>
+        </div>
+
+      </form>
+    </div>
+
+  </body>
+</html>
+
+```
 
 ORIGINAL
 
