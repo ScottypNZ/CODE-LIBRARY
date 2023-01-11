@@ -537,7 +537,9 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 ### ORIGINAL
 
-```HTML
+```
+HTML
+
 <!DOCTYPE html>
 <html>
 
@@ -938,7 +940,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 
 ### NEW
-
+```HTML
 <!DOCTYPE html>
 <html>
 
@@ -1623,5 +1625,5 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
   </body>
 </html>
-
+```
 
