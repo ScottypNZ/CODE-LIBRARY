@@ -2,9 +2,9 @@
 
 HTML FORM - https://www.w3docs.com/tools/editor/5943
 
- * [TEMPLATE](###TEMPLATE)
- * [ORIGINAL](###ORIGINAL)
- * [NEW](###NEW)
+ * [TEMPLATE](#TEMPLATE)
+ * [ORIGINAL](#ORIGINAL)
+ * [NEW](#NEW)
 
 ----------------------------------------------------------
 
