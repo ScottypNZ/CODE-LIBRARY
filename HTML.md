@@ -8,7 +8,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 ----------------------------------------------------------
 
-###TEMPLATE
+### TEMPLATE
 
 ```HTML
 <!DOCTYPE html>
@@ -535,7 +535,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 ```
 
-###ORIGINAL
+### ORIGINAL
 
 ```HTML
 <!DOCTYPE html>
@@ -937,7 +937,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 ```
 
 
-###NEW
+### NEW
 
 <!DOCTYPE html>
 <html>
