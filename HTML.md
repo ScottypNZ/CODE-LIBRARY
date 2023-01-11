@@ -14,7 +14,22 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 <!DOCTYPE html>
 <html>
 
-<!-- FONT, LIKELY IF NOT USING A PICTURE--> 
+<!--  --------------------  HEADER TEXT FORMATTING--------------------  --> 
+
+<!-- HEADER --> 
+
+  <body>
+    <div class="testbox">
+      <form action="/">
+
+<!-- BANNER TEXT --> 
+
+        <div class="banner">
+          <h1>  </h1>
+        </div>
+        <div class="item">
+
+<!--  --------------------  GENERAL FORMATTING--------------------  --> 
 
   <head>
     <title>x </title>
@@ -113,45 +128,11 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       color: #a82877;
       }
 
-      .item {
-      position: relative;
-      margin: 10px 0;
-      }
-
-      input[type="date"]::-webkit-inner-spin-button {
-      display: none;
-      }
-
-      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
-      position: absolute;
-      font-size: 20px;
-      color: #a9a9a9;
-      }
-
-      .item i {
-      right: 1%;
-      top: 30px;
-      z-index: 1;
-      }
-
-      [type="date"]::-webkit-calendar-picker-indicator {
-      right: 0;_30px
-      z-index: 2;
-      opacity: 0;
-      cursor: pointer;
-      }
-
-     input[type="time"]::-webkit-inner-spin-button {
-      margin: 2px 22px 0 0;
-      }
-
-
       .btn-block {
       margin-top: 10px;
       text-align: center;
       }
 
-      
       button {
       width: 150px;
       padding: 10px;
@@ -182,11 +163,23 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       width: calc(50% - 8px);
       }
 
-            /*  -----------------------------------------------------RADIO --------------------------------------------------- */
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+
+      [type="date"]::-webkit-calendar-picker-indicator {
+      background-size: 18px;
+      background-position: 100% center;
+      }
+
+
+  /*  -----------------------------------------------------RADIO --------------------------------------------------- */
 
      input[type=radio], input.other {
       display: none;
       }
+
       label.radio {
       position: relative;
       display: inline-block;
@@ -197,9 +190,8 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
       .question span {
       margin-left: 0px;
-  
-
       }
+
       label.radio:before {
       content: "";
       position: absolute;
@@ -209,15 +201,17 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       height: 15px;
       border-radius: 50%;
       border: 2px solid #ccc;
-     
       }
+
       #radio_5:checked ~ input.other {
       display: block;
       }
+
       input[type=radio]:checked + label.radio:before {
       border: 2px solid #a82877;
       background: #a82877;
       }
+
       label.radio:after {
       content: "";
       position: absolute;
@@ -231,12 +225,12 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       transform: rotate(-45deg);
       opacity: 0;
       }
+
       input[type=radio]:checked + label:after {
       opacity: 1;
       }
 
-
-      /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
+ /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
 
   .checkbox-inline {
   columns: 1;
@@ -266,11 +260,13 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         height: 27px;
         }
 
-      }
-      /* Hide the default style of the checkbox */
+      }   
+
+/* Hide the default style of the checkbox */
       input[type=checkbox] {
         visibility: hidden;
       }
+
       /* Create a custom checkbox */
       .mark {
         position: absolute;
@@ -280,7 +276,6 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         width: 25px;
         border: 1px solid #ccc;
         background-color: #999999;
-
       }
 
 .mark-inline {
@@ -332,23 +327,11 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         transform: rotate(45deg);
       }
       }
-      /*  --------------------------------------------------CHECK BOX END------------------------------------------------- */
 
   </style>
   </head>
 
-<!-- HEADER --> 
 
-  <body>
-    <div class="testbox">
-      <form action="/">
-
-<!-- BANNER TEXT --> 
-
-        <div class="banner">
-          <h1>  </h1>
-        </div>
-        <div class="item">
 
   <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
 
@@ -356,8 +339,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 <!-- DATE --> 
 
        <p>Date </p>
-       <input type="date" name="bdate" />
-       <i class="fas fa-calendar-alt"></i>
+       <input type="date" name="date"  min="1900-01-01" value="2000-01-01"/>
         </div>
         <div class="item">
 
@@ -365,9 +347,10 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
        <p>Time </p>
        <input type="time" name="name" />
-       <i class="fas fa-clock"></i>
         </div>
         <div class="item">
+
+
 
 <!-- BOOLEAN --> 
 
@@ -534,11 +517,28 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 <!-- COMPLETE BUTTON --> 
 
         <div class="btn-block">
-          <button type="submit" href="/">COPY TO CLIPBOARD</button>
+          <button type="button" onclick="myFunction()">COPY TO CLIPBOARD</button>
         </div>
 
       </form>
     </div>
+
+
+
+function myFunction() {
+  // Get the text field
+  var copyText = document.getElementById("myInput");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value);
+
+  // Alert the copied text
+  alert("Copied the text: " + copyText.value);
+}
 
   </body>
 </html>
