@@ -10,8 +10,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 ### TEMPLATE
 
-```
-HTML
+``` html
 <!DOCTYPE html>
 <html>
 
