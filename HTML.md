@@ -33,7 +33,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       outline: none;
       font-family: Roboto, Arial, sans-serif;
       font-size: 14px;
-      color: #666;
+      color: #bbb;
       line-height: 22px;
       }
       
@@ -350,22 +350,22 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         </div>
         <div class="item">
 
-  <!--    --------------------------------------------------QUESTIONS------------------------------------------------- --> 
+  <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
 
 
 <!-- DATE --> 
 
-          <p>Date </p>
-          <input type="date" name="bdate" />
-          <i class="fas fa-calendar-alt"></i>
+       <p>Date </p>
+       <input type="date" name="bdate" />
+       <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="item">
 
 <!-- TIME --> 
 
-          <p>Time </p>
-          <input type="time" name="name" />
-          <i class="fas fa-clock"></i>
+       <p>Time </p>
+       <input type="time" name="name" />
+       <i class="fas fa-clock"></i>
         </div>
         <div class="item">
 
@@ -405,11 +405,23 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         <div class="item">
 
 
-
-<!-- FREE TEXTBOX  --> 
+<!-- FREE TEXT  --> 
 
           <p>Text</p>
           <input type="text" name="name"/>
+        </div>
+        <div class="item">
+
+<!-- SELECT MULTIPLE --> 
+
+<p>Select Prefered Car (hold down Ctrl button to select multiple) </p>
+
+  <select multiple>
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi">Audi</option>
+ <select>
         </div>
         <div class="item">
 
@@ -517,14 +529,12 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
               <input type="radio" value="none" id="radio_3" name="recorded" />
               <label for="radio_3" class="radio"><span>Other</span></label>
             </div>
-
-            </div>
        </div>
 
 <!-- COMPLETE BUTTON --> 
 
         <div class="btn-block">
-          <button type="submit" href="/">COPY</button>
+          <button type="submit" href="/">COPY TO CLIPBOARD</button>
         </div>
 
       </form>
@@ -532,6 +542,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
   </body>
 </html>
+
 
 ```
 
