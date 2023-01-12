@@ -350,8 +350,6 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         </div>
         <div class="item">
 
-
-
 <!-- BOOLEAN --> 
 
         <p>Boolean</p>
@@ -385,14 +383,6 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
             <input type="text" name="name" placeholder="Last" />
           </div>
 </div>
-        <div class="item">
-
-
-<!-- FREE TEXT  --> 
-
-          <p>Text</p>
-          <input type="text" name="name"/>
-        </div>
         <div class="item">
 
 <!-- SELECT MULTIPLE --> 
@@ -496,7 +486,9 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 <!-- RADIO BUTTON -->
 
-   <p style="margin-top:10px">Radio Button</p> 
+   <p style="margin-top:10px" 
+
+>Radio Button</p> 
 
             <div>
               <input type="radio" value="none" id="radio_1" name="recorded" />
@@ -514,35 +506,43 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
             </div>
        </div>
 
-<!-- COMPLETE BUTTON --> 
+<!-- FREE TEXT  --> 
+
+          <p> Free text </p>
+          <div class="item">
+          <input type="text" name="freetext" id="freetext">
+          </div>
+
+<!-- BUTTON ALERT--> 
 
         <div class="btn-block">
-          <button type="button" onclick="myFunction()">COPY TO CLIPBOARD</button>
+        <button type="button" onclick="alert('Alert box');">ALERT</button>
+        </div>
+        
+
+<!-- BUTTON WITH ALERT--> 
+
+
+        <div class="btn-block">
+        <button type="button" onclick="myFunction()">COPY AND ALERT</button>
         </div>
 
-      </form>
-    </div>
+<!-- BUTTON WITH ALERT SECOND--> 
 
+        <div class="btn-block">
+        <button type="button" onclick="myFunction1()">COPY TO CLIPBOARD SELECTALL</button>
+        </div>
 
-
+<script>
 function myFunction() {
-  // Get the text field
-  var copyText = document.getElementById("myInput");
-
-  // Select the text field
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); // For mobile devices
-
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(copyText.value);
-
-  // Alert the copied text
-  alert("Copied the text: " + copyText.value);
+var FreeText = document.getElementById("freetext");
+navigator.clipboard.writeText(FreeText .value);
+alert("Copied the text: " + FreeText.value);
 }
+</script>
 
-  </body>
+</body>
 </html>
-
 
 ```
 
