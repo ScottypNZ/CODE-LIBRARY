@@ -11,7 +11,6 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 ### TEMPLATE
 
 ``` html
-
 <!DOCTYPE html>
 <html>
 
@@ -33,6 +32,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 <!--  --------------------  GENERAL FORMATTING--------------------  --> 
 
   <head>
+
     <title>x </title>
     <link href=https://fonts.googleapis.com/css?family=Roboto:300,400,500,700 rel="stylesheet">
     <link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -339,6 +339,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
   <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
 
+ <form method="post">
 
 <!-- DATE --> 
 
@@ -444,7 +445,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
       </label>
 
       <label class="box">Two
-        <input type="checkbox" checked="checked">
+        <input type="checkbox">
         <span class="mark"></span>
       </label>
 
@@ -484,7 +485,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
         </label>
 
      <label class="box">Ten
-        <input type="checkbox">
+        <input type="checkbox". id ="check10">
         <span class="mark"> </span>
         </label>
 
@@ -514,24 +515,31 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
           <p> Free text </p>
           <div class="item">
-          <input type="text" name="freetext" id="freetext">
+          <input type="text" name="freetext" id="FreeText">
           </div>
 
 <!-- BUTTON --> 
 
         <div class="btn-block">
         <button type="button" onclick="alert('Alert box');">ALERT</button>
-       <button type="button" onclick="myFunction1()">COPY TO CLIPBOARD </button>
-       <button type="button" onclick="myFunction()">COPY AND ALERT</button>
+       <button type="button" onclick="myFunction()">COPY TO CLIPBOARD </button>
         </div>
-        
+ 
 <script>
 function myFunction() {
-var FreeText = document.getElementById("freetext");
-navigator.clipboard.writeText(FreeText .value);
-alert("Copied the text: " +  FreeText.value);
+var ExportText = 
+
+'---/\n'+
+'Question1: '+document.getElementById("FreeText").value+';'+
+'\nQuestion2:'+
+'\nQuestion3';
+
+navigator.clipboard.writeText(ExportText);
+alert('Text copied to clipboard');
 }
-</script>
+</script>  
+
+ 
 </body>
 </html>
 
