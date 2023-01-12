@@ -5,6 +5,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [TEMPLATE](#TEMPLATE)
  * [ORIGINAL](#ORIGINAL)
  * [NEW](#NEW)
+ * [TAB](#TAB)
 
 ----------------------------------------------------------
 
@@ -1237,3 +1238,92 @@ alert('Text copied to clipboard');
 </html>
 ```
 
+### TAB
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <style>
+        body {
+            background: rgb(140, 214, 30);
+        }
+          
+        [data-tab-info] {
+            display: none;
+        }
+          
+        .active[data-tab-info] {
+            display: block;
+        }
+          
+        .tab-content {
+            font-size: 30px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgb(82, 75, 75);
+        }
+          
+        .tabs {
+            font-size: 40px;
+            color: rgb(255, 255, 255);
+            display: flex;
+            margin: 0;
+        }
+          
+        .tabs span {
+            background: rgb(28, 145, 38);
+            padding: 10px;
+            border: 1px solid rgb(255, 255, 255);
+        }
+          
+        .tabs span:hover {
+            background: rgb(29, 185, 112);
+            cursor: pointer;
+            color: black;
+        }
+    </style>
+</head>
+  
+<body>
+    <div class="tabs">
+        <span data-tab-value="#tab_1">Tab-1</span>
+        <span data-tab-value="#tab_2">Tab-2</span>
+        <span data-tab-value="#tab_3">Tab-3</span>
+    </div>
+  
+    <div class="tab-content">
+        <div class="tabs__tab active" id="tab_1" data-tab-info>
+            <p>Welcome to GeeksforGeek.</p>
+  
+        </div>
+        <div class="tabs__tab" id="tab_2" data-tab-info>
+            <p>Hello Everyone.</p>
+  
+        </div>
+        <div class="tabs__tab" id="tab_3" data-tab-info>
+            <p>Learn cool stuff.</p>
+  
+        </div>
+    </div>
+    <script type="text/javascript">
+        const tabs = document.querySelectorAll('[data-tab-value]')
+        const tabInfos = document.querySelectorAll('[data-tab-info]')
+  
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document
+                    .querySelector(tab.dataset.tabValue);
+  
+                tabInfos.forEach(tabInfo => {
+                    tabInfo.classList.remove('active')
+                })
+                target.classList.add('active');
+            })
+        })
+    </script>
+</body>
+  
+</html>
+```
