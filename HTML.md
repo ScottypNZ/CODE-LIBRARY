@@ -8,6 +8,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [SAVE TO FILE](#SAVE-TO-FILE)
  * [TAB](#TAB)
  * [CLIENT FORM](#CLIENT-FORM)
+ * [LATEST](#LATEST)
  
 
 ----------------------------------------------------------
