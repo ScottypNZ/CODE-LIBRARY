@@ -8,6 +8,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [SAVE TO FILE](#SAVE-TO-FILE)
  * [TAB](#TAB)
  * [CLIENT FORM](#CLIENT-FORM)
+ 
 
 ----------------------------------------------------------
 
@@ -2956,3 +2957,673 @@ for (i = 0; i < coll.length; i++) {
 </html>
 
 ```
+
+### LATEST
+```HTML
+<!DOCTYPE html>
+<html>
+
+<!--  --------------------  HEADER TEXT FORMATTING--------------------  --> 
+
+<!-- HEADER --> 
+
+  <body>
+    <div class="testbox">
+      <form action="/">
+
+<!-- BANNER TEXT --> 
+
+        <div class="banner">
+          <h1>  </h1>
+        </div>
+        <div class="item">
+
+<!--  --------------------  GENERAL FORMATTING--------------------  --> 
+
+  <head>
+
+    <title>x </title>
+    <link href=https://fonts.googleapis.com/css?family=Roboto:300,400,500,700 rel="stylesheet">
+    <link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+<style>
+      html, body {
+      min-height: 100%;
+      }
+
+      body, div, form, input, select, textarea, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #bbb;
+      line-height: 22px;
+      }
+
+      p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 16px;
+      color: #666;
+      line-height: 22px;
+      }
+      
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 32px;
+      color: #fff;
+      z-index: 2;
+      }
+
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 20px;
+      }
+
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 20px 0 #a82877; 
+      }
+
+      .banner {
+      position: relative;
+      height: 210px;
+      background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);      
+      background-size: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-repeat: no-repeat;
+      }
+
+      .banner::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.5); 
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      }
+
+      input, textarea, select {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+
+     input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color: #a82877;
+      }
+
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 6px 0 #a82877;
+      color: #a82877;
+      }
+
+      .btn-block  {
+      margin-top: 10px;
+
+      display: flex;
+      justify-content: center;
+      }
+
+      button {
+      width: 150px;
+      height: 75px;
+      margin: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px; 
+      background: #a82877;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+
+      button:hover {
+      background: #bf1e81;
+      }
+
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+     }
+
+      .name-item input, .city-item input {
+      width: calc 50% - 20px);
+      }
+
+      .city-item select {
+      width: calc(50% - 8px);
+      }
+
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+
+
+  /*  -----------------------------------------------------RADIO --------------------------------------------------- */
+
+     input[type=radio], input.other {
+      display: none;
+      }
+
+      label.radio {
+      position: relative;
+      display: inline-block;
+      margin: 10px 0px 0px 0px;
+      cursor: pointer;
+      padding-left: 30px;
+      }
+
+      .question span {
+      margin-left: 0px;
+      }
+
+      label.radio:before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      }
+
+      #radio_5:checked ~ input.other {
+      display: block;
+      }
+
+      input[type=radio]:checked + label.radio:before {
+      border: 2px solid #a82877;
+      background: #a82877;
+      }
+
+      label.radio:after {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 5px;
+      width: 7px;
+      height: 4px;
+      border: 3px solid #fff;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      opacity: 0;
+      }
+
+      input[type=radio]:checked + label:after {
+      opacity: 1;
+      }
+
+ /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
+
+  .checkbox-inline {
+  columns: 1;
+  border: solid 1px ;
+  display: inline-block;
+  position: relative;
+  text-align: top;  
+ margin: -2px -2px -2px -2px;
+}
+
+/*  --------------------------------------------------CHECK BOX SPECIFIC ------------------------------------------------- */
+
+  .box {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-right: 5px
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 10px;
+        text-align:left;  
+        columns: 1;
+        display: inline-block;
+        border: solid 1px ;
+        width: 110px;
+        height: 27px;
+        }
+
+      }   
+
+/* Hide the default style of the checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+
+      /* Create a custom checkbox */
+      .mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        border: 1px solid #ccc;
+        background-color: #999999;
+      }
+
+.mark-inline {
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  columns: 5
+  rows 3;
+}
+
+      /* Specify the background color for the checkbox while hovering */
+      .box:hover input + .mark {
+       background-color: #1c87c9;
+      }
+
+      /* Specify the background color for the checkbox when the checkbox is active */
+      .box input:active + .mark {
+        background-color: #ffcc00;
+      }
+
+      /* Specify the background color for the checkbox when it is checked */
+      .box input:checked + .mark {
+       background-color: #8ebf42;
+      }
+
+      /* Checkmark to be shown in checkbox */
+      /* It will not be shown when not checked */
+      .mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Display checkmark when checked */
+      .box input:checked + .mark:after {
+        display: block;
+      }
+
+      /* Styling the checkmark using webkit */
+      /* Rotated the rectangle by 45 degree and showing only two border to make it look like a tick mark */
+      .box .mark:after {
+        left: 8px;
+        bottom: 5px;
+        width: 6px;
+        height: 12px;
+        border: solid #eee;
+        border-width: 0 4px 4px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      }
+
+document.querySelector("#someButtonTab").onclick = function() {
+  let child = spawnDocument(`<html>
+  	<head><title></title></head>
+  	<body><p>Text result here</p></body>
+  </html>`);
+}
+
+  </style>
+  </head>
+
+
+
+  <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
+
+ <form method="post">
+
+          <p>Q1 Where are you currently living?</p>
+
+            <select multiple size ="15">
+              <option value="1">Living in a car</option>
+              <option value="2">Living in a tent</option>
+              <option value="3">In a public place</option>
+              <option value="4">Couch surfing</option>
+              <option value="5">Marae</option>
+              <option value="6">Cabin</option>
+              <option value="7">Caravan</option>
+              <option value="8">Camp Ground</option>
+              <option value="9">Other (e.g. Garage)</option>
+              <option value="10">Boarding</option>
+              <option value="11">Staying with friends/family</option>
+              <option value="12">Private rental</option>
+              <option value="13">Own home</option>
+              <option value="14">Hospital</option>
+              <option value="15">Prison</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q2 Why are you needing help?</p>
+
+            <select multiple size ="12">
+              <option value="1">Financial stress</option>
+              <option value="2">Employment reasons</option>
+              <option value="3">Medical</option>
+              <option value="4">Public Transport</option>
+              <option value="5">Tenancy ending</option>
+              <option value="6">Tenancy eviction</option>
+              <option value="7">Current accommodation is unhealthy</option>
+              <option value="8">Family reasons</option>
+              <option value="9">Personal Safety</option>
+              <option value="10">Children</option>
+              <option value="11">Gang Affiliation or concern</option>
+              <option value="12">Other (please add comments below)</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q2b If other selected above, please add further comments </p>
+
+          <input type="text"> 
+          </div>
+          <div class="item">
+
+          <p>Q3 How long have you been in your current accommodation?</p>
+
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">less then 1 month</option>
+              <option value="2">less then 3 months</option>
+              <option value="3">less then 6 months</option>
+              <option value="4">less then 1 year</option>
+              <option value="5">less then 2 years</option>
+              <option value="6">less then 3 years</option>
+              <option value="7">less then 4 years</option>
+              <option value="8">less then 5 years</option>
+              <option value="9">more then 5 years</option>
+            </select>
+          </div>
+        <div class="item">
+
+
+          <p>Q4a If we could provide some support could you stay where you are?</p>
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">Yes</option>
+              <option value="2">No</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q4b Do you have children?</p>
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">Yes</option>
+              <option value="2">No</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q4c When do you need to move?</p>
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">Immediately</option>
+              <option value="2">7 days or less</option>
+              <option value="3">8-60 days</option>
+              <option value="4">61-91 days</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q5 Who needs assistance in your household</p>
+
+
+<p> Who needs assistance in your household</p>
+          <div class="city-item">
+            <select>
+              <option value="">Number of Adults</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <select>
+              <option value="">Number of Children</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
+        <div class="item">
+
+          <p>Q6a What other housing options have you been looking at and applying for?</p>
+               <select multiple size ="6">
+              <option value="1">Searched for houses/accommodation online</option>
+              <option value="2">Talked to family or friends</option>
+              <option value="3">Applied for houses/accommodation</option>
+              <option value="4">Registered with real estate agents</option>
+              <option value="5">Found a place</option>
+              <option value="6">Have not begun looking</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>6B What is making it hard for you to find suitable housing?</p>
+            <select>
+            <option value="">*Please select*</option>
+            <option value="1">Age</option>
+            <option value="2">Cost</option>
+            <option value="3">Size</option>
+            <option value="4">Health</option>
+            <option value="5">Disability</option>
+            <option value="6">Credit</option>
+            <option value="7">Gang</option>
+            <option value="8">Behind in rent</option>
+            <option value="9">No rental history</option>
+            <option value="10">Tennancy Tribunal</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q7 What region are you living in?</p>
+            <select>
+            <option value="1">Auckland</option>
+            <option value="2">Bay of Plenty</option>
+            <option value="3">Canterbury</option>
+            <option value="4">Central</option>
+            <option value="5">East Coast</option>
+            <option value="6">Northland</option>
+            <option value="7">Taranaki</option>
+            <option value="8">Nelson</option>
+            <option value="9">Southern</option>
+            <option value="10">Wellington</option>
+            <option value="11">Waikato</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q8a Is anyone or any service helping you with your housing?</p>
+            <select>
+              <option value="">*Please select*</option>
+              <option value="1">Yes</option>
+              <option value="2">No</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q8b If yes, please answer select below</p>
+              <select multiple size ="4">
+              <option value="1">Corrections</option>
+              <option value="2">Kainga Ora</option>
+              <option value="3">Applied for houses/accommodation</option>
+              <option value="4">Other</option>
+            </select>
+          </div>
+        <div class="item">
+
+          <p>Q8c If other please type below</p>
+
+          <input type="text" name="freetext" id="FreeText">
+          </div>
+          <div class="item">
+
+<!-- BUTTON --> 
+
+   <div class="btn-block">
+
+    <button type="button" onclick="myFunction()">COPY TO CLIPBOARD </button>
+
+    <button type="button" id="someButtonTab" >OPEN WINDOW </button>
+
+    <button type="button" id="NewButtonTab" >NEW BUTTON </button>
+    
+     </div>
+ 
+ <script>
+
+function myFunction() {
+var ExportText = 
+
+'--- #v1 Client Needs Assessment \n'+
+'Q1: Where are you currently living?'+document.getElementById("FreeText").value+';'+
+'\nQ2: Why are you needing help?'+
+'\nQ3: How long have you been in your current accommodation?'+
+'\n--- #';
+
+navigator.clipboard.writeText(ExportText);
+alert('Text copied to clipboard\n\n' + ExportText)
+}
+
+document.querySelector("#someButtonTab").onclick = function() {
+  let child = spawnDocument(`
+<html>
+  	<head><title>Needs Assessment Tool</title></head>
+  	<body><p>Hello World</p></body>
+  </html>`);
+}
+
+document.querySelector("#NewButtonTab").onclick = function() {
+  let child = spawnDocument(` add here `)
+
+}
+
+function spawnDocument(content, options) {
+  let opt = {
+    window: "",
+    closeChild: true,
+    childId: "_blank",
+  };
+
+  Object.assign(opt, options);
+  // minimal error checking
+  if (content && typeof content.toString == "function" && content.toString().length) {
+    let child = window.open("", opt.childId, opt.window);
+    child.document.write(content.toString());
+    if (opt.closeChild)
+      child.document.close();
+    return child;
+  }
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--    
+NOTES 
+
+<a href="../html-link.htm" target="_blank">Open page in new window</a>
+
+    <button type="button"  href="" target="_blank" >OTHER</button>
+
+    <button type="button"  onclick=href="" target="_blank">TEST</button>
+
+    <button type="button" onclick= <a href="https://www.GOOGLE.COM" target="_blank" </a>LINK</button>
+
+    <button  type="button" onclick="window.location.href='WWW.GOOGLE.CO.NZ';"target="_blank"> LINK </button>
+
+ BASE OPTIONS TEMPLATE
+
+          <p> NAME OF OPTION </p>
+            <select>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+            <option value="10"></option>
+            <option value="11"></option>
+            <option value="12"></option>
+            <option value="13"></option>
+            <option value="14"></option>
+            <option value="15"></option>
+            <option value="16"></option>
+            <option value="17"></option>
+            <option value="18"></option>
+            <option value="19"></option>
+             <option value="19"></option>
+            </select>
+          </div>
+        <div class="item">
+
+
+'--- #v1 Client Needs Assessment \n'+
+'Q1: Where are you currently living?'+document.getElementById("FreeText").value+';'+
+'\nQ2: Why are you needing help?'+
+'\nQ3: How long have you been in your current accommodation?'+
+'\nQ4a: If we could provide some support could you stay where you are?'+
+'\nQ4b: Do you have children?'+
+'\nQ4c: When do you need to move?'+
+'\nQ5: Who is in your household and who is needing housing assistance?'+
+'\nQ6a: What other housing options have you been looking at and applying for?'+
+'\nQ6b: What is making it hard for you to find suitable housing?'+
+'\nQ: '+
+'\nQ: '+
+'\nQ: '+
+'\nQ: '+
+'--- #';
+
+--> 
+
+```
+
+
