@@ -2961,23 +2961,9 @@ for (i = 0; i < coll.length; i++) {
 
 ### LATEST
 ```HTML
+
 <!DOCTYPE html>
 <html>
-
-<!--  --------------------  HEADER TEXT FORMATTING--------------------  --> 
-
-<!-- HEADER --> 
-
-  <body>
-    <div class="testbox">
-      <form action="/">
-
-<!-- BANNER TEXT --> 
-
-        <div class="banner">
-          <h1>  </h1>
-        </div>
-        <div class="item">
 
 <!--  --------------------  GENERAL FORMATTING--------------------  --> 
 
@@ -2991,8 +2977,12 @@ for (i = 0; i < coll.length; i++) {
       html, body {
       min-height: 100%;
       }
+      
+      textarea { 
+      height: 200px;
+      }
 
-      body, div, form, input, select, textarea, p { 
+      body, div, form, input, select, p { 
       padding: 0;
       margin: 0;
       outline: none;
@@ -3189,7 +3179,7 @@ for (i = 0; i < coll.length; i++) {
       opacity: 1;
       }
 
- /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
+/*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
 
   .checkbox-inline {
   columns: 1;
@@ -3289,8 +3279,8 @@ for (i = 0; i < coll.length; i++) {
 
 document.querySelector("#someButtonTab").onclick = function() {
   let child = spawnDocument(`<html>
-  	<head><title></title></head>
-  	<body><p>Text result here</p></body>
+              <head><title></title></head>
+              <body><p>Text result here</p></body>
   </html>`);
 }
 
@@ -3298,14 +3288,22 @@ document.querySelector("#someButtonTab").onclick = function() {
   </head>
 
 
+<!--  --------------------  HEADER TEXT FORMATTING--------------------  --> 
 
-  <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
+  <body>
+  
 
- <form method="post">
+    <div class="testbox">
+       <form id="myForm" action="/">
+        <div class="banner">
+        </div>
+
 
           <p>Q1 Where are you currently living?</p>
 
-            <select multiple size ="15">
+            <div class="item">
+            <select multiple size ="15" id="Question1" >
+              <option value="0" hidden selected>Not selected</option>
               <option value="1">Living in a car</option>
               <option value="2">Living in a tent</option>
               <option value="3">In a public place</option>
@@ -3323,11 +3321,13 @@ document.querySelector("#someButtonTab").onclick = function() {
               <option value="15">Prison</option>
             </select>
           </div>
-        <div class="item">
+       
 
-          <p>Q2 Why are you needing help?</p>
-
-            <select multiple size ="12">
+          <p>Q2a Why are you needing help?</p>
+			
+            <div class="item">
+            <select multiple size ="12" id="Question2a"> 
+			  <option value="0" hidden selected>Not selected</option>
               <option value="1">Financial stress</option>
               <option value="2">Employment reasons</option>
               <option value="3">Medical</option>
@@ -3342,68 +3342,78 @@ document.querySelector("#someButtonTab").onclick = function() {
               <option value="12">Other (please add comments below)</option>
             </select>
           </div>
-        <div class="item">
+       
 
-          <p>Q2b If other selected above, please add further comments </p>
-
-          <input type="text"> 
-          </div>
+         <p>Q2b If other selected above, please add further comments </p>
+          
           <div class="item">
-
+          <input type="text" id="Question2b" placeholder="Not Selected" >
+          
+          </div>
+         
           <p>Q3 How long have you been in your current accommodation?</p>
-
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">less then 1 month</option>
-              <option value="2">less then 3 months</option>
-              <option value="3">less then 6 months</option>
-              <option value="4">less then 1 year</option>
-              <option value="5">less then 2 years</option>
-              <option value="6">less then 3 years</option>
-              <option value="7">less then 4 years</option>
-              <option value="8">less then 5 years</option>
-              <option value="9">more then 5 years</option>
+		  
+			<div class="item">
+            <select id="Question3" >
+              <option value="0" hidden selected>Not selected</option>
+			  <option value="1">*Please select*</option>
+              <option value="2">less then 1 month</option>
+              <option value="3">less then 3 months</option>
+              <option value="4">less then 6 months</option>
+              <option value="5">less then 1 year</option>
+              <option value="6">less then 2 years</option>
+              <option value="7">less then 3 years</option>
+              <option value="8">less then 4 years</option>
+              <option value="9">less then 5 years</option>
+              <option value="10">more then 5 years</option>
             </select>
           </div>
-        <div class="item">
+        
 
 
           <p>Q4a If we could provide some support could you stay where you are?</p>
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">Yes</option>
-              <option value="2">No</option>
+
+		  <div class="item">
+            <select id="Question4a">
+  		      <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="1">*Please select*</option>
+              <option value="Yes">Yes </option>
+              <option value="No">No </option>
             </select>
           </div>
-        <div class="item">
+        
 
           <p>Q4b Do you have children?</p>
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">Yes</option>
-              <option value="2">No</option>
+           
+			<div class="item">
+			<select id="Question4b"> 
+              <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="0">*Please select*</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
             </select>
           </div>
-        <div class="item">
+        
 
           <p>Q4c When do you need to move?</p>
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">Immediately</option>
-              <option value="2">7 days or less</option>
-              <option value="3">8-60 days</option>
-              <option value="4">61-91 days</option>
+          
+           <div class="item">
+           <select id="Question4c">
+              <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="0">*Please select*</option>
+              <option value="Immediately">Immediately</option>
+              <option value="7 days or less">7 days or less</option>
+              <option value="8-60 days">8-60 days</option>
+              <option value="61-91 days">61-91 days</option>
             </select>
           </div>
-        <div class="item">
+       
 
           <p>Q5 Who needs assistance in your household</p>
 
-
-<p> Who needs assistance in your household</p>
           <div class="city-item">
-            <select>
-              <option value="">Number of Adults</option>
+            <select id="Question5a">
+              <option value="0">Number of Adults</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -3411,8 +3421,8 @@ document.querySelector("#someButtonTab").onclick = function() {
               <option value="5">5</option>
             </select>
 
-            <select>
-              <option value="">Number of Children</option>
+            <select id="Question5b">
+              <option value="0">Number of Children</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -3420,11 +3430,14 @@ document.querySelector("#someButtonTab").onclick = function() {
               <option value="5">5</option>
             </select>
           </div>
-        </div>
-        <div class="item">
+
+       
 
           <p>Q6a What other housing options have you been looking at and applying for?</p>
-               <select multiple size ="6">
+          
+          	<div class="item">
+               <select multiple size ="6" id="Question6a">
+              <option value="Not selected" hidden selected>Not selected</option> 
               <option value="1">Searched for houses/accommodation online</option>
               <option value="2">Talked to family or friends</option>
               <option value="3">Applied for houses/accommodation</option>
@@ -3433,11 +3446,13 @@ document.querySelector("#someButtonTab").onclick = function() {
               <option value="6">Have not begun looking</option>
             </select>
           </div>
-        <div class="item">
+        
 
-          <p>6B What is making it hard for you to find suitable housing?</p>
-            <select>
-            <option value="">*Please select*</option>
+          <p>6b What is making it hard for you to find suitable housing?</p>
+          
+          <div class="item">
+            <select multiple size = "10" id="Question6b">
+            <option value="Not selected" hidden selected>Not selected</option> 
             <option value="1">Age</option>
             <option value="2">Cost</option>
             <option value="3">Size</option>
@@ -3450,11 +3465,15 @@ document.querySelector("#someButtonTab").onclick = function() {
             <option value="10">Tennancy Tribunal</option>
             </select>
           </div>
-        <div class="item">
+        
 
           <p>Q7 What region are you living in?</p>
-            <select>
-            <option value="1">Auckland</option>
+          
+          <div class="item">
+            <select id="Question7">
+            <option value="Not selected" hidden selected>Not selected</option> 
+            <option value="0">*Please select*</option>
+            <option value="1">Auckland TBC* </option>
             <option value="2">Bay of Plenty</option>
             <option value="3">Canterbury</option>
             <option value="4">Central</option>
@@ -3463,167 +3482,174 @@ document.querySelector("#someButtonTab").onclick = function() {
             <option value="7">Taranaki</option>
             <option value="8">Nelson</option>
             <option value="9">Southern</option>
-            <option value="10">Wellington</option>
+           <option value="10">Wellington</option>
             <option value="11">Waikato</option>
             </select>
           </div>
-        <div class="item">
+        
 
           <p>Q8a Is anyone or any service helping you with your housing?</p>
-            <select>
-              <option value="">*Please select*</option>
+          
+           <div class="item">
+            <select id="Question8a">
+              <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="0">*Please select*</option>
               <option value="1">Yes</option>
               <option value="2">No</option>
             </select>
           </div>
-        <div class="item">
+       
 
           <p>Q8b If yes, please answer select below</p>
-              <select multiple size ="4">
-              <option value="1">Corrections</option>
+          
+           <div class="item">
+              <select multiple size ="4" id="Question8b">
+              <option value="Not selected" hidden selected>Not selected</option>
+			  <option value="1">Corrections</option>
               <option value="2">Kainga Ora</option>
               <option value="3">Applied for houses/accommodation</option>
               <option value="4">Other</option>
             </select>
           </div>
-        <div class="item">
+       
 
           <p>Q8c If other please type below</p>
-
-          <input type="text" name="freetext" id="FreeText">
+		 <div class="item">
+          <input type="text" name="freetext" id="Question8c" placeholder="Not Selected" >
           </div>
-          <div class="item">
-
+         
 <!-- BUTTON --> 
 
    <div class="btn-block">
+   
+    <button type="button" onclick="Reset()" > RESET </button>
 
-    <button type="button" onclick="myFunction()">COPY TO CLIPBOARD </button>
-
-    <button type="button" id="someButtonTab" >OPEN WINDOW </button>
-
-    <button type="button" id="NewButtonTab" >NEW BUTTON </button>
+    <button type="button" onclick="copyToClipboard()" > COPY TO CLIPBOARD </button> 
     
-     </div>
+    </div> 
+          
+  <p> Support Options </p>
+  <textarea id="Area1"> </textarea>    
+     
+  <p> Providers </p>
+  <textarea id="Area2"> </textarea> 
+
+  <p> Copy of file note</p>
+  <textarea id="Area3"> </textarea>
+  
+</form>
+
+<script> 
+      
+ <!-- ---------- RESET INPUTS ---------- -->      
+          
+function Reset() {
+document.getElementById("myForm").reset();
+}
+      
+ <!-- ---------- COPY TO CLIPBOARD ---------- -->   
+
+
+      	   function copyToClipboard() {
+           
+           var Question1   = getSelectValues(document.getElementById("Question1"));
+
+           var Question2a   = getSelectValues(document.getElementById("Question2a"));
+           
+           if (document.getElementById("Question2b").value == "") { 
+              var Question2b = "Not Selected";
+			  }
+			  else { 
+			  var Question2b =document.getElementById("Question2b").value; 
+     		  }
+           
+           var Question3   = getSelectValues(document.getElementById("Question3"));
+           
+           var Question4a   = document.getElementById("Question4a").value;      
+           
+           var Question4b   = document.getElementById("Question4b").value;	    
+           
+           var Question4c   = document.getElementById("Question4c").value;      
+           
+           var Question5a   = document.getElementById("Question5a").value;
+           
+           var Question5b   = document.getElementById("Question5b").value;
+           
+           var Question6a  = getSelectValues(document.getElementById("Question6a"));
+           
+           var Question6b  = getSelectValues(document.getElementById("Question6b"));
+           
+           var Question7   = document.getElementById("Question7").value;
+           
+           var Question8a  = document.getElementById("Question8a").value;
+           
+           var Question8b  = getSelectValues(document.getElementById("Question8b"));
+           
+           if (document.getElementById("Question8c").value == "") { 
+              var Question8c = "Not Selected";
+			  }
+			  else { 
+			  var Question8c =document.getElementById("Question8c").value; 
+     		  }
+  
+           var copyText = 
+           
+
+           '--- #v1 Client Needs Assessment \n'+
+		   '\nQ1 WHERE ARE YOU CURRENTLY LIVING?:'+ Question1 + '\n' +
+  	 	   '\nQ2a WHY ARE YOU NEEDING HELP?:'+ Question2a + '\n' +
+		   '\nQ2b IF OTHER SELECTED ABOVE PLEASE ADD FURTHER COMMENTS?:\n'+ Question2b + ';\n' +
+           '\nQ3 HOW LONG HAVE YOU BEEN IN YOUR CURRENT ACCOMODATION?:'+ Question3 + '\n' +
+           '\nQ4a IF WE COULD PROVIDE SOME SUPPORT COULD YOU STAY WHERE YOU ARE?: \n'+ Question4a + ';\n' +
+           '\nQ4b DO YOU HAVE CHILDREN?: \n'+ Question4b + ';\n' +
+           '\nQ4c WHEN DO YOU NEED TO MOVE?: \n'+ Question4c + ';\n' + 
+		   '\nQ5 WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD?: \n' + Question5a + ' Adult ' + Question5b + ' Child' + ';\n' +
+           '\nQ6a WHAT OTHER HOUSING OPTIONS HAVE YOU BEEN LOOKING AT AND APPLYING FOR?:'+ Question6a + '\n' + 
+		   '\nQ6b WHAT IS MAKING IT HARD FOR YOU TO FIND SUITABLE HOUSING?:'+ Question6b + '\n' + 
+           '\nQ7 WHAT REGION ARE YOU LIVING IN?: \n'+ Question7 + ';\n' +
+           '\nQ8a IS ANYONE OR ANY SERVICE HELPING YOU WITH YOUR HOUSING?: \n'+ Question8a + ';\n' +
+		   '\nQ8b IF YES, PLEASE ANSWER SELECT BELOW:'+ Question8b + '\n' +
+		   '\nQ8c IF OTHER PLEASE TYPE BELOW: \n'+ Question8c + ';\n' + 
  
- <script>
+		   '\n--- # Template End';
 
-function myFunction() {
-var ExportText = 
+          navigator.clipboard.writeText(copyText);
+          
+          document.querySelector("#Area1").value= copyText;
 
-'--- #v1 Client Needs Assessment \n'+
-'Q1: Where are you currently living?'+document.getElementById("FreeText").value+';'+
-'\nQ2: Why are you needing help?'+
-'\nQ3: How long have you been in your current accommodation?'+
-'\n--- #';
+          alert('TEXT COPIED TO CLIPBOARD');
+             
+      }
+      
+<!-- ---------- LOOP THROUGH MULTISELECT ---------- -->        
 
-navigator.clipboard.writeText(ExportText);
-alert('Text copied to clipboard\n\n' + ExportText)
-}
+    function getSelectValues(select) {
 
-document.querySelector("#someButtonTab").onclick = function() {
-  let child = spawnDocument(`
-<html>
-  	<head><title>Needs Assessment Tool</title></head>
-  	<body><p>Hello World</p></body>
-  </html>`);
-}
-
-document.querySelector("#NewButtonTab").onclick = function() {
-  let child = spawnDocument(` add here `)
-
-}
-
-function spawnDocument(content, options) {
-  let opt = {
-    window: "",
-    closeChild: true,
-    childId: "_blank",
-  };
-
-  Object.assign(opt, options);
-  // minimal error checking
-  if (content && typeof content.toString == "function" && content.toString().length) {
-    let child = window.open("", opt.childId, opt.window);
-    child.document.write(content.toString());
-    if (opt.closeChild)
-      child.document.close();
-    return child;
-  }
-}
+      var result = "";
+      var options = select && select.options;
+      var opt;
+      
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+        opt = options[i];
+        
+        if (opt.selected) {
+    
+          if (result == "") {
+            result = "\n" + opt.text + ";" ;
+          }
+          else {
+            result =  "\n" + opt.text + " # " + result ;
+          }
+        }
+      }
+      return result;
+    }
 
 </script>
+
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-<!--    
-NOTES 
-
-<a href="../html-link.htm" target="_blank">Open page in new window</a>
-
-    <button type="button"  href="" target="_blank" >OTHER</button>
-
-    <button type="button"  onclick=href="" target="_blank">TEST</button>
-
-    <button type="button" onclick= <a href="https://www.GOOGLE.COM" target="_blank" </a>LINK</button>
-
-    <button  type="button" onclick="window.location.href='WWW.GOOGLE.CO.NZ';"target="_blank"> LINK </button>
-
- BASE OPTIONS TEMPLATE
-
-          <p> NAME OF OPTION </p>
-            <select>
-            <option value="1"></option>
-            <option value="2"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>
-            <option value="6"></option>
-            <option value="7"></option>
-            <option value="8"></option>
-            <option value="9"></option>
-            <option value="10"></option>
-            <option value="11"></option>
-            <option value="12"></option>
-            <option value="13"></option>
-            <option value="14"></option>
-            <option value="15"></option>
-            <option value="16"></option>
-            <option value="17"></option>
-            <option value="18"></option>
-            <option value="19"></option>
-             <option value="19"></option>
-            </select>
-          </div>
-        <div class="item">
-
-
-'--- #v1 Client Needs Assessment \n'+
-'Q1: Where are you currently living?'+document.getElementById("FreeText").value+';'+
-'\nQ2: Why are you needing help?'+
-'\nQ3: How long have you been in your current accommodation?'+
-'\nQ4a: If we could provide some support could you stay where you are?'+
-'\nQ4b: Do you have children?'+
-'\nQ4c: When do you need to move?'+
-'\nQ5: Who is in your household and who is needing housing assistance?'+
-'\nQ6a: What other housing options have you been looking at and applying for?'+
-'\nQ6b: What is making it hard for you to find suitable housing?'+
-'\nQ: '+
-'\nQ: '+
-'\nQ: '+
-'\nQ: '+
-'--- #';
-
---> 
 
 ```
 
