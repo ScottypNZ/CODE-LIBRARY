@@ -13,8 +13,8 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
 
 ----------------------------------------------------------
 
-### TEMPLATE
-
+###   TEMPLATE
+####  ALL OPTION TYPES
 ``` html
 <!DOCTYPE html>
 <html>
