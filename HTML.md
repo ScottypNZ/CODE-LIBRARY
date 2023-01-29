@@ -8,7 +8,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [FUNCTION TAB](#TAB)
  * [FUNCTION SELECT THREE](#FUNCTION-TOP3)
  * [FUNCTION OTHER]
- * [NEW](#NEW)
+
  
 --------------------------------------------------------------------------------------------------------
 
