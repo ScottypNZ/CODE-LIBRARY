@@ -1,16 +1,13 @@
 # CODE-LIBRARY
 
 HTML FORM - https://www.w3docs.com/tools/editor/5943
-
+ * [LATEST](#LATEST)
  * [TEMPLATE](#TEMPLATE)
- * [ORIGINAL](#ORIGINAL)
  * [NEW](#NEW)
  * [SAVE TO FILE](#SAVE-TO-FILE)
  * [TAB](#TAB)
  * [CLIENT FORM](#CLIENT-FORM)
- * [LATEST](#LATEST)
  
-
 ----------------------------------------------------------
 
 ###   TEMPLATE
