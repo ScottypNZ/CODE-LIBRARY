@@ -1533,21 +1533,18 @@ alert('Text copied to clipboard');
 <script type="text/javascript">
 
 $(document).ready(function() {
-
           var last_valid_selection = null;
-
           $('#TOP3').change(function(event) {
-
             if ($(this).val().length > 3) {
-
-              $(this).val(last_valid_selection);
+              $(this).val(last_valid_selection);   /* can relace with $(this).val(null) to remove all */
+ 
             } else {
               last_valid_selection = $(this).val();
             }
           });
         });
 
-      let allLines = []
+     let allLines = []
 
       window.addEventListener("message", (message) => {
         if (message.data.console){
