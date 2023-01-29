@@ -7,6 +7,8 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [TAB](#TAB)
  * [SAVE TO FILE](#SAVE-TO-FILE)
  * [TAB](#TAB)
+ * [FUNCTION-TOP3](#FUNCTION-TOP3)
+ * [NEW](#NEW)
  
 ----------------------------------------------------------
 
@@ -1477,3 +1479,17 @@ alert('Text copied to clipboard');
 </html>
 ```
 
+--------------------------------------------------------------------------------------------------------
+
+###   FUNCTION-TOP3
+ * [NEW](#NEW)
+
+
+
+
+
+
+
+----------------------------------------------------------
+# MSD FORMS
+###   TEMPLATE
