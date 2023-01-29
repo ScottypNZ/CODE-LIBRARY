@@ -1641,8 +1641,7 @@ Chapters: <select name="chapter" id="chapter">
 
 # FUNCTION SELECTABLE TABLE
 
-```
-HTML
+```HTML
 
 
 <!DOCTYPE html>
