@@ -552,23 +552,54 @@ alert('Text copied to clipboard');
 
 ### NEW
 ```html
+
 <!DOCTYPE html>
 <html>
 
-<!-- FONT, LIKELY IF NOT USING A PICTURE--> 
+  <script
+    id="insert"
+    type="text/javascript"
+    src="//code.jquery.com/jquery-1.11.0.js">
+  </script>
+
+<!--  --------------------  HEADER TEXT FORMATTING--------------------  --> 
 
   <head>
+
     <title>x </title>
     <link href=https://fonts.googleapis.com/css?family=Roboto:300,400,500,700 rel="stylesheet">
     <link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
 <style>
-
       html, body {
       min-height: 100%;
       }
+      
+      textarea { 
+      margin-top: 5px;
+      min-height: 100px;
+      max-width:100%;
+	  max-height: 100%
+      }
+      
+      th {
+      text-align: left;
+      }
+	  
+      form {
+	  margin: 0;
+      }
+      
+      table{
+	  padding: 0px 0 15px;
+	  }
 
-      body, div, form, input, select, textarea, p { 
+      caption {
+      padding: 15px 0 0px;
+      font-size: 20px;
+      }
+
+      body, div, form, input, select, p { 
       padding: 0;
       margin: 0;
       outline: none;
@@ -577,58 +608,73 @@ alert('Text copied to clipboard');
       color: #666;
       line-height: 22px;
       }
-      
-      h1 {
-      position: absolute;
-      margin: 0;
-      font-size: 32px;
-      color: #fff;
-      z-index: 2;
-      }
-
+  
       .testbox {
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: inherit;
-      padding: 20px;
-      }
+      padding: 10px;
+     }
 
       form {
       width: 100%;
-      padding: 20px;
+	  min-width: 375px;
+      padding: 15px;
       border-radius: 6px;
       background: #fff;
       box-shadow: 0 0 20px 0 #a82877; 
       }
 
-      .banner {
-      position: relative;
-      height: 210px;
-      background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);      
-      background-size: 100%;
+      .block {
+      margin-left: 0px;
+      width: 100%;
+      height: 25px;
+      border: none;
+      display: flex;
+      opacity: 100;
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      background-repeat: no-repeat;
       }
-
-      .banner::after {
-      content: "";
-      background-color: rgba(0, 0, 0, 0.5); 
-      position: absolute;
+      
+      .hidden-block {
+      margin-left: 0px;
       width: 100%;
-      height: 100%;
+      height: 25px;
+      border: none;
+      display: flex;
+      opacity: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  	  display: none;
       }
-
+     
+      .banner {
+      padding: 30px;
+	  margin-top: 10px;
+      margin-bottom: 12px;
+      position: relative;
+      min-height: 75px;
+      max-height: auto;
+      height: auto;
+      background-size: contain;
+      display: flex;
+      background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);      
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.5); 
+      }
+ 
+      
       input, textarea, select {
       margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 3px;
       }
 
-     input {
+      input {
       width: calc(100% - 10px);
       padding: 5px;
       }
@@ -654,47 +700,16 @@ alert('Text copied to clipboard');
       color: #a82877;
       }
 
-      .item {
-      position: relative;
-      margin: 10px 0;
-      }
-
-      input[type="date"]::-webkit-inner-spin-button {
-      display: none;
-      }
-
-      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
-      position: absolute;
-      font-size: 20px;
-      color: #a9a9a9;
-      }
-
-      .item i {
-      right: 1%;
-      top: 30px;
-      z-index: 1;
-      }
-
-      [type="date"]::-webkit-calendar-picker-indicator {
-      right: 0;_30px
-      z-index: 2;
-      opacity: 0;
-      cursor: pointer;
-      }
-
-     input[type="time"]::-webkit-inner-spin-button {
-      margin: 2px 22px 0 0;
-      }
-
-
-      .btn-block {
+      .btn-block  {
       margin-top: 10px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
       }
 
-      
       button {
       width: 150px;
+      height: 75px;
+      margin: 10px;
       padding: 10px;
       border: none;
       border-radius: 5px; 
@@ -713,21 +728,31 @@ alert('Text copied to clipboard');
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      margin-top: 5px;
      }
 
       .name-item input, .city-item input {
-      width: calc 50% - 20px);
+      width: calc (50% - 20px);
+      margin-top: 5px;
       }
 
       .city-item select {
       width: calc(50% - 8px);
+	  margin-top: 5px;
       }
 
-            /*  -----------------------------------------------------RADIO --------------------------------------------------- */
+      .item {
+      position: relative;
+      margin-top: 5px;
+      }
+
+
+  /*  -----------------------------------------------------RADIO --------------------------------------------------- */
 
      input[type=radio], input.other {
       display: none;
       }
+
       label.radio {
       position: relative;
       display: inline-block;
@@ -738,9 +763,8 @@ alert('Text copied to clipboard');
 
       .question span {
       margin-left: 0px;
-  
-
       }
+
       label.radio:before {
       content: "";
       position: absolute;
@@ -750,15 +774,17 @@ alert('Text copied to clipboard');
       height: 15px;
       border-radius: 50%;
       border: 2px solid #ccc;
-     
       }
+
       #radio_5:checked ~ input.other {
       display: block;
       }
+
       input[type=radio]:checked + label.radio:before {
       border: 2px solid #a82877;
       background: #a82877;
       }
+
       label.radio:after {
       content: "";
       position: absolute;
@@ -772,12 +798,12 @@ alert('Text copied to clipboard');
       transform: rotate(-45deg);
       opacity: 0;
       }
+
       input[type=radio]:checked + label:after {
       opacity: 1;
       }
 
-
-      /*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
+/*  -----------------------------------------------------LIST BOX --------------------------------------------------- */
 
   .checkbox-inline {
   columns: 1;
@@ -807,11 +833,13 @@ alert('Text copied to clipboard');
         height: 27px;
         }
 
-      }
-      /* Hide the default style of the checkbox */
+      }   
+
+/* Hide the default style of the checkbox */
       input[type=checkbox] {
         visibility: hidden;
       }
+
       /* Create a custom checkbox */
       .mark {
         position: absolute;
@@ -821,7 +849,6 @@ alert('Text copied to clipboard');
         width: 25px;
         border: 1px solid #ccc;
         background-color: #999999;
-
       }
 
 .mark-inline {
@@ -873,460 +900,593 @@ alert('Text copied to clipboard');
         transform: rotate(45deg);
       }
       }
-      /*  --------------------------------------------------CHECK BOX END------------------------------------------------- */
+
+
 
   </style>
   </head>
 
-<!-- HEADER --> 
+  <!--    --------------------------------------------------QUESTION TYPES------------------------------------------------- --> 
 
   <body>
+
+  
     <div class="testbox">
-      <form action="/">
+       <form id="myForm" action="/">
+    
+     <button class="block" type="button" onclick="Reset()" > RESET ALL</button>
+         
+   <div class="header" id="myHeader"> </div>
+  
+        <div class="banner"> </div>
+      
+          <p>Where are you currently staying?</p>
 
-<!-- BANNER TEXT --> 
-
-        <div class="banner">
-          <h1>  </h1>
-        </div>
-        <div class="item">
-
-  <!--    --------------------------------------------------QUESTIONS------------------------------------------------- --> 
-
-
-<!-- QUESTION DATE OF SURVEY--> 
-
-          <p>Date of Survey</p>
-          <input type="date" name="bdate" />
-          <i class="fas fa-calendar-alt"></i>
-        </div>
-        <div class="item">
-
-<!-- QUESTION TIME OF SURVEY--> 
-
-          <p>Time of Survey</p>
-          <input type="time" name="name" />
-          <i class="fas fa-clock"></i>
-        </div>
-        <div class="item">
-
-
-
-<!-- QUESTION WHERE ARE YOU CURRENTLY LIVING--> 
-
-          <p>Where are you currently living</p>
-          <select>
-            <option value="1">*Please select*</option>
-            <option value="2">Living in a car </option>
-            <option value="3">Living in a tent</option>
-            <option value="4">In a homeless/night shelter </option>
-            <option value="5">In a public place</option>
-            <option value="6">Transient </option>
-            <option value="7">Couch surfing </option>
-            <option value="8">Marae</option>
-            <option value="9">Cabin </option>
-            <option value="10">Caravan </option>
-            <option value="11">Camp Ground </option>
-            <option value="12">Other (e.g. Garage) </option>
-            <option value="13">Boarding </option>
-            <option value="14">Staying with friends/family </option>
-            <option value="15">Private rental </option>
-            <option value="16">Own home </option>
-            <option value="17">Hospital </option>
-            <option value="18">Prison </option>
-
-          </select>
-        </div>
-        <div class="item">
-
-<!--  ALTERNATIVE--> 
-
-
-<p style="margin-top:10px">Where are you currently living</p>
-     
-      <label class="box">Living in a car <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Living in a tent  <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">In a night shelter  <input type="checkbox" >  <span class="mark"></span>  </label>
-      <label class="box">In a public place<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Transient <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Couch surfing<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Marae<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Cabin <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Caravan <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Camp Ground<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Other (e.g. Garage)<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Boarding <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">With friends/family<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Private rental <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Own home<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Hospital      <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Prison <input type="checkbox" >  <span class="mark"></span>   </label>
-
-<!-- QUESTION WHY ARE YOU NEEDING HELP? --> 
-
-<p style="margin-top:10px"> Why are you needing help </p>
-     
-      <label class="box">Financial stress <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Employment reasons   <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Medical<input type="checkbox" >  <span class="mark"></span>  </label>
-      <label class="box">Public Transport<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Tenancy ending <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Tenancy eviction<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Unhealthy house<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Family reasons <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Personal Safety <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Children<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Gang Affiliation concern<input type="checkbox" >  <span class="mark"></span>   </label>
-
-<!-- QUESTION IF OTHER? --> 
-
-           <p style="margin-top:10px"> If there is another reason you are needing help not listed above, please enter here?</p>
-          <input type="text" name="name" placeholder="*Type here*"/>
-        </div>
-        <div class="item">
-
-<!-- QUESTION How long have you been in your current accommodation? --> 
-
-          <p>How long have you been in your current accommodation?</p>
-          <input type="text" name="name" placeholder="*Type here*"/>
-        </div>
-        <div class="item">
-
-<!-- QUESTION If we could provide some support could you stay where you are? --> 
-
-        <p>If we could provide some support could you stay where you are</p>
-          <select>
-            <option value="1">*Please select*</option>
-            <option value="2">Yes </option>
-            <option value="3">No</option>
-          </select>
-        </div>
-        <div class="item">
-
-<!-- QUESTION  Do you have children --> 
-
-          <p>Do you have children</p>
-          <select>
-              <option value="1">*Please select*</option>
-              <option value="2">Yes</option>
-              <option value="3">No</option>
-          <select>
-        </div>
-        <div class="item">
-
-<!-- QUESTION WHEN DO YOU NEED TO MOVE --> 
-
-          <p>When do you need to move</p>
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">Immediately</option>
-              <option value="2">7 days or less</option>
-              <option value="3">8-60 days</option>
-              <option value="4">61-91 days</option>
-            </select>
-        </div>
-        <div class="item">
-
-<!-- QUESTION Who is in your household and who is needing housing assistance?? --> 
-
-        <p style="margin-top:10px"> Who is in your household and who is needing housing assistance?? </p>
-        <textarea rows="3">
-*Type here*
-        </textarea >
-        </div>
-        <div class="item">
-
-<!-- QUESTION 6 WHAT OTHER HOUSING OPTIONS HAVE YOU BEEN LOOKING AT ?  --> 
-          <p>What other housing options have you been looking at and applying for?</p>
-          <select>
-            <option value="1">*Please select*</option>
-            <option value="2">Searched for houses/accommodation online </option>
-            <option value="3">Talked to family or friends </option>
-            <option value="4">Applied for houses/accommodation </option>
-            <option value="5">Registered with real estate agents</option>
-            <option value="6">Found a place</option>
-            <option value="7">Have not begun looking</option>
-
-          </select>
-        </div>
-        <div class="item">
-
-<!-- ALTERNATIVE ?  --> 
-
-<p style="margin-top:10px"> What other housing options have you been looking at and applying for? </p>
-     
-      <label class="box">Searched online<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Talked family /friends <input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Applied <input type="checkbox" >  <span class="mark"></span>  </label>
-     <label class="box">Estate agents<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Found a place<input type="checkbox" >  <span class="mark"></span>   </label>
-      <label class="box">Not started<input type="checkbox" >  <span class="mark"></span>   </label>
-</label>
-
-
-
-
-<!-- ------------------------------------------- -->
-
-<!-- QUESTION  REGION--> 
-
-          <p>Region</p>
-            <select>
-              <option value="">*Please select*</option>
-              <option value="1">Wellington</option>
-              <option value="2">Christchurch</option>
-              <option value="3">Auckland</option>
-              <option value="4">Southern</option>
-              <option value="5">Central</option>
+            <div class="item">
+            <select size ="15" id="Question1" >
+              <option value="0" hidden selected>Not selected</option>
+              <option value="1">Living in a car</option>
+              <option value="2">Living in a tent</option>
+              <option value="3">In a public place</option>
+              <option value="4">Couch surfing</option>
+              <option value="5">Marae</option>
+              <option value="6">Cabin</option>
+              <option value="7">Caravan</option>
+              <option value="8">Camp Ground</option>
+              <option value="9">Other (e.g. Garage)</option>
+              <option value="10">Boarding</option>
+              <option value="11">Staying with friends/family</option>
+              <option value="12">Private rental</option>
+              <option value="13">Own home</option>
+              <option value="14">Hospital</option>
+              <option value="15">Prison</option>
             </select>
           </div>
-        <div class="item">
+       
 
-
-
-
-
-
-<!-- QUESTION 11, x  --> 
-
-          <p>x</p>
-          <select>
-            <option value="1">*Please select*</option>
-            <option value="2">Option1</option>
-            <option value="3">Option2</option>
-          </select>
-        </div>
-        <div class="item">
-
-<!-- QUESTION 12, NAME  --> 
-
-          <p>x</p>
-          <div class="name-item">
-            <input type="text" name="name" placeholder="First" />
-            <input type="text" name="name" placeholder="Last" />
+          <p>What are you needing help with?</p>
+			
+            <div class="item">
+            <select multiple size ="12" id="Question2a">
+			  <option value="01" hidden selected>Not selected</option>
+              <option value="02">Children</option>
+              <option value="03">Current accommodation is unhealthy</option>
+              <option value="04">Employment reasons</option>
+              <option value="05">Family reasons</option>
+              <option value="06">Financial stress</option>
+ 			  <option value="07">Gang Affiliation or concern</option>
+              <option value="08">Medical</option>
+              <option value="09">Personal Safety</option>
+              <option value="10">Public Transport</option>
+              <option value="11">Tenancy ending</option>
+              <option value="12">Tenancy eviction</option>
+              <option value="13">Other (please add comments below)</option>
+            </select>
           </div>
-</div>
-        <div class="item">
+       
+
+         <p>If other selected above, please add further comments </p>
+          
+          <div class="item">
+          <input type="text" id="Question2b" placeholder="Not Selected" >
+          
+          </div>
+         
+          <p>How long have you been in your current living situation? </p>
+		  
+			<div class="item">
+            <select  size ="9" id="Question3" >
+              <option value="0" hidden selected>Not selected</option>
+              <option value="2">less then 1 month</option>
+              <option value="3">less then 3 months</option>
+              <option value="4">less then 6 months</option>
+              <option value="5">less then 1 year</option>
+              <option value="6">less then 2 years</option>
+              <option value="7">less then 3 years</option>
+              <option value="8">less then 4 years</option>
+              <option value="9">less then 5 years</option>
+              <option value="10">more then 5 years</option>
+            </select>
+          </div>
+        
 
 
+          <p>If we could provide some support could you stay where you are?</p>
 
-<!-- QUESTION 13, x  --> 
+		  <div class="item">
+            <select  size ="2" id="Question4a">
+  		      <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="Yes">Yes </option>
+              <option value="No">No </option>
+            </select>
+          </div>
+        
 
-          <p>x</p>
-          <input type="text" name="name"/>
-        </div>
-        <div class="item">
+          <p>Do you have children?</p>
+           
+			<div class="item">
+			<select size ="2" id="Question4b"> 
+              <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        
 
-<!-- QUESTION 14, x  --> 
+          <p>When do you need to move?</p>
+          
+           <div class="item">
+           <select size ="4" id="Question4c">
+              <option value="Not selected" hidden selected>Not selected</option> 
+   
+              <option value="Immediately">Immediately</option>
+              <option value="7 days or less">7 days or less</option>
+              <option value="8-60 days">8-60 days</option>
+              <option value="61-91 days">61-91 days</option>
+            </select>
+          </div>
+       
 
-<fieldset class="checkbox-inline">
-  <legend>Checkbox List</legend>
+          <p>Who needs assistance in your household</p>
 
-      <label class="box">Test
-        <input type="checkbox"> 
-        <span class="mark"></span>
-      </label>
+          <div class="city-item">
+            <select size = "6" id="Question5a">
+              <option value="0" selected>Number of Adults</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
 
-        <label class="box">Test
-        <input type="checkbox">
-        <span class="mark"></span>
-      </label>
+            <select size = "6" id="Question5b">
+              <option value="0" selected>Number of Children</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
 
-      <label class="box">Test
-        <input type="checkbox">
-        <span class="mark"></span>
-      </label>
 
-      <label class="box">Test
-        <input type="checkbox">
-        <span class="mark"></span>
-      </label>
-
-      <label class="box">Test
-        <input type="checkbox">
-        <span class="mark"></span>
-      </label>
-
-</fieldset>
-
-<!-- CHECKBOX --> 
-
-     <p style="margin-top:15px">Custom checkboxes</p>
+        
+          <p>Why is it hard for you to find suitable housing? </p>
+          
+          <div class="city-item">
+            <select size = "13" id="Question6">
+            <option value="Not selected" hidden selected>Not selected</option> 
+            <option value="00">PRIMARY REASON SELECT ONE</option>
+			<option value="01">Age</option>
+ 		    <option value="02">Behind in rent</option>
+            <option value="03">Cost of rental</option>
+            <option value="04">Cost of rental</option>
+            <option value="05">Criminal history</option>
+            <option value="06">Credit history</option>
+            <option value="07">Disability</option>
+	        <option value="08">Gang affiliation</option>
+            <option value="09">Health</option> 
+            <option value="10">No rental history</option>
+            <option value="11">Pets</option>
+            <option value="12">Size of household</option>
+            </select>
      
-      <label class="box">One
-        <input type="checkbox" >
-        <span class="mark"></span>
-      </label>
+            <select multiple size = "13" id="Question6b">
+            <option value="Not selected" hidden selected>Not selected</option> 
+            <option value="00">SECONDARY REASON SELECT UP TO THREE</option>
+			<option value="01">Age</option>
+ 		    <option value="02">Behind in rent</option>
+            <option value="03">Cost of rental</option>
+            <option value="04">Cost of rental</option>
+            <option value="05">Criminal history</option>
+            <option value="06">Credit history</option>
+            <option value="07">Disability</option>
+	        <option value="08">Gang affiliation</option>
+            <option value="09">Health</option> 
+            <option value="10">No rental history</option>
+            <option value="11">Pets</option>
+            <option value="12">Size of household</option>
+            </select>
+          </div>
+        
 
-      <label class="box">Two
-        <input type="checkbox" checked="checked">
-        <span class="mark"></span>
-      </label>
-
-      <label class="box">Three
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-      <label class="box">Four
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-      <label class="box">Five
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-      <label class="box">Six
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-     <label class="box">Seven
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-     <label class="box">Eight
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-     <label class="box">Nine
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-     <label class="box">Ten
-        <input type="checkbox">
-        <span class="mark"> </span>
-        </label>
-
-<!-- QUESTION 15, Radio Button -->
-
-   <p style="margin-top:10px">Radio Button</p> 
-
-            <div>
-              <input type="radio" value="none" id="radio_1" name="recorded" />
-              <label for="radio_1" class="radio"><span>Yes</span></label>
-            </div>
-
-            <div>
-              <input type="radio" value="none" id="radio_2" name="recorded" />
-              <label for="radio_2" class="radio"><span>No</span></label>
-            </div>
-
-            <div>
-              <input type="radio" value="none" id="radio_3" name="recorded" />
-              <label for="radio_3" class="radio"><span>Other</span></label>
-            </div>
-
-            </div>
-       </div>
-
-<!-- COMPLETE BUTTON --> 
-
-        <div class="btn-block">
-          <button type="submit" href="/">COPY</button>
-        </div>
-
-      </form>
-    </div>
-
-  </body>
-</html>
-```
---------------------------------------------------------------------------------------------------------
-
-### TAB
-
-```HTML
-<!DOCTYPE html>
-<html lang="en">
-  
-<head>
-    <style>
-        body {
-            background: rgb(140, 214, 30);
-        }
+          <p>What region are you living in?</p>
           
-        [data-tab-info] {
-            display: none;
-        }
+          <div class="item">
+            <select size = "13" id="Question7">
+            <option value="Not selected" hidden selected>Not selected</option>   
+            <option value="01">Auckland Central-East</option>
+            <option value="02">Auckland North-West</option>
+            <option value="03">Auckland South</option>
+            <option value="04">Bay of Plenty</option>
+            <option value="05">Canterbury</option>
+            <option value="06">Central</option>
+            <option value="07">East Coast</option>
+			<option value="08">Nelson</option>
+            <option value="09">Northland</option>
+            <option value="10">Southern</option>
+            <option value="11">Taranaki</option>
+            <option value="12">Waikato</option>
+			<option value="13">Wellington</option>
+            </select>
+          </div>
+        
+                  <p>Do you live in Rotorua?</p>
           
-        .active[data-tab-info] {
-            display: block;
-        }
+          <div class="item">
+            <select size = "2" id="Question7a">
+            <option value="Not selected" hidden selected>Not selected</option> 
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+ 
+            </select>
+          </div>
+
+          <p>Is anyone or any service helping you with your housing?</p>
           
-        .tab-content {
-            font-size: 30px;
-            font-family: sans-serif;
-            font-weight: bold;
-            color: rgb(82, 75, 75);
-        }
+           <div class="item">
+            <select size="2" id="Question8a">
+              <option value="Not selected" hidden selected>Not selected</option> 
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <p>If yes, please answer select below</p>
           
-        .tabs {
-            font-size: 40px;
-            color: rgb(255, 255, 255);
-            display: flex;
-            margin: 0;
+           <div class="item">
+              <select multiple size ="4" id="Question8b">
+              <option value="Not selected" hidden selected>Not selected</option>
+			  <option value="1">Corrections</option>
+              <option value="2">Kainga Ora</option>
+              <option value="3">Salvation Army</option>
+              <option value="4">Other</option>
+            </select>
+          </div>
+       
+          <p>If other please type below</p>
+		 <div class="item">
+          <input type="text" name="freetext" id="Question8c" placeholder="Not Selected" >
+          </div>
+
+<!-- BUTTON -->
+
+<button class="block" type="button" onclick="FinaliseAnswers()" > FINALISE ANSWERS </button>
+
+     
+<table> 
+<table hidden style="width:100%; align-items: left; background-color: #E5E4E2; color:black; margin-bottom: 20px;" id="Table" class="tb" > 
+
+<thead>
+<tr>
+<th bgcolor="gray"  >NO</th>  
+<th bgcolor="gray"  >TYPE</th>
+<th bgcolor="gray"  >BENEFITS</th>
+<tr>
+</thead>
+
+<tbody>
+<tr id=01 hidden><td>01</td>     <td>HOUSING</td>       <td>Emergency Housing</td>     										</tr>
+<tr id=02 hidden><td>02</td>     <td>HOUSING</td>       <td>Transition Housing Referral</td>     							</tr>
+<tr id=03 hidden><td>03</td>     <td>HOUSING</td>       <td>Public Housing Assessment</td>     								</tr>
+<tr id=04 hidden><td>04</td>     <td>FINANCIAL</td>     <td>HSP - Bond Grant</td>     										</tr>
+<tr id=05 hidden><td>05</td>     <td>FINANCIAL</td>     <td>HSP - Rent-in-Advance</td>     									</tr>
+<tr id=06 hidden><td>06</td>     <td>FINANCIAL</td>     <td>HSP - Rent Arrears</td>     									</tr>
+<tr id=07 hidden><td>07</td>     <td>FINANCIAL</td>     <td>HSP - Moving Assistance</td>     								</tr>
+<tr id=08 hidden><td>08</td>     <td>WELLBEING</td>     <td>HSP - Tenancy Cost Cover Letter</td>    						</tr>
+
+<tr id=10 hidden><td>10</td>     <td>FINANCIAL</td>     <td>Accommodation Supplement</td>     								</tr>
+<tr id=11 hidden><td>11</td>     <td>FINANCIAL</td>     <td>Temporary Additional Support</td>     							</tr>
+
+<tr id=14 hidden><td>14</td>     <td>FINANCIAL</td>     <td>House Modification Funding via MOH</td>     					</tr>
+<tr id=15 hidden><td>15</td>     <td>WELLBEING</td>     <td>Ready to Rent Programme</td>     								</tr>
+<tr id=16 hidden><td>16</td>     <td>FINANCIAL</td>     <td>SNG - Food Grant</td>     										</tr>
+<tr id=17 hidden><td>17</td>     <td>HOUSING</td>       <td>Contracted Emergency Housing</td>     							</tr>
+<tr id=18 hidden><td>18</td>     <td>FINANCIAL</td>     <td>SNG - Other</td>     											</tr>
+<tr id=19 hidden><td>19</td>     <td>FINANCIAL</td>     <td>Disability Allowance</td>     									</tr>
+
+<tr id=22 hidden><td>22</td>     <td>WELLBEING</td>     <td>Better Off Calculation</td>     								</tr>
+<tr id=23 hidden><td>23</td>     <td>WELLBEING</td>     <td>Refer to Housing Broker</td>     								</tr>
+<tr id=24 hidden><td>24</td>     <td>FINANCIAL</td>     <td>Youth Payment</td>     											</tr>
+<tr id=25 hidden><td>25</td>     <td>FINANCIAL</td>     <td>Youth Parent Payment</td>     									</tr>
+<tr id=26 hidden><td>26</td>     <td>FINANCIAL</td>     <td>Child Disability Allowance</td>     							</tr>
+<tr id=27 hidden><td>27</td>     <td>WELLBEING</td>     <td>Building Financial Capability products and services</td>     	</tr>
+<tr id=28 hidden><td>28</td>     <td>FINANCIAL</td>     <td>Recoverable Assistance Payments</td>     						</tr>
+<tr id=29 hidden><td>29</td>     <td>FINANCIAL</td>     <td>TTW</td>     													</tr>
+<tr id=30 hidden><td>30</td>     <td>WELLBEING</td>     <td>Employment and Work Readiness Assistance Programme</td>     	</tr>
+<tr id=31 hidden><td>31</td>     <td>WELLBEING</td>     <td>Job Connect</td>     											</tr>
+
+<!-- REMOVED AS OUT OF SCOPE OF PILOT
+<tr id=09 hidden><td>09</td>     <td>FINANCIAL</td>     <td>HSP - Transition to Alternative Housing Grant</td>     			</tr>
+<tr id=12 hidden><td>12</td>     <td>FINANCIAL</td>     <td>Income Related Rent</td>     									</tr>
+<tr id=13 hidden><td>13</td>     <td>FINANCIAL</td>     <td>Flexible Funding Assistance (Emergency Housing)</td>  		 	</tr>
+<tr id=20 hidden><td>20</td>     <td>WELLBEING</td>     <td>Family Violence Intervention Programme</td>     				</tr>
+<tr id=21 hidden><td>21</td>     <td>WELLBEING</td>     <td>Domestic Violence Programme</td>     							</tr>
+-->   
+
+</tbody>
+
+<caption margin:=20px style="caption-side:bottom"> Select support options then click next </caption>
+
+</table>    
+
+           <div class="item">
+              <select hidden multiple size ="4" id="Results">
+              <option value="Not selected" hidden selected>Not selected</option>
+			  <option value="1">A</option>
+              <option value="2">B</option>
+              <option value="3">C</option>
+              <option value="4">D</option>
+            </select>
+          </div>
+     
+
+
+<button style="display:none" class="block" type="button" onclick="toggle(this)"> TOGGLE</button>
+
+<button style="display:none" class="block" type="button"  id="GenerateProviders"> GENERATE PROVIDERS </button>
+        
+     
+  <p> Providers </p>
+  <textarea id="Area2"> </textarea> 
+  
+  <button style="display:none" class="block" type="button" onclick="FileNote()" id="GenerateNote"> GENERATE FILE NOTE </button>
+
+  <p> Copy of file note</p>
+  <textarea id="Area3"> </textarea>
+  
+ </form>
+      
+<script>
+ 
+ 
+ 
+
+<!-- ---------- HEADER ---------- -->        
+    
+window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}    
+    
+<!-- ---------- RESET ---------- -->      
+           
+function Reset() {
+
+document.getElementById("myForm").reset();
+
+document.getElementById("Table").setAttribute("hidden", "hidden");
+document.getElementById("Results").setAttribute("hidden", "hidden");
+
+// GenerateNote.setAttribute("display", "none");
+  
+document.getElementById("16").setAttribute("hidden", "hidden"); 
+document.getElementById("18").setAttribute("hidden", "hidden");
+document.getElementById("28").setAttribute("hidden", "hidden");
+
+document.getElementById("01").setAttribute("hidden", "hidden");
+document.getElementById("02").setAttribute("hidden", "hidden");
+document.getElementById("03").setAttribute("hidden", "hidden");
+document.getElementById("04").setAttribute("hidden", "hidden");
+document.getElementById("05").setAttribute("hidden", "hidden");
+document.getElementById("06").setAttribute("hidden", "hidden");
+document.getElementById("07").setAttribute("hidden", "hidden");
+document.getElementById("08").setAttribute("hidden", "hidden");
+document.getElementById("09").setAttribute("hidden", "hidden");
+document.getElementById("10").setAttribute("hidden", "hidden");
+document.getElementById("11").setAttribute("hidden", "hidden");
+document.getElementById("12").setAttribute("hidden", "hidden");
+document.getElementById("13").setAttribute("hidden", "hidden");    
+document.getElementById("14").setAttribute("hidden", "hidden");
+document.getElementById("15").setAttribute("hidden", "hidden"); 
+
+document.getElementById("17").setAttribute("hidden", "hidden"); 
+
+document.getElementById("19").setAttribute("hidden", "hidden"); 
+document.getElementById("20").setAttribute("hidden", "hidden"); 
+document.getElementById("21").setAttribute("hidden", "hidden"); 
+document.getElementById("22").setAttribute("hidden", "hidden"); 
+document.getElementById("23").setAttribute("hidden", "hidden"); 
+document.getElementById("24").setAttribute("hidden", "hidden"); 
+document.getElementById("25").setAttribute("hidden", "hidden"); 
+document.getElementById("26").setAttribute("hidden", "hidden"); 
+document.getElementById("27").setAttribute("hidden", "hidden"); 
+
+document.getElementById("29").setAttribute("hidden", "hidden"); 
+document.getElementById("30").setAttribute("hidden", "hidden"); 
+document.getElementById("31").setAttribute("hidden", "hidden"); 
+
+}
+
+
+  <!-- ---------- FinaliseAnswers ---------- -->   
+   
+  function FinaliseAnswers() {           
+
+    document.getElementById("Table").removeAttribute("hidden");  // Public Housing Assessment
+    document.getElementById("Results").removeAttribute("hidden");  // Public Housing Assessment
+
+    // ALL
+    document.getElementById("16").removeAttribute("hidden");  // SNG - Food Grant
+    document.getElementById("18").removeAttribute("hidden");  // SNG - Other
+
+    // ANY 4C 
+    document.getElementById("03").removeAttribute("hidden");  // Public Housing Assessment
+
+    // STAY WITH SUPPORT YES
+    document.getElementById("01").removeAttribute("hidden");  // Emergency Housing
+    document.getElementById("02").removeAttribute("hidden");  // Transition Housing Referral 
+
+    // ANY Q1
+    document.getElementById("28").removeAttribute("hidden");  // Recoverable Assistance Payments
+
+    GenerateNote.removeAttribute("style"); 
+    GenerateProviders.removeAttribute("style"); 
+    
+ } 
+
+           
+<!-- ---------- FILE NOTE ---------- --> 
+           
+    function FileNote() {
+
+    var Question1   = getSelectValues(document.getElementById("Question1"));
+
+    var Question2a   = getSelectValues(document.getElementById("Question2a"));
+
+    if (document.getElementById("Question2b").value == "") { 
+      var Question2b = "Not Selected";
+    }
+    else { 
+      var Question2b =document.getElementById("Question2b").value; 
+    }
+
+    var Question3   = getSelectValues(document.getElementById("Question3"));
+
+    var Question4a   = document.getElementById("Question4a").value;      
+
+    var Question4b   = document.getElementById("Question4b").value;	    
+
+    var Question4c   = document.getElementById("Question4c").value;      
+
+    var Question5a   = document.getElementById("Question5a").value;
+
+    var Question5b   = document.getElementById("Question5b").value;
+
+    var Question6  = getSelectValues(document.getElementById("Question6"));
+
+    var Question7  = getSelectValues(document.getElementById("Question7"));
+getSelectValues(document.getElementById("Question6"));
+
+    var Question8a  = document.getElementById("Question8a").value;
+
+    var Question8b  = getSelectValues(document.getElementById("Question8b"));
+
+    if (document.getElementById("Question8c").value == "") { 
+      var Question8c = "Not Selected";
+    }
+    else { 
+      var Question8c =document.getElementById("Question8c").value; 
+    }
+
+    var copyText =   
+
+        '--- #v1 Client Needs Assessment \n'+
+
+        '\nQ1 WHERE ARE YOU CURRENTLY LIVING?:'+ Question1 + '\n' +
+        '\nQ2a WHY ARE YOU NEEDING HELP?:'+ Question2a + '\n' +
+        '\nQ2b IF OTHER SELECTED ABOVE PLEASE ADD FURTHER COMMENTS?:\n'+ Question2b + ';\n' +
+        '\nQ3 HOW LONG HAVE YOU BEEN IN YOUR CURRENT ACCOMMODATION?:'+ Question3 + '\n' +
+        '\nQ4a IF WE COULD PROVIDE SOME SUPPORT COULD YOU STAY WHERE YOU ARE?: \n'+ Question4a + ';\n' +
+        '\nQ4b DO YOU HAVE CHILDREN?: \n'+ Question4b + ';\n' +
+        '\nQ4c WHEN DO YOU NEED TO MOVE?: \n'+ Question4c + ';\n' + 
+        '\nQ5 WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD?: \n' + Question5a + ' Adult ' + Question5b + ' Child' + ';\n' +
+        '\nQ6 WHAT IS MAKING IT HARD FOR YOU TO FIND SUITABLE HOUSING?:'+ Question6 + '\n' +
+        '\nQ7 WHAT REGION ARE YOU LIVING IN?:'+ Question7 + '\n' +
+        '\nQ8a IS ANYONE OR ANY SERVICE HELPING YOU WITH YOUR HOUSING?: \n'+ Question8a + ';\n' +
+        '\nQ8b IF YES, PLEASE ANSWER SELECT BELOW:'+ Question8b + '\n' +
+        '\nQ8c IF OTHER PLEASE TYPE BELOW: \n'+ Question8c + ';\n' + 
+
+        '\n--- # Template End';
+
+    navigator.clipboard.writeText(copyText);
+
+    document.querySelector("#Area3").value = copyText;
+    
+    // document.querySelector("#Area3").style.height = "700px";
+    
+    document.querySelector("#Area3").style.height = "100%";
+
+   // alert('OK');   
+    }                
+  
+<!-- ---------- LOOP THROUGH MULTISELECT ---------- -->        
+
+      //      '\nQ?:\n'+ Question4C + '\n' +
+
+    function getSelectValues(select) {
+      var result = "";
+      var options = select && select.options;
+      var opt;
+      
+      for (var i=0, iLen=options.length; i<iLen; i++) {
+        opt = options[i];
+        
+        if (opt.selected) {
+    
+          if (result == "") {
+            result = "\n" + opt.text + ";" ;
+          }
+          else {
+            result =  "\n" + opt.text + " # " + result ;
+          }
         }
-          
-        .tabs span {
-            background: rgb(28, 145, 38);
-            padding: 10px;
-            border: 1px solid rgb(255, 255, 255);
+      }
+      return result;
+    }
+    
+      <!-- ---------- TOGGLE ---------- -->  
+      
+                   let toggle = button => {
+    let element = document.getElementById("01");
+    let hidden = element.getAttribute("hidden");
+
+    if (hidden) {
+       element.removeAttribute("hidden");
+       button.innerText = "SHOW FILTERED OPTIONS";
+    } else {
+       element.setAttribute("hidden", "hidden");
+       button.innerText = "SHOW ALL OPTIONS";
+    }
+  }
+    
+</script>
+
+  <script type="text/javascript">
+
+$(document).ready(function() {
+
+          var last_valid_selection = null;
+
+          $('#Question6b').change(function(event) {
+
+            if ($(this).val().length > 3) {
+
+              $(this).val(null);
+            } else {
+              last_valid_selection = $(this).val();
+            }
+          });
+        });
+
+      let allLines = []
+
+      window.addEventListener("message", (message) => {
+        if (message.data.console){
+          let insert = document.querySelector("#insert")
+          allLines.push(message.data.console.payload)
+          insert.innerHTML = allLines.join(";\r")
+
+          let result = eval.call(null, message.data.console.payload)
+          if (result !== undefined){
+            console.log(result)
+          }
         }
-          
-        .tabs span:hover {
-            background: rgb(29, 185, 112);
-            cursor: pointer;
-            color: black;
-        }
-    </style>
-</head>
-  
-<body>
-    <div class="tabs">
-        <span data-tab-value="#tab_1">Tab-1</span>
-        <span data-tab-value="#tab_2">Tab-2</span>
-        <span data-tab-value="#tab_3">Tab-3</span>
-    </div>
-  
-    <div class="tab-content">
-        <div class="tabs__tab active" id="tab_1" data-tab-info>
-            <p>Welcome to GeeksforGeek.</p>
-  
-        </div>
-        <div class="tabs__tab" id="tab_2" data-tab-info>
-            <p>Hello Everyone.</p>
-  
-        </div>
-        <div class="tabs__tab" id="tab_3" data-tab-info>
-            <p>Learn cool stuff.</p>
-  
-        </div>
-    </div>
-    <script type="text/javascript">
-        const tabs = document.querySelectorAll('[data-tab-value]')
-        const tabInfos = document.querySelectorAll('[data-tab-info]')
-  
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document
-                    .querySelector(tab.dataset.tabValue);
-  
-                tabInfos.forEach(tabInfo => {
-                    tabInfo.classList.remove('active')
-                })
-                target.classList.add('active');
-            })
-        })
-    </script>
+      })
+
+</script>
 </body>
-  
 </html>
+
+
 ```
 --------------------------------------------------------------------------------------------------------
 
