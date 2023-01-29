@@ -10,7 +10,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [FUNCTION OTHER]
  * [NEW](#NEW)
  
-----------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 
 ###   TEMPLATE
 ####  ALL OPTION TYPES
@@ -542,16 +542,13 @@ navigator.clipboard.writeText(ExportText);
 alert('Text copied to clipboard');
 }
 </script>  
-
  
 </body>
 </html>
 
-
-
-
 ```
 
+--------------------------------------------------------------------------------------------------------
 
 ### NEW
 ```html
@@ -1330,7 +1327,7 @@ alert('Text copied to clipboard');
   
 </html>
 ```
-
+--------------------------------------------------------------------------------------------------------
 
 ### SAVE TO FILE
 
@@ -1482,14 +1479,94 @@ alert('Text copied to clipboard');
 --------------------------------------------------------------------------------------------------------
 
 ###   FUNCTION-TOP3
- * [NEW](#NEW)
+
+```HTML
 
 
+<!DOCTYPE html>
+<html>
+<head>
 
+  <script
+    id="insert"
+    type="text/javascript"
+    src="//code.jquery.com/jquery-1.11.0.js">
+  </script>
 
+</head>
+<body>
+    <select size="31"id="TOP3"  class="multiselect form-control" multiple="multiple">
+    <option value="2">Bungee Jumping</option>
+    <option value="3">Camping</option>
+    <option value="5">Mountain Biking</option>
+    <option value="6">Rappelling</option>
+    <option value="7">Rock Climbing / Bouldering</option>
+    <option value="8">Skiing</option>
+    <option value="10">Wild Life (Safari)</option>
+    <option value="11">Canoeing &amp; Kayaking</option>
+    <option value="12">Rafting</option>
+    <option value="13">Sailing</option>
+    <option value="14">Scuba Diving</option>
+    <option value="15">Snorkeling</option>
+    <option value="16">Surfing</option>
+    <option value="18">Hang Gliding</option>
+    <option value="19">Hot-air Ballooning</option>
+    <option value="20">Micro-light Aircrafts</option>
+    <option value="21">Paragliding</option>
+    <option value="22">Paramotoring</option>
+    <option value="23">Parasailing</option>
+    <option value="24">Skydiving / Parachuting</option>
+    <option value="25">Zip-line / Flying Fox</option>
+    <option value="26">Caving</option>
+    <option value="27">Cycling</option>
+    <option value="28">Fishing &amp; Angling</option>
+    <option value="29">Motorbike trips</option>
+    <option value="30">Nature Walks</option>
+    <option value="31">Road Trips</option>
+    <option value="32">Zorbing</option>
+    <option value="33">Trekking Hiking and Mountaineering</option>
+    <option value="34">Backpacking</option>
+    <option value="61">Water</option>
+</select>
 
+<script type="text/javascript">
 
+$(document).ready(function() {
 
-----------------------------------------------------------
+          var last_valid_selection = null;
+
+          $('#TOP3').change(function(event) {
+
+            if ($(this).val().length > 3) {
+
+              $(this).val(last_valid_selection);
+            } else {
+              last_valid_selection = $(this).val();
+            }
+          });
+        });
+
+      let allLines = []
+
+      window.addEventListener("message", (message) => {
+        if (message.data.console){
+          let insert = document.querySelector("#insert")
+          allLines.push(message.data.console.payload)
+          insert.innerHTML = allLines.join(";\r")
+
+          let result = eval.call(null, message.data.console.payload)
+          if (result !== undefined){
+            console.log(result)
+          }
+        }
+      })
+
+</script>
+</body>
+</html>
+```
+
+--------------------------------------------------------------------------------------------------------
+
 # MSD FORMS
 ###   TEMPLATE
