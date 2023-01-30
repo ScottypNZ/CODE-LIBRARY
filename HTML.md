@@ -9,6 +9,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [FUNCTION SELECT THREE](#FUNCTION-TOP3)
  * [FUNCTION CASCADING ANSWERS](#FUNCTION-CASCADING-ANSWERS)
  * [FUNCTION SELECTABLE TABLE](#FUNCTION-SELECTABLE-TABLE)
+ * [FUNCTION CASCADING SIMPLE](#FUNCTION-CASCADING-SIMPLE)
  
 --------------------------------------------------------------------------------------------------------
 
@@ -2318,6 +2319,55 @@ $(document).ready(function () {
 				
 </body>
 </html>
+```
+
+--------------------------------------------------------------------------------------------------------
+### SIMPLE CASCADING ANSWERS
+```HTML
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+
+</style>
+</head>
+<body>
+
+ 
+
+<div class="item">
+<div id="Test">
+<p> QUESTION</p>
+<select size="3" style="display" onchange="showDiv(this)">
+<option value="Maybe">Maybe </option>
+<option value="Yes">Yes </option>
+<option value="No">No </option>
+</select>
+</div>
+
+<div class="item">
+<div id="Result" style="display:none;">
+<p>RESULT</p> 
+<select size="3" >
+   <option value="0">Next</option>
+   <option value="1">Option</option>
+   <option value="2">Available</option>
+</select>   
+</div>
+
+<script>
+function showDiv(select){
+   if(select.value=="No"){	
+    document.getElementById("Result").style.display = "list-item";
+   } else{
+    document.getElementById("Result").style.display = "none";
+   }
+} 
+
+</script>
+</body>
+</html>
+
 ```
 
 --------------------------------------------------------------------------------------------------------
