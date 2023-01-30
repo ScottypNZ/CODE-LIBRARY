@@ -2322,7 +2322,7 @@ $(document).ready(function () {
 ```
 
 --------------------------------------------------------------------------------------------------------
-### SIMPLE CASCADING ANSWERS
+### FUNCTION CASCADING SIMPLE
 ```HTML
 <!DOCTYPE html>
 <html>
