@@ -10,6 +10,7 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  * [FUNCTION CASCADING ANSWERS](#FUNCTION-CASCADING-ANSWERS)
  * [FUNCTION SELECTABLE TABLE](#FUNCTION-SELECTABLE-TABLE)
  * [FUNCTION CASCADING SIMPLE](#FUNCTION-CASCADING-SIMPLE)
+ * [FUNCTION VARIABLE SEARCH TO SCREEN](FUNCTION-VARIABLE-SEARCH-TO-SCREEN)
  
 --------------------------------------------------------------------------------------------------------
 
@@ -2363,6 +2364,84 @@ function showDiv(select){
     document.getElementById("Result").style.display = "none";
    }
 } 
+
+</script>
+</body>
+</html>
+
+```
+
+--------------------------------------------------------------------------------------------------------
+### FUNCTION VARIABLE SEARCH TO SCREEN
+
+```HTML
+<!DOCTYPE html>
+<html>
+<body>
+           <div class="item">
+              <select multiple size ="4" id="Question1">
+              <option value="1">Corrections</option>
+              <option value="2">Kainga Ora</option>
+              <option value="3">Salvation Army</option>
+              <option value="4">Other</option>
+              <option value=test>var </option>
+            </select>
+          </div>
+
+<p>  </p>
+
+
+<button  id="test" onclick="buttonclick()"> TEST </button>
+
+<p>  </p>
+
+<textarea id="Area3" rows="5"> </textarea>
+
+<p id="demo"> </p>
+
+<script>
+
+var test = 1 + 3;
+document.getElementById("demo").innerHTML = test;
+
+
+
+function buttonclick(){
+var copyText =  getSelectValues(document.getElementById("Question1")); 
+navigator.clipboard.writeText(copyText);
+var result = copyText.includes("Other");
+
+document.querySelector("#Area3").value = copyText + '\n\n' + result;
+
+document.getElementById("demo").innerHTML = result;
+
+
+
+// alert(result)
+
+
+}
+
+function getSelectValues(select) {
+var result = "";
+var options = select && select.options;
+var opt;
+
+for (var i=0, iLen=options.length; i<iLen; i++) {
+opt = options[i];
+
+if (opt.selected) {
+
+if (result == "") {
+result = "\n" + opt.text + ";" ;
+}
+else {
+result =  "\n" + opt.text + " # " + result ;
+}
+}
+}
+return result;
+}      
 
 </script>
 </body>
