@@ -17,7 +17,7 @@ VBA Library
  * [REMOVE CHARACTERS LIKE](#REMOVE-CHARACTERS-LIKE)
  * [FILTER DATA VIA POWER QUERY AND SAVE AS SEPERATE SHEET](#FILTER-DATA-VIA-POWER-QUERY-AND-SAVE-AS-SEPERATE-SHEET)
  * [ROOMING](#ROOMING)
-
+ * [REMINDER](#REMINDER)
 -------------------------
 
 ### DISABLE BACKGROUND CONNECTIONS
@@ -860,6 +860,38 @@ Application.EnableEvents = True
 End Sub
 ```
 
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)  
+
+### ROOMING
+
+```VBA
+
+      Declare PtrSafe Function SetCursorPos Lib "user32" _
+      (ByVal x As Long, ByVal y As Long) As Long
+
+      Sub Set_Cursor_Posx()
+
+         For x = 1 To 36000
+             
+            Range("A1").Value = x
+               
+                If x Mod 250 = 0 Then
+                
+                SetCursorPos 950, 550
+                    
+                Application.SendKeys ("^")
+                
+                End If
+            
+            Application.Wait (Now + TimeValue("0:00:01"))
+        
+        Next x
+        
+onerror:       Exit Sub
+         
+      End Sub
+
+```
 
 
 VBA Library
