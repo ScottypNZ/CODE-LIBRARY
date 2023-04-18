@@ -3,6 +3,7 @@
 HTML FORM - https://www.w3docs.com/tools/editor/5943
 
  * [TEMPLATE](#TEMPLATE)
+ * [TEMPLATE26](#TEMPLATE26)
  * [NEW](#NEW)
  * [FUNCTION SAVE TO FILE](#SAVE-TO-FILE)
  * [FUNCTION TAB](#TAB)
@@ -551,6 +552,1683 @@ alert('Text copied to clipboard');
 ```
 
 --------------------------------------------------------------------------------------------------------
+
+####  TEMPLATE26
+
+``` html
+<!DOCTYPE html>
+<html>
+
+<script
+id="insert"
+type="text/javascript"
+src="//code.jquery.com/jquery-1.11.0.js">
+</script>
+
+<!--  --------------------  FORMATTING--------------------  -->
+
+<head>
+
+<style>
+
+/* Ads space at bottom so that expandable questions do not move form upwards  */
+html{
+margin-bottom: 500px;
+}
+
+/* Sets page size, position, margin and shadow */
+body {
+background: #fff;
+box-shadow: 0px 0px 30px 0px #a82877;
+max-width: 675px;
+min-width: 175px;
+margin: auto;
+margin-top: 10px;
+margin-bottom: 10px;
+border-radius: 7px;
+}
+
+mandatory {
+background-color: #fce4e4;
+border: 1px solid #cc0033;
+outline: none;
+}
+
+/* Sets textarea format, needed as default value differet then select */
+textarea {
+width: calc(100% - 17px);
+font-family: Roboto, Arial;
+font-size: 14px;
+color: #666;
+border-radius: 7px;
+outline: none;
+margin: 5px;
+}
+
+/* Pulls logo from MSD and formats banner otherwise default values duplicate and stretch pic */
+.banner {
+min-height: 125px;
+background-size: contain;
+background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);
+background-repeat: no-repeat;
+background-color: rgba(0, 0, 0, 0.5);
+width: calc(100% - 12px);
+margin: 5px 5px 12px 5px;
+border-radius: 7px;
+outline: none;
+}
+
+/* Sets margin for header, can't use the main format below as it will change the font and bold */
+h3 {
+text-align:center;
+}
+
+/* Main formating of boxs */
+form, item, button, p, input, select, h3 {
+margin: 5px 5px 5px 5px;
+width: calc(100% - 10px);
+font-family: Roboto, Arial;
+font-size: 14px;
+color: #666;
+border-radius: 7px;
+outline: none;
+}
+
+/* Sets gray border, can't be added above as this will create border on borders */
+item, button, textarea, input, select {
+border: 1px solid #ccc;
+}
+
+/* As with textarea, specific formating due to different default values + colour changed */
+button {
+color: #fff;
+background: #3D3C3A;
+border: none;
+height: 35px;
+margin-top: 17px;
+margin-bottom: 12px;
+}
+
+select[multiple], select, city-item, item {
+overflow-y: auto;
+}
+
+/* Sets specific formatting to allow side by side boxs that moves them below when the page is shrunk */
+@media (min-width: 568px) {
+.city-item {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+/* Sets specific formatting to allow side by side boxs that moves them below when the page is shrunk */
+@media (min-width: 568px) {
+.quarter-item {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+/* As above */
+.city-item input {
+width: calc (50% - 10px);
+}
+
+/* As above */
+.city-item select {
+width: calc(50% - 10px);
+}
+
+/* As above */
+.quarter-item input {
+width: calc (25% - 10px);
+}
+
+/* As above */
+.quarter-item select {
+width: calc(25% - 10px);
+}
+
+/* Adds shadow on hover */
+.item:hover p,  .city-item:hover p  {
+color: #a82877;
+}
+
+/* Adds shadow on hover, needed as no border on <p> element */
+textarea:hover, select:hover {
+color: #a82877;
+border: 1px solid transparent;
+box-shadow: 0 0 6px 0 #a82877;
+}
+
+.error-input {
+background-color: #fce4e4;
+border: 1px solid #cc0033;
+outline: none;
+}
+
+</style>
+<title>Needs Assessment Tool v26 </title>
+</head>
+
+<!-- ----------------------------------------------------------- BODY ----------------------------------------------------------- -->
+
+<body>
+
+<form id="myForm" action="/">
+
+<button type="button" onclick="Reset()"> RESET ALL</button>
+
+<div class="banner"></div>
+
+<H3>Needs Assessment Tool v26 </H3>
+
+<H1 style="text-align: center; margin-bottom:2px; "> PATHWAY TO HOUSING TOOL</H1>
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> GENERAL QUESTIONS </H3>   
+
+<!-- ---------------- SECTION 1 [GENERAL] ---------------- -->
+
+<div class="item"> 
+<p>Q1a Is this a referral from: [Staff Only]   </p>
+<select size ="4"  id="Question1a" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Corrections">Department of Corrections</option>
+<option value="Oranga Tamariki">Oranga Tamariki</option>
+<option value="Te Whatu Ora’">Te Whatu Ora</option>
+<option value="N/A">N/A</option>
+</select>
+</div>
+
+<div class="item"> <p>Q2a Tell me about your housing situation (why does the client need help)
+<br>[NB: Hold CTRL to select multiple options]</p>
+<select size="12" multiple style="overflow:hidden" id="Question2a" onchange="HelpOther(this)" oninput="textChanged(this);" name="mandatory">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Asked to leave boarding situation">Asked to leave boarding situation</option>
+<option value="Conflict within the household">Conflict within the household</option>
+<option value="Family harm">Family harm</option>
+<option value="Gang activities">Gang activities</option>
+<option value="Medical reasons">Medical reasons</option>
+<option value="Moving for work">Moving for work</option>
+<option value="Neighbourhood / safety concerns">Neighbourhood / safety concerns</option>
+<option value="Separated from partner">Separated from partner</option>
+<option value="Tenancy ending">Tenancy ending</option>
+<option value="Tenancy eviction">Tenancy eviction</option>
+<option value="Impacted by natural disasters">Impacted by natural disasters</option>
+<option value="Other">Other</option>
+
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question2b"> <p>Q2b If other please type below</p>
+<textarea visible placeholder="Not Selected" id="Question2bSelect" name="mandatory" oninput="textChanged(this);"></textarea>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question2c"> <p>Q2c If Medical please provide detail below</p>
+<textarea placeholder="Not Selected" id="Question2cSelect" name="mandatory" oninput="textChanged(this);"></textarea>
+</div>
+
+<div class="item" hidden id="Question2d">
+<p> Q2d Are you currently working with a MSD or community family support person?</p>
+<select size ="2"  id="Question2dSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes </option>
+<option value="No">No </option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question3a"> <p>Q3a Any further details?</p>
+<textarea rows="6" placeholder="Not Selected" id="Question3aSelect" oninput="textChanged(this);"></textarea>
+</div>
+
+<!-- ---------------- SECTION 2 [SITUATION] ---------------- -->
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> SITUATION </H3>   
+
+
+<p id="demo"></p>
+
+<div class="item"> <p>Q4a What region are you living in?</p>
+<select size = "11" font="Courier" id="Question4a" onchange="showDistrict(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option id ="A1"  value="NORTHLAND">NORTHLAND</option>
+<option id ="A2"  value="AUCKLAND">AUCKLAND</option>
+<option id ="A3"  value="WAIKATO">WAIKATO</option>
+<option id ="A4"  value="BAY OF PLENTY">BAY OF PLENTY</option>
+<option id ="A5"  value="TARANAKI">TARANAKI</option>
+<option id ="A6"  value="EAST COAST">EAST COAST</option>
+<option id ="A7"  value="CENTRAL">CENTRAL</option>
+<option id ="A8"  value="WELLINGTON">WELLINGTON</option>
+<option id ="A9"  value="NELSON">NELSON</option>
+<option id ="A10" value="CANTERBURY">CANTERBURY</option>
+<option id ="A11" value="SOUTHERN">SOUTHERN</option>
+</select>
+</div>
+
+<!-- START OF DISTRICTS -->
+
+<div class="item" id="Question4b"> <p>Q4b What district are you living in?</p>
+<select size = "11" font="Courier New" id="Question4bSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+
+<option id ="1D" name="ALL" tagname= "NORTHLAND"  hidden> Far North District</option>
+<option id ="2D" name="ALL" tagname= "NORTHLAND"  hidden> Whangarei District</option>
+<option id ="3D" name="ALL" tagname= "NORTHLAND"  hidden> Kaipara District</option>
+
+<option id ="4D" name="ALL" tagname= "AUCKLAND"  hidden>Auckland</option>
+
+<option id ="5D" name="ALL" tagname= "WAIKATO" hidden>Waikato District</option>
+<option id ="6D" name="ALL" tagname= "WAIKATO" hidden>Thames-Coromandel District</option>
+<option id ="7D" name="ALL" tagname= "WAIKATO" hidden>Hauraki District</option>
+<option id ="8D" name="ALL" tagname= "WAIKATO" hidden>Matamata-Piako District</option>
+<option id ="9D" name="ALL" tagname= "WAIKATO" hidden>Hamilton City</option>
+<option id ="10D" name="ALL" tagname= "WAIKATO" hidden>Waipa District</option>
+<option id ="11D" name="ALL" tagname= "WAIKATO" hidden>Otorohanga District</option>
+
+<option id ="12D" name="ALL" tagname= "BAY OF PLENTY" hidden>Western Bay of Plenty District</option>
+<option id ="13D" name="ALL" tagname= "BAY OF PLENTY" hidden>Tauranga District</option>
+<option id ="14D" name="ALL" tagname= "BAY OF PLENTY" hidden>Rotorua District</option>
+<option id ="15D" name="ALL" tagname= "BAY OF PLENTY" hidden>South Waikato District</option>
+<option id ="16D" name="ALL" tagname= "BAY OF PLENTY" hidden>Kawerau District</option>
+<option id ="17D" name="ALL" tagname= "BAY OF PLENTY" hidden>Ōpōtiki District</option>
+<option id ="18D" name="ALL" tagname= "BAY OF PLENTY" hidden>Whakatane District</option>
+<option id ="19D" name="ALL" tagname= "BAY OF PLENTY" hidden>Taupō District</option>
+
+<option id ="20D" name="ALL" tagname= "TARANAKI" hidden>Waitomo District</option>
+<option id ="21D" name="ALL" tagname= "TARANAKI" hidden>New Plymouth District</option>
+<option id ="22D" name="ALL" tagname= "TARANAKI" hidden>Stratford District</option>
+<option id ="23D" name="ALL" tagname= "TARANAKI" hidden>South Taranaki District</option>
+<option id ="24D" name="ALL" tagname= "TARANAKI" hidden>Ruapehu District</option>
+<option id ="25D" name="ALL" tagname= "TARANAKI" hidden>Whanganui District</option>
+<option id ="26D" name="ALL" tagname= "TARANAKI" hidden>Rangitīkei District</option>
+
+<option id ="27D" name="ALL" tagname= "EAST COAST" hidden>Gisborne District</option>
+<option id ="28D" name="ALL" tagname= "EAST COAST" hidden>Wairoa District</option>
+<option id ="29D" name="ALL" tagname= "EAST COAST" hidden>Hastings District</option>
+<option id ="30D" name="ALL" tagname= "EAST COAST" hidden>Napier City</option>
+<option id ="31D" name="ALL" tagname= "EAST COAST" hidden>Central Hawke’s Bay District</option>
+
+<option id ="32D" name="ALL" tagname= "CENTRAL" hidden>Manawatu District</option>
+<option id ="33D" name="ALL" tagname= "CENTRAL" hidden>Palmerston North City</option>
+<option id ="34D" name="ALL" tagname= "CENTRAL" hidden>Horowhenua District</option>
+<option id ="35D" name="ALL" tagname= "CENTRAL" hidden>Kāpiti Coast District</option>
+<option id ="36D" name="ALL" tagname= "CENTRAL" hidden>Tararua District</option>
+<option id ="37D" name="ALL" tagname= "CENTRAL" hidden>Masterton District</option>
+<option id ="38D" name="ALL" tagname= "CENTRAL" hidden>Carterton District</option>
+<option id ="39D" name="ALL" tagname= "CENTRAL" hidden>South Wairarapa District</option>
+
+<option id ="40D" name="ALL" tagname= "WELLINGTON" hidden>Upper Hutt City</option>
+<option id ="41D" name="ALL" tagame= "WELLINGTON" hidden>Lower Hutt City</option>
+<option id ="42D" name="ALL" tagname= "WELLINGTON" hidden>Porirua City</option>
+<option id ="43D" name="ALL" tagname= "WELLINGTON" hidden>Wellington City</option>
+
+<option id ="44D" name="ALL" tagname= "NELSON" hidden>Nelson City</option>
+<option id ="45D" name="ALL" tagname= "NELSON" hidden>Marlborough District</option>
+<option id ="46D" name="ALL" tagname= "NELSON" hidden>Kaikoura District</option>
+<option id ="47D" name="ALL" tagname= "NELSON" hidden>Tasman District</option>
+<option id ="48D" name="ALL" tagname= "NELSON" hidden>Buller District</option>
+<option id ="49D" name="ALL" tagname= "NELSON" hidden>Grey District</option>
+<option id ="50D" name="ALL" tagname= "NELSON" hidden>Westland District</option>
+
+<option id ="51D" name="ALL" tagname= "CANTERBURY" hidden>Hurunui District</option>
+<option id ="52D" name="ALL" tagname= "CANTERBURY" hidden>Waimakariri District</option>
+<option id ="53D" name="ALL" tagname= "CANTERBURY" hidden>Christchurch City</option>
+<option id ="54D" name="ALL" tagname= "CANTERBURY" hidden>Selwyn District</option>
+<option id ="55D" name="ALL" tagname= "CANTERBURY" hidden>Ashburton District</option>
+
+<option id ="56D" name="ALL" tagname= "SOUTHERN" hidden>Timaru District</option>
+<option id ="57D" name="ALL" tagname= "SOUTHERN" hidden>Mackenzie District</option>
+<option id ="58D" name="ALL" tagname= "SOUTHERN" hidden>Waimate District</option>
+<option id ="59D" name="ALL" tagname= "SOUTHERN" hidden>Waitaki District</option>
+<option id ="60D" name="ALL" tagname= "SOUTHERN" hidden>Queenstown-Lakes District</option>
+<option id ="61D" name="ALL" tagname= "SOUTHERN" hidden>Central Otago District</option>
+<option id ="62D" name="ALL" tagname= "SOUTHERN" hidden>Dunedin District</option>
+<option id ="63D" name="ALL" tagname= "SOUTHERN" hidden>Clutha District</option>
+<option id ="64D" name="ALL" tagname= "SOUTHERN" hidden>Gore District</option>
+<option id ="65D" name="ALL" tagname= "SOUTHERN" hidden>Invercargill City</option>
+<option id ="66D" name="ALL" tagname= "SOUTHERN" hidden>Southland District</option>
+
+</select>
+</div>
+
+<!-- END OF DISTRICTS -->
+
+<div class="city-item"> <p>Q5a Where are you currently staying?</p>
+<select size ="16" id="Question5a" onchange="AccType(this)" name="mandatory" oninput="textChanged(this);">
+
+<optgroup label="ACCOMMODATION">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Boarding">Boarding</option>
+<option value="Cabin">Cabin</option>
+<option value="Caravan">Caravan</option>
+<option value="Own home">Own home</option>
+<option value="Renting">Renting</option>
+<option value="Staying with friends/family">Staying with friends/family</option>
+<option value="Other">Other (e.g. Garage)</option>
+</optgroup>
+
+
+<optgroup label="TEMPORARY ACCOMMODATION">
+<option value="Couch surfing">Couch surfing</option>
+<option value="Hospital">Hospital</option>
+<option value="Living in a car">Living in a car</option>
+<option value="Living in a tent">Living in a tent</option>
+<option value="Marae">Marae</option>
+<option value="Street / public place">Street / public place</option>
+<option value="Squatting">Squatting</option>
+</optgroup>
+</select>
+
+<select class="item" size ="15" id="Question5b" name="mandatory" oninput="textChanged(this);">
+<optgroup label="LOCATION OF ACCOMMODATION">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Campground">Campground</option>
+<option value="Family">Family property</option>
+<option value="Friends">Friends property</option>
+<option value="Kinga Ora">K&#257;inga Ora property </option>
+<option value="Private property">Private property</option>
+<option value="Public place">Public place</option>
+</optgroup>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question5c"> <p>Q5c If other please type below</p>
+<textarea placeholder="Not Selected" id="Question5cSelect" name="mandatory" oninput="textChanged(this);"></textarea>
+</div>
+
+<div class="item"> <p>Q6a How long have you been in your current living situation? </p>
+<select size ="6" id="Question6a"  name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="0 to 3 months">0m  - 3 months</option>
+<option value="3 to 6 months">3m  - 6 months</option>
+<option value="0.5 to 1 year">6m - 1 year</option>
+<option value="1 to 3 years">1y - 3 years</option>
+<option value="3 to 5 years">3y - 5 years</option>
+<option value="Long term">5y+</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question6b">
+<p>Q6b If we could provide some financial support, could you stay where you are or could we help you move to somewhere safe?</p>
+<select size ="2"  id="Question6bSelect" onchange="SupportYes(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes </option>
+<option value="No">No </option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="SupportNote" >
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align-center;" name="mandatory" oninput="textChanged(this);">Financial support options include; helping with rent, cost to move rental or a food grant to contribute to a boarding situation</textarea>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question6c"> <p>Q6c Who can you stay with?</p>
+<select size ="4" id="Question6cSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Family">Family</option>
+<option value="Friends">Friends</option>
+<option value="Private Arrangement">Private Arrangement</option>
+<option value="Where you are">Where you are</option>
+</select>
+</div>
+
+<!-- ---------------- SECTION 3 [SITUATION] ---------------- -->
+
+<div id="Section2" hidden>
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> MOVING </H3>   
+
+<div class="item"> <p>Q7a When do you need to move?</p>
+<select size ="6" id="Question7a" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Immediately">Immediately</option>
+<option value="7 days or less">7 days or less</option>
+<option value="8-30 days">8-30 days</option>
+<option value="31-60 days">31-60 days</option>
+<option value="61-90 days">61-90 days</option>
+<option value="91+">91+ days</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question8a" >
+<p>Q8a Is there a specific area you need to stay in?</p>
+<textarea id="Question8aSelect" placeholder="Not Selected" oninput="textChanged(this);"></textarea>
+</div>
+
+<div class="city-item">
+<p>Q9a What is making it hard for you to find a home? &nbsp; &nbsp; [NB: Hold CTRL to select multiple options]</p>
+<select size = "14" id="Question9a" name="mandatory" oninput="textChanged(this);">
+<optgroup label="PRIMARY REASON SELECT ONE">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="02">Accessibility</option>
+<option value="03">Behind in rent</option>
+<option value="04">Cost of rental</option>
+<option value="05">Corrections history</option>
+<option value="06">Credit history</option>
+<option value="07">Disability</option>
+<option value="08">Discrimination</option>
+<option value="09">Gang affiliation</option>
+<option value="10">Health</option>
+<option value="11">No rental history</option>
+<option value="12">Pets</option>
+<option value="13">Size of household</option>
+<option value="14">Trouble understanding rental process</option>
+</optgroup>
+</select>
+
+<select multiple size = "12" id="Question9b" onchange="maxThree(this)" name="mandatory" oninput="textChanged(this);">
+<optgroup label="SECONDARY REASON MAX THREE ">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="02">Accessibility</option>
+<option value="03">Behind in rent</option>
+<option value="04">Cost of rental</option>
+<option value="05">Corrections history</option>
+<option value="06">Credit history</option>
+<option value="07">Disability</option>
+<option value="08">Discrimination</option>
+<option value="09">Gang affiliation</option>
+<option value="10">Health</option>
+<option value="11">No rental history</option>
+<option value="12">Pets</option>
+<option value="13">Size of household</option>
+<option value="14">Trouble understanding rental process</option>
+</optgroup>
+</select>
+</div>
+
+<!-- HIDDEN ALERT -->
+<div class="textalert"  id="MaxAlert" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Please select a max of three options</textarea>
+</div>
+
+<div class="item" id="Question10a">
+<p> Q10a Are there any factors that impact what suitable housing you could go to i.e. Physical or social factors or gang association?</p>
+<select size = "2" id=Question10aSelect  onclick="mobilityIssues(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="Question10b">
+<p>Q10b Please expand below</p>
+<textarea  id="Question10bSelect" placeholder="Not Selected" name="mandatory" oninput="textChanged(this);"></textarea>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question11a">
+<p>Q11a If you have pets and are unable to take these with you is there someone that can look after them for you?</p>
+<select size = "3"  id="Question11aSelect" onclick="petIssues(this)"  name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" hidden id="PetNote" >
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align: center;">You can also take a registered service animal into Emergency Housing</textarea>
+</div>
+</div>
+</div>
+
+<!-- ---------------- SECTION 3 [FAMILY] ---------------- -->
+
+<H3 style="margin-bottom:5px;  background-color:#a82877; color:white; padding: 10px 0px"> FAMILY </H3>    
+
+<div class="city-item"> 
+<p>Q12a Who needs assistance in your household?</p>
+<select size = "12" id="Question12a" name="mandatory" oninput="textChanged(this);">
+<optgroup label="NUMBER OF ADULTS">
+<option value="Not selected" hidden selected>Not selected</option>
+<option disabled value="0">-</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</optgroup>
+</select>
+
+<select size="12" id="Question12b" onchange="childrenYes(this)" name="mandatory" oninput="textChanged(this);">
+<optgroup label="NUMBER OF CHILDREN">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</optgroup>
+</select>
+</div>
+
+<div class="item" id="Question13a">
+<p>Q13a When you leave temporary housing, are these all the people you would like to live with? <br>
+(are there extended family who want to live together?)</p>
+<select size ="2" id="Question13aSelect" name="mandatory" oninput="textChanged(this);" onchange="liveWith(this)">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<div class="item" id="Question13b" hidden>
+<p>Q13b If no, how many adults and children will you be living with?</p>
+<textarea rows="6" placeholder="Not Selected" id="Question13bSelect" oninput="textChanged(this);"></textarea>
+</div>
+
+<div class="item"  id="Children" hidden>
+<div class="item"  id="FlexiNote" >
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align: center;">Did you know when in emergency housing, flexifunding can help with travel, school holiday programmes, after school care, and extra curricular activities for your kids?</textarea>
+</div>
+
+
+<div class="item"  id="Question14a">
+<p>Q14a Do you have any children under 1, if so would you like some financial support for a Pēpi-pod or baby bed?</p>
+<select size="2"  id="Question14aSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No, my child already has their own safe and suitable bed</option>
+</select>
+</div>
+
+
+<div class="item"  id="Question14b" >
+<p>Q14b Are your children enrolled AND attending school</p>
+<select size="3"  id="Question14bSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes – enrolled and attending ">Yes – enrolled and attending</option>
+<option value="Yes – enrolled and not currently attending">Yes – enrolled and not currently attending</option>
+<option value="Not enrolled or currently attending">Not enrolled or currently attending</option>
+</select>
+</div>
+
+<div class="item"  id="Question14c" >
+<p>Q14c If attending, what school do they go to?</p>
+<textarea rows="2" placeholder="Not Selected" id="Question14cSelect" oninput="textChanged(this);"></textarea>
+</div>
+
+<div class="item"  id="Question14d" >
+<p>Q14d The Ministry of Education has a service to support school age children with attendance or enrolment.  Would you like us to pass on your contact details?</p>
+<select size="3"  id="Question14dSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A children are attending</option>
+</select>
+</div>
+
+<div class="item"  id="Question14e" >
+<p>Q14e If you have children between the age of 16-18  that are not enrolled in school would you like some support to help your child with employment and training.</p>
+<select size="3"  id="Question14eSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A children 16 and above enrolled in school</option>
+</select>
+</div>
+
+</div>
+</div>
+
+<!-- 
+<p>This is a &nbsp; regular space.</p>
+<p>This is a &ensp; two spaces gap.</p>
+<p>This is a &emsp; four spaces gap.</p>
+-->
+
+<!-- ---------------- SECTION 4 [EXTERNAL] ---------------- -->
+  
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> EXTERNAL SERVICES </H3>   
+
+<div class="item">
+<p>Q15a Are you currently being supported by anyone or any service? </p>
+<select size="2" id="Question15a" name="mandatory" oninput="textChanged(this);" onclick="support(this)">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question15b" hidden>
+<p>Q15b If yes, please answer select below [NB: Hold CTRL to select multiple options]</p>
+<select multiple size ="13" id="Question15bSelect" onchange="serviceOther(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="1">City Mission</option>
+<option value="2">Department of Corrections</option>
+<option value="3">Emerge</option>
+<option value="4">Kainga Ora</option>
+<option value="5">Lifewise</option>
+<option value="6">Ministry of Health</option>
+<option value="7">Navigator services</option>
+<option value="8">Oranga Tamariki</option>
+<option value="9">Salvation Army</option>
+<option value="10">Transitional housing provider</option>
+<option value="11">Vision West</option>
+<option value="12">Youth services</option>
+<option value="13">Other</option>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question15c" hidden>
+<p>Q15c If Transitional housing provider / other, please type below</p>
+<textarea placeholder="Not Selected" id="Question15cSelect" name="mandatory" oninput="textChanged(this);"></textarea>
+</div>
+
+<!-- HIDDEN QUESTION -->
+<div class="item" id="Question16a"  >
+<p>Q16a Are you on the public housing register?</p>
+<select size="3"  id="Question16aSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes unchanged">Yes, circumstances unchanged</option>
+<option value="Yes changed">Yes, circumstances changed</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- ---------------- SECTION 5 [EMPLOYMENT] ---------------- -->
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> EMPLOYMENT </H3>   
+
+<div class="item" id="Question17a">
+<p>Q17a  Will anyone in your household be looking for employment?</p>
+<select size ="2" id="Question17aSelect" onchange="employment(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<div class="item" hidden id="Question17b">
+<p>Q17b If yes, who? [NB: Hold CTRL to select multiple options] </p>
+<select multiple size ="3" id="Question17bSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Client">Client</option>
+<option value="Partner">Partner</option>
+<option value="Child over 16">Child over 16</option>
+</select>
+</div>
+
+<div class="item" hidden id="Question18a">
+<p>Q18a Are you currently working with a work broker?</p>
+<select size ="2" id="Question18aSelect" onchange="serviceOther(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<button class="block" type="button" onclick="ShowSupport()" > CLICK TO SHOW SUPPORT OPTIONS (OR UPDATE) </button>
+
+<!-- ---------------- SECTION 6 [SUPPORT] ---------------- -->
+
+<div hidden id="Section4">
+<div class="item" id="Options">
+<p>Select Options you would like to go ahead with [NB: Hold CTRL to select multiple options] </p>
+
+<select multiple size=29, id="OptionsSelect" onclick="OptionsEH(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<optgroup label="HOUSING OPTIONS">
+<option id ="OPT1"   hidden>    HSP - Bond Grant</option>
+<option id ="OPT2"   hidden>    HSP - Rent-in-Advance</option>
+<option id ="OPT3"   hidden>    HSP - Rent Arrears</option>
+<option id ="OPT4"   hidden>    HSP - Moving Assistance</option>
+<option id ="OPT5"   hidden>    HSP - Tenancy Cost Cover Letter</option>
+<option id ="OPT6"   hidden>    Transitional Housing Referral</option>
+<option id ="OPT7"   hidden>     Contracted Emergency Housing</option>
+<option id ="OPT8"   hidden>    Emergency Housing</option>
+<option id ="OPT9"   hidden>    Public Housing Assessment</option>
+</optgroup>
+
+<optgroup label="FINANCIAL OPTIONS">
+<option id ="OPT10"  hidden>    Accommodation Supplement</option>
+<option id ="OPT11"  hidden>   Temporary Additional Support</option>
+<option id ="OPT12"  hidden>   Recoverable Assistance Payments</option>
+<option id ="OPT13"   	   >   SNG - Food Grant</option>
+<option id ="OPT14"        >   SNG - Other</option>
+<option id ="OPT15"  hidden>   House Modification Funding via MOH</option>
+<option id ="OPT16"  hidden>   Disability Allowance</option>
+<option id ="OPT17"  hidden>   Child Disability Allowance</option>
+<option id ="OPT18"  hidden>   Transition to Work</option>
+</optgroup>
+
+<optgroup label="SUPPORT OPTIONS">
+<option id ="OPT19"  hidden>   Ready to Rent Programme</option>
+<option id ="OPT20"  hidden>   Flexible Funding Assistance</option>
+<option id ="OPT21"  hidden>   Building Financial Capability products and services</option>
+<option id ="OPT22"  hidden>   Refer to Housing Broker</option>
+<option id ="OPT23"  hidden>   Refer to Work Broker</option>
+<option id ="OPT24"  hidden>   Refer to Programme Coordinator</option>
+<option id ="OPT25"  hidden>   Refer to Family Violence Coordinator</option>
+<option id ="OPT26"  hidden>   Refer to Navigators</option>
+</optgroup>
+</select>
+</div>
+
+<!-- HIDDEN QUESTION -->
+
+<div class="item" id="Question19a" visible>
+<p>Q19a Any further brief comments?</p>
+<textarea id="Question19aSelect" style="height:200px"  placeholder="Not Selected" oninput="textChanged(this);"></textarea>
+</div>
+
+<button min-height="100%" type="button" id="FileNoteButton" onclick="GenerateFileNote()" oninput="textChanged(this);">CREATE OR UPDATE FILE NOTE</button>
+</div>
+
+<!-- ---------------- SECTION 7 [PROVIDERS] ---------------- -->
+
+
+<div hidden id="Section5">
+<h> Providers list [NB: Hold CTRL to select multiple options] </h>
+
+<textarea id="Area2"> </textarea>
+<div class="item" id="Providers">
+<p>Select from list of results</p>
+<select multiple size ="4" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="1">Hotel1</option>
+<option value="2">Hotel2</option>
+</select>
+</div>
+
+<button class="block" type="button" onclick="GenerateProviders()" id="GenerateProvidersButton" oninput="textChanged(this);"> CLICK TO SHOW SUPPLIERS </button>
+</div>
+
+<!-- ---------------- SECTION 8 [FILE NOTE] ---------------- -->
+
+<div hidden id="Section6">
+<p> Copy of file note </p>
+<textarea id="Area3"></textarea>
+</div>
+
+</form>
+<script>
+
+<!--   [FUNCTIONS]  -->
+
+
+<!-- ---------- HELP OTHER [GENERAL] ---------- -->
+
+function HelpOther(select){
+
+// true false code allows an option to be unselected without resetting all of the dependencies
+
+var text	= getSelectValues(document.getElementById("Question2a"));
+var other 	= text.includes("Other");
+var medical = text.includes("Medical");
+var Harm 	= text.includes("harm");
+
+if(other==true){
+document.getElementById("Question2b").removeAttribute("hidden", "hidden");
+}
+
+if(medical==true){
+document.getElementById("Question2c").removeAttribute("hidden", "hidden");
+}
+
+if(Harm==true){
+document.getElementById("Question2d").removeAttribute("hidden", "hidden");
+}
+
+if(other==false){
+document.getElementById("Question2bSelect").value = "";
+document.getElementById("Question2b").setAttribute("hidden", "hidden");
+document.getElementById("Question2bSelect").classList.add("error-input"); 
+}
+
+if(medical==false){
+document.getElementById("Question2cSelect").value = "";
+document.getElementById("Question2c").setAttribute("hidden", "hidden");
+document.getElementById("Question2cSelect").classList.add("error-input"); 
+}
+
+if(Harm==false){
+document.getElementById("Question2dSelect").value = "";
+document.getElementById("Question2d").setAttribute("hidden", "hidden");
+document.getElementById("Question2dSelect").classList.add("error-input"); 
+}
+}
+
+<!-- ---------- SHOW DISTRICT [SITUATION] ---------- -->
+
+function showDistrict(select){
+
+document.getElementById("Question4bSelect").value = "Not selected";
+document.getElementById("Question4bSelect").classList.add("error-input"); 
+
+document.getElementById("1D").setAttribute("hidden", "hidden");
+document.getElementById("2D").setAttribute("hidden", "hidden");
+document.getElementById("3D").setAttribute("hidden", "hidden");
+document.getElementById("4D").setAttribute("hidden", "hidden");
+document.getElementById("5D").setAttribute("hidden", "hidden");
+document.getElementById("6D").setAttribute("hidden", "hidden");
+document.getElementById("7D").setAttribute("hidden", "hidden");
+document.getElementById("8D").setAttribute("hidden", "hidden");
+document.getElementById("9D").setAttribute("hidden", "hidden");
+document.getElementById("10D").setAttribute("hidden", "hidden"); 
+document.getElementById("11D").setAttribute("hidden", "hidden"); 
+document.getElementById("12D").setAttribute("hidden", "hidden");
+document.getElementById("13D").setAttribute("hidden", "hidden");
+document.getElementById("14D").setAttribute("hidden", "hidden");
+document.getElementById("15D").setAttribute("hidden", "hidden");
+document.getElementById("16D").setAttribute("hidden", "hidden");
+document.getElementById("17D").setAttribute("hidden", "hidden"); 
+document.getElementById("18D").setAttribute("hidden", "hidden");
+document.getElementById("19D").setAttribute("hidden", "hidden"); 
+document.getElementById("20D").setAttribute("hidden", "hidden");
+document.getElementById("21D").setAttribute("hidden", "hidden");
+document.getElementById("22D").setAttribute("hidden", "hidden");
+document.getElementById("23D").setAttribute("hidden", "hidden");
+document.getElementById("24D").setAttribute("hidden", "hidden");
+document.getElementById("25D").setAttribute("hidden", "hidden"); 
+document.getElementById("26D").setAttribute("hidden", "hidden"); 
+document.getElementById("27D").setAttribute("hidden", "hidden");
+document.getElementById("28D").setAttribute("hidden", "hidden");
+document.getElementById("29D").setAttribute("hidden", "hidden");
+document.getElementById("30D").setAttribute("hidden", "hidden");
+document.getElementById("31D").setAttribute("hidden", "hidden");
+document.getElementById("32D").setAttribute("hidden", "hidden");
+document.getElementById("33D").setAttribute("hidden", "hidden");
+document.getElementById("34D").setAttribute("hidden", "hidden");
+document.getElementById("35D").setAttribute("hidden", "hidden");
+document.getElementById("36D").setAttribute("hidden", "hidden");
+document.getElementById("37D").setAttribute("hidden", "hidden");
+document.getElementById("38D").setAttribute("hidden", "hidden");
+document.getElementById("39D").setAttribute("hidden", "hidden");
+document.getElementById("40D").setAttribute("hidden", "hidden");
+document.getElementById("41D").setAttribute("hidden", "hidden");
+document.getElementById("42D").setAttribute("hidden", "hidden");
+document.getElementById("43D").setAttribute("hidden", "hidden");
+document.getElementById("44D").setAttribute("hidden", "hidden");
+document.getElementById("45D").setAttribute("hidden", "hidden");
+document.getElementById("46D").setAttribute("hidden", "hidden");
+document.getElementById("47D").setAttribute("hidden", "hidden");
+document.getElementById("48D").setAttribute("hidden", "hidden");
+document.getElementById("49D").setAttribute("hidden", "hidden");
+document.getElementById("50D").setAttribute("hidden", "hidden");
+document.getElementById("51D").setAttribute("hidden", "hidden");
+document.getElementById("52D").setAttribute("hidden", "hidden");
+document.getElementById("53D").setAttribute("hidden", "hidden");
+document.getElementById("54D").setAttribute("hidden", "hidden");
+document.getElementById("55D").setAttribute("hidden", "hidden");
+document.getElementById("56D").setAttribute("hidden", "hidden");
+document.getElementById("57D").setAttribute("hidden", "hidden");
+document.getElementById("58D").setAttribute("hidden", "hidden");
+document.getElementById("59D").setAttribute("hidden", "hidden");
+document.getElementById("60D").setAttribute("hidden", "hidden");
+document.getElementById("61D").setAttribute("hidden", "hidden");
+document.getElementById("62D").setAttribute("hidden", "hidden");
+document.getElementById("63D").setAttribute("hidden", "hidden");
+document.getElementById("64D").setAttribute("hidden", "hidden");
+document.getElementById("65D").setAttribute("hidden", "hidden");
+document.getElementById("66D").setAttribute("hidden", "hidden");
+
+if(select.value=="NORTHLAND")
+{
+document.getElementById("1D").removeAttribute("hidden", "hidden");
+document.getElementById("2D").removeAttribute("hidden", "hidden");
+document.getElementById("3D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="AUCKLAND")
+{
+document.getElementById("4D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="WAIKATO")
+{
+document.getElementById("5D").removeAttribute("hidden", "hidden");
+document.getElementById("6D").removeAttribute("hidden", "hidden");
+document.getElementById("7D").removeAttribute("hidden", "hidden");
+document.getElementById("8D").removeAttribute("hidden", "hidden");
+document.getElementById("9D").removeAttribute("hidden", "hidden");
+document.getElementById("10D").removeAttribute("hidden", "hidden"); 
+document.getElementById("11D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="BAY OF PLENTY")
+{
+document.getElementById("12D").removeAttribute("hidden", "hidden");
+document.getElementById("13D").removeAttribute("hidden", "hidden");
+document.getElementById("14D").removeAttribute("hidden", "hidden");
+document.getElementById("15D").removeAttribute("hidden", "hidden");
+document.getElementById("16D").removeAttribute("hidden", "hidden");
+document.getElementById("17D").removeAttribute("hidden", "hidden"); 
+document.getElementById("18D").removeAttribute("hidden", "hidden");
+document.getElementById("19D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="TARANAKI")
+{
+document.getElementById("20D").removeAttribute("hidden", "hidden");
+document.getElementById("21D").removeAttribute("hidden", "hidden");
+document.getElementById("22D").removeAttribute("hidden", "hidden");
+document.getElementById("23D").removeAttribute("hidden", "hidden");
+document.getElementById("24D").removeAttribute("hidden", "hidden");
+document.getElementById("25D").removeAttribute("hidden", "hidden"); 
+document.getElementById("26D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="EAST COAST")
+{
+document.getElementById("27D").removeAttribute("hidden", "hidden");
+document.getElementById("28D").removeAttribute("hidden", "hidden");
+document.getElementById("29D").removeAttribute("hidden", "hidden");
+document.getElementById("30D").removeAttribute("hidden", "hidden");
+document.getElementById("31D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="CENTRAL")
+{
+document.getElementById("32D").removeAttribute("hidden", "hidden");
+document.getElementById("33D").removeAttribute("hidden", "hidden");
+document.getElementById("34D").removeAttribute("hidden", "hidden");
+document.getElementById("35D").removeAttribute("hidden", "hidden");
+document.getElementById("36D").removeAttribute("hidden", "hidden");
+document.getElementById("37D").removeAttribute("hidden", "hidden");
+document.getElementById("38D").removeAttribute("hidden", "hidden");
+document.getElementById("39D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="WELLINGTON")
+{
+document.getElementById("40D").removeAttribute("hidden", "hidden");
+document.getElementById("41D").removeAttribute("hidden", "hidden");
+document.getElementById("42D").removeAttribute("hidden", "hidden");
+document.getElementById("43D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="NELSON")
+{
+document.getElementById("44D").removeAttribute("hidden", "hidden");
+document.getElementById("45D").removeAttribute("hidden", "hidden");
+document.getElementById("46D").removeAttribute("hidden", "hidden");
+document.getElementById("47D").removeAttribute("hidden", "hidden");
+document.getElementById("48D").removeAttribute("hidden", "hidden");
+document.getElementById("49D").removeAttribute("hidden", "hidden");
+document.getElementById("50D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="CANTERBURY")
+{
+document.getElementById("51D").removeAttribute("hidden", "hidden");
+document.getElementById("52D").removeAttribute("hidden", "hidden");
+document.getElementById("53D").removeAttribute("hidden", "hidden");
+document.getElementById("54D").removeAttribute("hidden", "hidden");
+document.getElementById("55D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="SOUTHERN")
+{
+document.getElementById("56D").removeAttribute("hidden", "hidden");
+document.getElementById("57D").removeAttribute("hidden", "hidden");
+document.getElementById("58D").removeAttribute("hidden", "hidden");
+document.getElementById("59D").removeAttribute("hidden", "hidden");
+document.getElementById("60D").removeAttribute("hidden", "hidden");
+document.getElementById("61D").removeAttribute("hidden", "hidden");
+document.getElementById("62D").removeAttribute("hidden", "hidden");
+document.getElementById("63D").removeAttribute("hidden", "hidden");
+document.getElementById("64D").removeAttribute("hidden", "hidden");
+document.getElementById("65D").removeAttribute("hidden", "hidden");
+document.getElementById("66D").removeAttribute("hidden", "hidden");
+}
+
+}
+
+<!-- ---------- ACCOMMODATION TYPE [SITUATION] ---------- -->
+
+function AccType(select){
+
+// from questions 5a
+// note first block clears dependencies in case temporary acc option selected
+// wont work with an else as expected 
+
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+
+document.getElementById("Question5b").value = "Not selected";
+document.getElementById("Question5b").classList.add("error-input"); 
+
+document.getElementById("Question5c").setAttribute("hidden", "hidden");
+document.getElementById("Question5cSelect").value = "";
+document.getElementById("Question5cSelect").classList.add("error-input");
+
+document.getElementById("Question6b").setAttribute("hidden", "hidden");
+document.getElementById("Question6bSelect").value = "Not selected";
+document.getElementById("Question6bSelect").classList.add("error-input");
+
+document.getElementById("Question6c").setAttribute("hidden", "hidden");
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+
+if(select.value=="Other")
+{
+document.getElementById("Question5c").removeAttribute("hidden", "hidden");
+document.getElementById("Question6b").removeAttribute("hidden", "hidden");
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+
+document.getElementById("Question5b").value = "Not selected";
+document.getElementById("Question5b").classList.add("error-input"); 
+
+document.getElementById("Question5cSelect").value = "";
+document.getElementById("Question5cSelect").classList.add("error-input");
+
+document.getElementById("Question6aSelect").value = "Not selected";
+document.getElementById("Question6aSelect").classList.add("error-input");
+
+document.getElementById("Question6bSelect").value = "Not selected";
+document.getElementById("Question6bSelect").classList.add("error-input");
+
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+
+}
+else if(
+select.value=="Boarding" 	||
+select.value=="Cabin" 		||
+select.value=="Caravan" 	||
+select.value=="Own home" 	||
+select.value=="Renting" 	||
+select.value=="Staying with friends/family")
+{
+document.getElementById("Question5b").value = "Not selected";
+document.getElementById("Question5b").classList.add("error-input"); 
+
+document.getElementById("Question5c").setAttribute("hidden", "hidden");
+document.getElementById("Question5cSelect").value = "";
+document.getElementById("Question5cSelect").classList.add("error-input");
+
+document.getElementById("Question6b").removeAttribute("hidden", "hidden");
+document.getElementById("Question6bSelect").value = "Not selected";
+document.getElementById("Question6bSelect").classList.add("error-input");
+
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SUPPORT YES [SITUATION] ---------- -->
+
+function SupportYes(select)
+
+// with boolean if clicking yes clears all, no need to repeat on no
+{
+if(select.value=="Yes")
+{
+document.getElementById("Section2").setAttribute("hidden", "hidden");
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+document.getElementById("PetNote").setAttribute("hidden", "hidden"); 
+document.getElementById("Question10b").setAttribute("hidden", "hidden"); 
+
+document.getElementById("Question6c").removeAttribute("hidden", "hidden");
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+
+document.getElementById("Question7a").value = "Not selected";
+document.getElementById("Question7a").classList.add("error-input");
+
+document.getElementById("Question8aSelect").value = "";
+document.getElementById("Question8aSelect").classList.add("error-input");
+
+document.getElementById("Question9a").value = "Not selected";
+document.getElementById("Question9a").classList.add("error-input");
+
+document.getElementById("Question9b").value = "Not selected";
+document.getElementById("Question9b").classList.add("error-input");
+
+document.getElementById("Question10aSelect").value = "Not selected";
+document.getElementById("Question10aSelect").classList.add("error-input");
+
+document.getElementById("Question10bSelect").value = "";
+document.getElementById("Question10bSelect").classList.add("error-input");
+
+document.getElementById("Question11aSelect").value = "Not selected";
+document.getElementById("Question11aSelect").classList.add("error-input");
+
+}
+
+if(select.value=="No")
+{
+document.getElementById("Section2").removeAttribute("hidden", "hidden");
+document.getElementById("SupportNote").removeAttribute("hidden", "hidden"); 
+}
+}
+
+<!-- ---------- SECONDARY REASON [MOVING] ---------- -->
+
+function maxThree(select)
+
+// Statistical from Question9b
+
+{
+var Count = document.getElementById("Question9b").selectedOptions.length;
+if (Count > 3) {
+document.getElementById("MaxAlert").removeAttribute("hidden");
+setTimeout(function()
+{ 
+document.getElementById("Question9b").value = "Not selected";
+document.getElementById("Question9b").classList.add("error-input");
+}, 500);
+
+setTimeout(function()
+{ 
+document.getElementById("MaxAlert").setAttribute("hidden", "hidden");
+}, 3500);
+} else  {
+document.getElementById("MaxAlert").setAttribute("hidden", "hidden");
+}
+}
+
+<!-- ---------- MOBILITY ISSUES [MOVING] ---------- -->
+
+function mobilityIssues(select){
+
+// from question 10a
+
+if(select.value=="Yes" )
+
+{ document.getElementById("Question10b").removeAttribute("hidden");}
+
+if(select.value=="No" ) {
+document.getElementById("Question10b").setAttribute("hidden", "hidden");
+document.getElementById("Question10bSelect").value = "";
+document.getElementById("Question10bSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- PET ISSUES [MOVING]---------- -->
+
+function petIssues(select){
+
+// from question 11a
+
+if(select.value=="Yes" )
+{
+document.getElementById("PetNote").setAttribute("hidden", "hidden");
+}
+if(select.value=="No" )
+{
+document.getElementById("PetNote").removeAttribute("hidden");
+}
+}
+
+
+<!-- ---------- LIVEWITH [FAMILY] ---------- -->
+
+function liveWith(select){
+
+// from question 13a
+
+if(select.value=="No" )
+{
+document.getElementById("Question13b").removeAttribute("hidden");
+document.getElementById("Question13bSelect").classList.add("error-input");
+}
+if(select.value=="Yes" )
+{
+document.getElementById("Question13b").setAttribute("hidden", "hidden");
+document.getElementById("Question13bSelect").value = "";
+}
+}
+
+<!-- ---------- CHILDREN [FAMILY] ---------- -->
+
+function childrenYes(select){
+
+// First section resets children group on any change in Q12b.
+// this is because the answers are likely invalid in the case of a change.
+// false section not needed in the case of yes/no questions
+
+var children = document.getElementById("Question12b").value > 0;
+
+document.getElementById("Question14aSelect").value = "Not selected";
+document.getElementById("Question14aSelect").classList.add("error-input");
+
+document.getElementById("Question14bSelect").value = "Not selected";
+document.getElementById("Question14bSelect").classList.add("error-input");
+
+document.getElementById("Question14cSelect").value = "";
+document.getElementById("Question14cSelect").placeholder = "Not selected";
+document.getElementById("Question14cSelect").classList.add("error-input");
+
+document.getElementById("Question14dSelect").value = "Not selected";
+document.getElementById("Question14dSelect").classList.add("error-input");
+
+document.getElementById("Question14eSelect").value = "Not selected";
+document.getElementById("Question14eSelect").classList.add("error-input");
+
+if(children==true) 
+{
+document.getElementById("Children").removeAttribute("hidden", "hidden");
+}
+
+if(children==false) 
+{
+document.getElementById("Children").setAttribute("hidden", "hidden");
+
+document.getElementById("Question14aSelect").value = "Not selected";
+document.getElementById("Question14aSelect").classList.add("error-input");
+
+document.getElementById("Question14bSelect").value = "Not selected";
+document.getElementById("Question14bSelect").classList.add("error-input");
+
+document.getElementById("Question14cSelect").value = "";
+document.getElementById("Question14cSelect").placeholder = "Not selected";
+document.getElementById("Question14cSelect").classList.add("error-input");
+
+document.getElementById("Question14dSelect").value = "Not selected";
+document.getElementById("Question14dSelect").classList.add("error-input");
+
+document.getElementById("Question14eSelect").value = "Not selected";
+document.getElementById("Question14eSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SUPPORT [EXTERNAL SERVICES] ---------- -->
+
+function support(select){
+
+// From question 16a
+
+if(select.value=="Yes")
+{
+document.getElementById("Question15b").removeAttribute("hidden");
+}
+if(select.value=="No")
+{
+document.getElementById("Question15b").setAttribute("hidden", "hidden");
+document.getElementById("Question15bSelect").value = "Not selected";
+document.getElementById("Question15bSelect").classList.add("error-input");
+
+document.getElementById("Question15c").setAttribute("hidden", "hidden");
+document.getElementById("Question15cSelect").value = "";
+document.getElementById("Question15cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SERVICEOTHER [EXTERNAL SERVICES] ---------- -->
+
+function serviceOther(select){
+
+// From question 16b
+
+var text 		= getSelectValues(document.getElementById("Question15bSelect"));
+
+if (text.includes("Other")==true){
+document.getElementById("Question15c").removeAttribute("hidden");
+
+}else{
+document.getElementById("Question15c").setAttribute("hidden", "hidden");
+document.getElementById("Question15cSelect").value = "";
+document.getElementById("Question15cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- [EMPLOYMENT] ---------- -->
+
+function employment(select){
+
+// From question 18a
+
+if(select.value=="Yes"){
+document.getElementById("Question17b").removeAttribute("hidden");
+document.getElementById("Question18a").removeAttribute("hidden");
+}
+if(select.value=="No"){
+document.getElementById("Question17b").setAttribute("hidden", "hidden");
+document.getElementById("Question17bSelect").value = "Not selected";
+document.getElementById("Question17bSelect").classList.add("error-input");
+
+document.getElementById("Question18a").setAttribute("hidden", "hidden");
+document.getElementById("Question18aSelect").value = "Not selected";
+document.getElementById("Question18aSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SHOW SUPPORT ---------- -->
+
+function ShowSupport() {
+
+// Support button, section 4 = option list, further note, file note button.
+document.getElementById("Section4").removeAttribute("hidden");
+
+// Opt 13/14 default values always available.
+document.getElementById("OPT13").removeAttribute("hidden");
+document.getElementById("OPT14").removeAttribute("hidden");
+
+// why do you need help.
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" 	|| 
+document.getElementById("Question2a").value =="Conflict within the household")
+{
+document.getElementById("OPT10").removeAttribute("hidden");
+document.getElementById("OPT11").removeAttribute("hidden");
+document.getElementById("OPT12").removeAttribute("hidden");
+document.getElementById("OPT13").removeAttribute("hidden");
+document.getElementById("OPT14").removeAttribute("hidden");
+
+document.getElementById("OPT19").removeAttribute("hidden");
+document.getElementById("OPT21").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Family Harm")
+{ 
+document.getElementById("OPT22").removeAttribute("hidden");
+document.getElementById("violence??").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Gang Activities")
+{ 
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Medical Reasons")
+{
+document.getElementById("OPT10").removeAttribute("hidden"); 
+document.getElementById("OPT11").removeAttribute("hidden"); 
+document.getElementById("OPT12").removeAttribute("hidden"); 
+document.getElementById("OPT15").removeAttribute("hidden"); 
+document.getElementById("OPT17").removeAttribute("hidden"); 
+document.getElementById("OPT18").removeAttribute("hidden"); 
+}
+
+if(document.getElementById("Question2a").value =="Moving for work")
+{
+document.getElementById("OPT12").removeAttribute("hidden");
+document.getElementById("OPT16").removeAttribute("hidden");
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Neighbourhood safety issues")
+{
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Separated from partner")
+{
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Tenancy Ending")
+{
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Tenancy Eviction")
+{
+document.getElementById("OPT2").removeAttribute("hidden");
+document.getElementById("OPT19").removeAttribute("hidden");
+document.getElementById("OPT21").removeAttribute("hidden");
+}
+
+if(document.getElementById("Question2a").value =="Impacted by natural disasters")
+{
+document.getElementById("OPT12").removeAttribute("hidden");
+document.getElementById("OPT22").removeAttribute("hidden");
+}
+
+// MSD or a community family support person.
+if(document.getElementById("Question2d").value =="No")
+{
+document.getElementById("OPT25").removeAttribute("hidden");
+}
+
+// District for transitional
+if(document.getElementById("Question4b").value =="Rotorua District")
+{
+document.getElementById("OPT7").removeAttribute("hidden");
+}
+
+// Stay with support
+if(document.getElementById("Question6b").value =="Yes")
+{
+document.getElementById("OPT1").removeAttribute("hidden");
+document.getElementById("OPT2").removeAttribute("hidden");
+document.getElementById("OPT3").removeAttribute("hidden");
+document.getElementById("OPT4").removeAttribute("hidden");
+document.getElementById("OPT5").removeAttribute("hidden");
+document.getElementById("OPT10").removeAttribute("hidden");
+document.getElementById("OPT11").removeAttribute("hidden");
+document.getElementById("OPT12").removeAttribute("hidden");
+document.getElementById("OPT15").removeAttribute("hidden");
+}
+
+// when do you need to move.
+if(
+document.getElementById("Question7a").value =="8-30 days" 	|| 
+document.getElementById("Question7a").value =="31-60 days" 	|| 
+document.getElementById("Question7a").value =="61-90 days"  ||
+document.getElementById("Question7a").value =="91+ days")
+{
+document.getElementById("OPT1").removeAttribute("hidden");
+document.getElementById("OPT2").removeAttribute("hidden");
+document.getElementById("OPT3").removeAttribute("hidden");
+document.getElementById("OPT4").removeAttribute("hidden");
+document.getElementById("OPT6").removeAttribute("hidden");
+// FINANCIAL SECTION
+document.getElementById("OPT10").removeAttribute("hidden");
+document.getElementById("OPT11").removeAttribute("hidden");
+document.getElementById("OPT16").removeAttribute("hidden");
+// SUPPORT SECTION
+document.getElementById("OPT19").removeAttribute("hidden");
+document.getElementById("OPT22").removeAttribute("hidden");
+document.getElementById("OPT23").removeAttribute("hidden");
+}
+if(
+document.getElementById("Question7a").value =="Immediately"  ||
+document.getElementById("Question7a").value =="7 days or less")
+{
+document.getElementById("OPT6").removeAttribute("hidden", "hidden");
+document.getElementById("OPT8").removeAttribute("hidden", "hidden");
+}
+
+
+
+}
+
+
+
+<!-- ---------- RESET ---------- -->
+
+function Reset() {
+document.getElementById("myForm").reset();
+
+document.getElementById("SupportNote").setAttribute("hidden", "hidden");
+document.getElementById("ChildNote").setAttribute("hidden", "hidden");
+document.getElementById("FlexiNote").setAttribute("hidden", "hidden");
+document.getElementById("PetNote").setAttribute("hidden", "hidden");
+document.getElementById("MoeNote").setAttribute("hidden", "hidden");
+ 
+for (var i = 0; i < document.getElementsByName("mandatory").length; i++) {
+mandatoryElements[i].classList.add("error-input");
+}
+document.getElementById("Question6b").setAttribute("hidden", "hidden");
+document.getElementById("Question6c").setAttribute("hidden", "hidden");
+}
+
+<!-- ---------- GENERATE PROVIDERS ---------- -->
+
+function GenerateProviders() {
+document.getElementById("Section5").removeAttribute("hidden");
+}
+
+<!-- ---------- TEXT CHANGED ---------- -->
+
+function textChanged(el) {
+
+if (el.value.length != 0) 
+{ el.classList.remove("error-input"); }
+
+else
+{ el.classList.add("error-input"); }
+}
+
+/* https://sarahholleydesign.com/pure-css-custom-error-messaging-for-default-form-elements/ */
+
+var mandatoryComplete = true;
+var mandatoryElements = document.getElementsByName("mandatory");
+for (var i = 0; i < mandatoryElements.length; i++) {
+
+if (mandatoryElements[i].value.length == 0 ) {
+/* Test that the mandatory fields have been completed */
+mandatoryElements[i].classList.add("error-input");
+mandatoryComplete = false;
+}
+
+if (mandatoryElements[i].value == "Not selected") {
+mandatoryElements[i].classList.add("error-input");
+mandatoryComplete = false;
+}
+}
+
+/* https://www.w3schools.com/howto/howto_js_snackbar.asp */
+if (mandatoryComplete == false) {
+className = "show";
+}
+
+<!-- ---------- FILE NOTE ---------- -->
+
+function GenerateFileNote() {
+document.getElementById("Section6").removeAttribute("hidden");
+document.querySelector("#Area3").style.height = "1400px";
+
+var Question2a  		= getSelectValues(document.getElementById("Question2a"));
+
+if (document.getElementById("Question2bSelect").value == "") {var Question2b = "Not Selected";}
+else {var Question2b = document.getElementById("Question2bSelect").value;}
+
+var Question5			= document.getElementById("Question5").value;
+
+var Question4a			= document.getElementById("Question4a").value;
+
+var Question4b			= document.getElementById("Question4b").value;
+
+if (document.getElementById("Question5cSelect").value == "") {var Question5c = "Not Selected";}
+else {var Question5c = document.getElementById("Question5cSelect").value;}
+
+var Question6b			= document.getElementById("Question6bSelect").value;
+
+var Question6c			= document.getElementById("Question6cSelect").value;
+
+var Question9a			= document.getElementById("Question9a").value;
+
+var Question9b			= getSelectValues(document.getElementById("Question9b"));
+
+var Question12a			= document.getElementById("Question12a").value;
+
+var Question12b			= document.getElementById("Question12b").value;
+
+var Question7a			= document.getElementById("Question7a").value;
+
+var Question9b			= document.getElementById("Question9b").value;
+
+var Question9c			= document.getElementById("Question9cSelect").value;
+
+var Question15a			= document.getElementById("Question15a").value;
+
+var Question15b			= getSelectValues(document.getElementById("Question15bSelect"));
+
+if (document.getElementById("Question15cSelect").value == "") {var Question15c = "Not Selected";}
+else {var Question15c = document.getElementById("Question15cSelect").value;}
+
+if (document.getElementById("Questionz11dSelect").value == "") {var Questionz11d = "Not Selected";}
+else {var Questionz11d = document.getElementById("Questionz11dSelect").value;}
+
+var Question17aa			= document.getElementById("Question17aSelect").value;
+
+var Question14a			= document.getElementById("Question14aSelect").value;
+
+if (document.getElementById("Question10aSelect").value == "") {var Question10a = "Not Selected";}
+else {var Question10a = document.getElementById("Question10aSelect").value;}
+
+var Question10a			= document.getElementById("Question10aSelect").value;
+
+if (document.getElementById("Question11aSelect").value == "") {var Question11a = "Not Selected";}
+else {var Question11a = document.getElementById("Question11aSelect").value;}
+
+if (document.getElementById("Question19aSelect").value == "") {var Question19a = "Not Selected";}
+else {var Question19a = document.getElementById("Question19aSelect").value;}
+
+var copyText =
+
+'--- #v1 Client Needs Assessment \n'+
+
+'\nQ1a WHAT ARE YOU NEEDING HELP WITH?:'						 	 							+ Question2a			+ '\n'	+
+'\nQ1b IF OTHER SELECTED ABOVE PLEASE ADD FURTHER COMMENTS?:\n'									+ Question2b			+';\n'	+
+'\nQ2 HOW LONG HAVE YOU BEEN IN YOUR CURRENT ACCOMMODATION?:\n'									+ Question5  			+';\n'	+
+'\nQ3a WHERE ARE YOU CURRENTLY LIVING TYPE?:\n'													+ Question4a  			+';\n'	+
+'\nQ3b WHERE ARE YOU CURRENTLY LIVING LOCATION?:\n'												+ Question4b 			+';\n'	+
+'\nQ3c WHERE ARE YOU CURRENTLY LIVING OTHER?:\n'												+ Question5c 			+';\n'	+
+'\nQ4a IF WE COULD PROVIDE FINANCIAL SUPPORT, COULD YOU STAY IN YOUR CURRENT RESIDENCE?:\n'		+ Question6b			+';\n'	+
+'\nQ4b WHO CAN YOU STAY WITH?:\n'																+ Question6c			+';\n'	+
+'\nQ5a WHAT IS MAKING IT HARD FOR YOU TO FIND SUITABLE HOUSING? PRIMARY?:\n'					+ Question9a			+';\n'	+
+'\nQ5b WHAT IS MAKING IT HARD FOR YOU TO FIND SUITABLE HOUSING? SECONDARY?:'					+ Question9b			+'\n'	+
+'\nQ6a WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD ADULT?:\n'										+ Question12a			+';\n'	+
+'\nQ6b WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD CHILD?:\n'										+ Question12b			+';\n'	+
+'\nQ7a WHEN DO YOU NEED TO MOVE?:\n'															+ Question7a			+';\n'	+
+'\nQ7b WHAT REGION ARE YOU LIVING IN?:\n'														+ Question9b			+';\n'	+
+'\nQ7c DO YOU LIVE IN ROTORUA?:\n'																+ Question9c			+';\n'	+
+'\nQ8a ARE YOU CURRENTLY BEING SUPPORTED BY ANYONE OR ANY SERVICE WITH YOUR HOUSING?:\n'		+ Question15a			+';\n'	+
+'\nQ8b IF YES, PLEASE SELECT ANSWER BELOW:'														+ Question15b			+'\n'	+
+'\nQ8c IF OTHER PLEASE TYPE BELOW:\n'															+ Question15c			+';\n'	+
+'\nQ8d IF TRANSITIONAL HOUSING PROVIDER PLEASE TYPE BELOW:\n'									+ Question11d			+';\n'	+
+'\nQ9 WILL ANYONE IN YOUR HOUSEHOLD BE LOOKING FOR EMPLOYMENT?:\n'								+ Question17a			+';\n'	+
+'\nQ10a ARE YOUR KIDS ENROLLED OR ATTENDING SCHOOL, DAYCARE OR KOHANGA?:\n'						+ Question14a			+';\n'	+
+'\nQ12a IS THERE A SPECIFIC AREA YOU NEED TO STAY IN?:\n'										+ Question10a		    +';\n'	+
+'\nQ13a DOES ANYONE IN YOUR HOUSE HAVE MOBILITY ISSUES?:\n'										+ Question10a		    +';\n'	+
+'\nQ14a PLEASE EXPAND BELOW?:\n'																+ Question11a		    +';\n'	+
+'\nQ15a ANY FURTHER BRIEF COMMENTS?:\n'															+ Question19a		    +';\n'	+
+
+'\n--- # Template End';
+
+navigator.clipboard.writeText(copyText);
+
+document.querySelector("#Area3").value = copyText;
+}
+
+<!-- ---------- LOOP THROUGH MULTISELECT ---------- -->
+
+// '\nQ?:\n'+ Question4C + '\n' +
+
+function getSelectValues(select) {
+var result = "";
+var options = select && select.options;
+var opt;
+
+for (var i=0, iLen=options.length; i<iLen; i++) {
+opt = options[i];
+
+if (opt.selected) {
+
+if (result == "") {
+result = "\n" + opt.text + ";" ;
+}
+else {
+result =  "\n" + opt.text + " # " + result ;
+}
+}
+}
+return result;
+}
+
+</script>
+</body>
+</html>
+
+```
+
 
 ### NEW
 ```html
