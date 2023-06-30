@@ -15,6 +15,3335 @@ HTML FORM - https://www.w3docs.com/tools/editor/5943
  
 --------------------------------------------------------------------------------------------------------
 
+```
+<!DOCTYPE html>
+
+<html>
+
+<link rel="stylesheet" href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+<script
+id="insert"
+type="text/javascript"
+src="//code.jquery.com/jquery-1.11.0.js">
+
+</script>
+
+<!--  --------------------  FORMATTING--------------------  -->
+
+<head>
+
+<style>
+
+/* Ads space at bottom so that expandable questions do not move form upwards  */
+html{
+margin-bottom: 500px;
+}
+
+/* Sets page size, position, margin and shadow */
+body {
+background: #fff;
+box-shadow: 0px 0px 30px 0px #a82877;
+max-width: 675px;
+min-width: 175px;
+margin: auto;
+margin-top: 10px;
+margin-bottom: 10px;
+border-radius: 7px;
+}
+
+mandatory {
+background-color: #fce4e4;
+border: 1px solid #cc0033;
+outline: none;
+}
+
+/* Sets textarea format, needed as default value differet then select */
+textarea {
+width: calc(100% - 17px);
+font-family: Roboto, Arial;
+font-size: 14px;
+color: #666;
+border-radius: 7px;
+outline: none;
+margin: 5px;
+}
+
+referral {
+width: calc(100% - 17px);
+font-family: Roboto, Arial;
+font-size: 14px;
+color: gray;
+border-radius: 7px;
+outline: none;
+margin: 5px;
+}
+
+table { 
+    border: 4px solid;
+    border-collapse: separate;
+    border-radius: 7px;
+    border-spacing: 0px;
+    margin: 5px;
+	margin-bottom: 12px;
+    width: calc(100% - 10px);
+	}
+
+th  {
+	color: white;
+    padding: 5px 4px 6px 4px; 
+    text-align: left;
+    vertical-align: top;
+	border-bottom: 3px solid black; 
+	background:gray;
+	}
+
+td {
+    border-top: 1px solid #ddd; 
+    padding: 5px 4px 6px 4px; 
+    text-align: left;
+    vertical-align: top;
+    border-left: 1px solid #ddd;     
+}
+
+tr1  {
+	color: white;
+    padding: 5px 4px 6px 4px; 
+    text-align: left;
+    vertical-align: top;
+	border-bottom: 3px solid black; 
+	background:gray;
+	}
+    
+
+/* Pulls logo from MSD and formats banner otherwise default values duplicate and stretch pic */
+.banner {
+min-height: 125px;
+background-size: contain;
+background-image: url(https://www.msd.govt.nz/webadmin/images/msd-logo-blue.svg);
+background-repeat: no-repeat;
+background-color: rgba(0, 0, 0, 0.5);
+width: calc(100% - 12px);
+margin: 5px 5px 2px 5px;
+border-radius: 7px;
+outline: none;
+}
+
+.pic {
+min-height: 850px;
+background-size: 100%;
+background-image: url(https://media.gettyimages.com/id/165979247/vector/green-map-of-new-zealand-states-cities-and-flag.jpg?s=2048x2048&w=gi&k=20&c=pVGh8vKToHcc-AC7tvO1oZPrNAZiuSAi9XAggq77zNw=);
+width: calc(100% - 12px);
+margin: 5px 5px 12px 5px;
+border-radius: 7px;
+outline: none;
+}
+
+/* Sets margin for header, can't use the main format below as it will change the font and bold */
+H3 {
+text-align:center;
+margin-bottom:7px;  
+margin-top:7px; 
+color:white; 
+background-color:#a82877; 
+padding: 10px 7px;
+}
+
+/* Main formating of boxs */
+form, item, button,  p, input, select, h3 {
+line-height: 22px;
+margin: 5px 5px 5px 5px;
+width: calc(100% - 10px);
+font-family: Roboto, Arial;
+font-size: 14px;
+color: #666;
+border-radius: 7px;
+outline: none;
+}
+
+/* Sets gray border, can't be added above as this will create border on borders 
+REMOVED display: inline-flex;*/
+item, button, textarea, input, select {
+border: 1px solid #ccc;
+
+}
+
+/* As with textarea, specific formating due to different default values + colour changed */
+button {
+color: #fff;
+background: #3D3C3A;
+border: none;
+height: 70px;
+margin-top: 17px;
+margin-bottom: 12px;
+text-align:center;
+}
+
+select[multiple], select, city-item, item {
+overflow-y: auto;
+}
+
+
+/* Sets specific formatting to allow side by side boxs that moves them below when the page is shrunk */
+@media (min-width: 568px) {
+.city-item {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+/* Sets specific formatting to allow side by side boxs that moves them below when the page is shrunk */
+@media (min-width: 568px) {
+.quarter-item {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+/* As above */
+.city-item input {
+width: calc (50% - 10px);
+}
+
+/* As above */
+.city-item select {
+width: calc(50% - 10px);
+}
+
+/* As above */
+.quarter-item input {
+width: calc (25% - 10px);
+}
+
+/* As above */
+.quarter-item select {
+width: calc(25% - 10px);
+}
+
+/* Adds shadow on hover */
+.item:hover p,  .city-item:hover p  {
+color: #a82877;
+}
+
+/* Adds shadow on hover, needed as no border on <p> element */
+textarea:hover, select:hover {
+color: #a82877;
+border: 1px solid transparent;
+box-shadow: 0 0 6px 0 #a82877;
+}
+
+.error-input {
+background-color: #fce4e4;
+border: 1px solid #cc0033;
+outline: none;
+}
+
+/* Section for tooltip */
+
+.Container {
+display: inline-flex;
+margin-top: -5px;
+align-items: center;
+width:calc(100% - 5px);
+}
+  
+.question {
+height: 20px;
+width: 20px;
+text-indent: 7px;
+font-weight: 900;
+color: white;
+background-color: #777;
+border-radius: 10px;
+}
+  
+.tooltip {
+margin-left: 40px;
+margin-top: -27px; 
+padding: 5px;
+opacity: 0;
+transition: opacity 2s;
+visibility: hidden;
+width: 200px;
+background-color: #7C2BE7;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+position: absolute;
+}
+
+.question:hover .tooltip {
+visibility: visible;
+opacity: 1;
+}
+
+.question .tooltip::after {
+content: "";
+position: absolute;
+top: 15px;
+right: 100%;
+margin-top: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: transparent #7C2BE7 transparent transparent;
+}
+  
+</style>
+
+<title>Needs Assessment Tool </title>
+
+</head>
+
+<!-- ------------------------ BODY ------------------------ -->
+
+<body>
+
+<form id="myForm" action="/" onsubmit="return false;">
+
+<button type="button" onclick="Reset()"> RESET ALL</button>
+
+<div class="banner"></div>
+
+<H1 style="text-align: center;"> PATHWAY TO HOUSING TOOL - v27U </H1>
+
+This tool is a guide for case management to support conversations. When deciding on the final outcomes of services or support for your client consider MAP, HIYA and your local Case Management knowledge. Please complete relevant questions and save to CMS
+<br><br>
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px 10px"> GENERAL QUESTIONS
+
+</H3>   
+
+<!-- ---------------- SECTION 1 [GENERAL] ---------------- -->
+
+<!-- TEST -->
+
+<div class="item" hidden style="border:solid red;">
+
+<div class="Container"> 
+<p> MULTIPLE LINE TEST QUESTION <BR> MULTIPLE LINE TEST QUESTION </p> 
+<div class="question"> ? 
+<div class="tooltip"> TBC 
+</div> </div> </div>
+
+<select size ="5"  id="test">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="One">One</option>
+<option value="Two">Two</option>
+<option value="Three">Three</option>
+<option value="Four">Four</option>
+<option value="N/A">N/A</option>
+</select>
+
+</div>
+
+<!-- Q1 -->
+
+<div class="item"> 
+
+<div class="Container"> 
+<p>Q1a Is this a referral from?</p>  
+<div class="question"> ? 
+<div class="tooltip"> Staff only, do not ask client. 
+</div> </div> </div>
+
+<select size ="5"  id="Question1a" name="mandatory" oninput="textChanged(this);" onclick="Justice(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Corrections">Department of Corrections</option>
+<option value="Justice">Ministy of Justice</option>
+<option value="Oranga Tamariki">Oranga Tamariki</option>
+<option value="Te Whatu Ora’">Te Whatu Ora</option>
+<option value="N/A">N/A</option>
+</select>
+</div>
+
+<!-- Q1b -->
+
+<div class="item" id="Question1b" hidden> 
+<p> Q1b Does the client have any current conditions? If so please list below </p>
+
+<textarea placeholder="Not Selected" id="Question1bSelect" oninput="textChanged(this);" onkeyup="CharacterLimits(this)" ></textarea>
+
+</div>
+
+<!-- Q2a -->
+
+<div class="item"> 
+
+<div class="Container">
+<p> Q2a Tell me about your housing situation and why you need help today? </p>
+<div class="question">?
+<div class="tooltip"> Hold CTRL to select multiple options 
+</div></div></div>
+
+<select size="13" multiple style="overflow:hidden" id="Question2a" onchange="HelpOther(this)" oninput="textChanged(this);" name="mandatory" onclick="CharacterLimits(this);">
+
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Asked to leave boarding situation">Asked to leave boarding situation</option>
+<option value="Conflict within the household">Conflict within the household</option>
+<option value="Family harm">Family harm</option>
+<option value="Gang activities">Gang activities</option>
+<option value="Medical reasons">Medical reasons</option>
+<option value="Moving for work">Moving for work</option>
+<option value="Neighbourhood / safety concerns">Neighbourhood / safety concerns</option>
+<option value="Overcrowding">Overcrowding</option>
+<option value="Separated from partner">Separated from partner</option>
+<option value="Tenancy ending">Tenancy ending</option>
+<option value="Tenancy eviction">Tenancy eviction</option>
+<option value="Impacted by natural disasters">Impacted by natural disasters</option>
+<option value="Other">Other</option>
+</select>
+</div>
+
+<!-- Q2b -->
+
+<div class="item" hidden id="Question2b"> 
+
+<div class=" Container"> 
+<p> Q2b If other please type below 
+<span style="float: right; color:#C0C0C0;">Count 
+<span id="Count2bCount"> 0 </span> </p>
+
+<!--    <div class="question"> ?    -->
+<div class="tooltip"> Example note
+</div></div>
+
+<textarea visible placeholder="Not Selected" id="Question2bSelect" name="mandatory" oninput="textChanged(this);" onkeyup="CharacterLimits(this)" ></textarea>
+</div>
+
+<!-- ALERT Q2b MAX -->
+
+<div class="textalert"  id="MaxCharacters2b" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px; padding: 10px 0px 10px"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- ALERT Q2b CIVIL -->
+
+<div class="item"  id="Civildefence" hidden>
+
+<button style="background-color:#157DEC; text-align:center; font-size:120%;  color:white; height:40px; padding: 10px 0px 10px" disabled> Civil Defence Support Options &ensp;
+<a href="https://doogle.ssi.govt.nz/community/display/HIYA/Civil+Defence+payments"
+target=”_blank” attribute STYLE="COLOR: WHITE"> LINK </a>
+</button>
+
+</div>
+
+<!-- Q2c -->
+
+<div class="item" hidden id="Question2c"> 
+
+<div class="Container">
+<p> Q2c If Medical please provide detail below  
+<span style="float: right; color:#C0C0C0;">Count 
+<span id="Count2cCount"> 0 </span> </p>
+<!--    <div class="question"> ?    -->
+<div class="tooltip"> Example note
+</div></div>
+
+<textarea visible placeholder="Not Selected" id="Question2cSelect" name="mandatory" oninput="textChanged(this);" onkeyup="CharacterLimits(this)" ></textarea>
+</div>
+
+<!-- ALERT Q2c -->
+
+<div class="textalert"  id="MaxCharacters2c" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q2d -->
+
+<div class="item" id="Question2d"> 
+
+<div class="Container">
+<p> Q2d Are you currently working with a MSD or community family harm support person?</p>
+<!--    <div class="question"> ?    -->
+<div class="tooltip"> Example note 
+</div></div>
+
+<select size ="2"  id="Question2dSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- Q3a -->
+
+<div class="item" id="Question3a">
+<div class="Container">
+<p>Q3a Any further details?  
+<span style="float: right; color:#C0C0C0;">Count 
+<span id="Count3aCount"> 0 </span> </p> 
+
+<!--    <div class="question"> ?    -->
+
+<div class="tooltip">  Example note
+</div></div>
+
+<textarea visible placeholder="Not Selected" id="Question3aSelect" oninput="textChanged(this);" onkeyup="CharacterLimits(this)" style="height:50px"></textarea>
+
+</div>
+
+<!-- ALERT Q3a -->
+
+<div class="textalert"  id="MaxCharacters3a" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- 
+ONCHANGE 
+ONCLICK		
+ONPASTE
+onkeypress
+onkeyup
+onkeydown
+ -->
+
+<!-- ---------------- SECTION 2 [SITUATION] ---------------- -->
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> SITUATION </H3> 
+
+<!-- Q4a -->
+
+<div class="city-item">  <p style="margin-top:0px;">Q4a Where are you currently living? </p>
+
+<select size = "12" font="Courier" id="Question4a" onchange="showDistrict(this)" name="mandatory" oninput="textChanged(this);">
+<optgroup label="REGION">
+<option value="Not selected" hidden selected>Not selected</option>
+<option id ="A1"  value="NORTHLAND">NORTHLAND</option>
+<option id ="A2"  value="AUCKLAND">AUCKLAND</option>
+<option id ="A3"  value="WAIKATO">WAIKATO</option>
+<option id ="A4"  value="BAY OF PLENTY">BAY OF PLENTY</option>
+<option id ="A5"  value="TARANAKI">TARANAKI</option>
+<option id ="A6"  value="EAST COAST">EAST COAST</option>
+<option id ="A7"  value="CENTRAL">CENTRAL</option>
+<option id ="A8"  value="WELLINGTON">WELLINGTON</option>
+<option id ="A9"  value="NELSON">NELSON</option>
+<option id ="A10" value="CANTERBURY">CANTERBURY</option>
+<option id ="A11" value="SOUTHERN">SOUTHERN</option>
+</optgroup>
+</select>
+
+<!-- Q4b -->
+
+<select size = "12" font="Courier New" id="Question4b" name="mandatory" oninput="textChanged(this);">
+<optgroup label="DISTRICT">
+<option value="Not selected" hidden selected>Not selected</option>
+
+<option id ="1D" name="ALL" tagname= "NORTHLAND"  hidden> Far North District</option>
+<option id ="2D" name="ALL" tagname= "NORTHLAND"  hidden> Whangarei District</option>
+<option id ="3D" name="ALL" tagname= "NORTHLAND"  hidden> Kaipara District</option>
+
+<option id ="4D1" name="ALL" tagname= "AUCKLAND"  hidden>North/West</option>
+<option id ="4D2" name="ALL" tagname= "AUCKLAND"  hidden>Central/East</option>
+<option id ="4D3" name="ALL" tagname= "AUCKLAND"  hidden>South</option>
+
+<option id ="5D" name="ALL" tagname= "WAIKATO" hidden>Waikato District</option>
+<option id ="6D" name="ALL" tagname= "WAIKATO" hidden>Thames-Coromandel District</option>
+<option id ="7D" name="ALL" tagname= "WAIKATO" hidden>Hauraki District</option>
+<option id ="8D" name="ALL" tagname= "WAIKATO" hidden>Matamata-Piako District</option>
+<option id ="9D" name="ALL" tagname= "WAIKATO" hidden>Hamilton City</option>
+<option id ="10D" name="ALL" tagname= "WAIKATO" hidden>Waipa District</option>
+<option id ="11D" name="ALL" tagname= "WAIKATO" hidden>Otorohanga District</option>
+
+<option id ="12D" name="ALL" tagname= "BAY OF PLENTY" hidden>Western Bay of Plenty District</option>
+<option id ="13D" name="ALL" tagname= "BAY OF PLENTY" hidden>Tauranga District</option>
+<option id ="14D" name="ALL" tagname= "BAY OF PLENTY" hidden>Rotorua District</option>
+<option id ="15D" name="ALL" tagname= "BAY OF PLENTY" hidden>South Waikato District</option>
+<option id ="16D" name="ALL" tagname= "BAY OF PLENTY" hidden>Kawerau District</option>
+<option id ="17D" name="ALL" tagname= "BAY OF PLENTY" hidden>Ōpōtiki District</option>
+<option id ="18D" name="ALL" tagname= "BAY OF PLENTY" hidden>Whakatane District</option>
+<option id ="19D" name="ALL" tagname= "BAY OF PLENTY" hidden>Taupō District</option>
+
+<option id ="20D" name="ALL" tagname= "TARANAKI" hidden>Waitomo District</option>
+<option id ="21D" name="ALL" tagname= "TARANAKI" hidden>New Plymouth District</option>
+<option id ="22D" name="ALL" tagname= "TARANAKI" hidden>Stratford District</option>
+<option id ="23D" name="ALL" tagname= "TARANAKI" hidden>South Taranaki District</option>
+<option id ="24D" name="ALL" tagname= "TARANAKI" hidden>Ruapehu District</option>
+<option id ="25D" name="ALL" tagname= "TARANAKI" hidden>Whanganui District</option>
+<option id ="26D" name="ALL" tagname= "TARANAKI" hidden>Rangitīkei District</option>
+
+<option id ="27D" name="ALL" tagname= "EAST COAST" hidden>Gisborne District</option>
+<option id ="28D" name="ALL" tagname= "EAST COAST" hidden>Wairoa District</option>
+<option id ="29D" name="ALL" tagname= "EAST COAST" hidden>Hastings District</option>
+<option id ="30D" name="ALL" tagname= "EAST COAST" hidden>Napier City</option>
+<option id ="31D" name="ALL" tagname= "EAST COAST" hidden>Central Hawke’s Bay District</option>
+
+<option id ="32D" name="ALL" tagname= "CENTRAL" hidden>Manawatu District</option>
+<option id ="33D" name="ALL" tagname= "CENTRAL" hidden>Palmerston North City</option>
+<option id ="34D" name="ALL" tagname= "CENTRAL" hidden>Horowhenua District</option>
+<option id ="35D" name="ALL" tagname= "CENTRAL" hidden>Tararua District</option>
+<option id ="36D" name="ALL" tagname= "CENTRAL" hidden>Masterton District</option>
+<option id ="37D" name="ALL" tagname= "CENTRAL" hidden>Carterton District</option>
+<option id ="38D" name="ALL" tagname= "CENTRAL" hidden>South Wairarapa District</option>
+
+<option id ="39D" name="ALL" tagname= "CENTRAL" hidden>Kāpiti Coast District</option>
+<option id ="40D" name="ALL" tagname= "WELLINGTON" hidden>Upper Hutt City</option>
+<option id ="41D" name="ALL" tagame= "WELLINGTON" hidden>Lower Hutt City</option>
+<option id ="42D" name="ALL" tagname= "WELLINGTON" hidden>Porirua City</option>
+<option id ="43D" name="ALL" tagname= "WELLINGTON" hidden>Wellington City</option>
+
+<option id ="44D" name="ALL" tagname= "NELSON" hidden>Nelson City</option>
+<option id ="45D" name="ALL" tagname= "NELSON" hidden>Marlborough District</option>
+<option id ="46D" name="ALL" tagname= "NELSON" hidden>Kaikoura District</option>
+<option id ="47D" name="ALL" tagname= "NELSON" hidden>Tasman District</option>
+<option id ="48D" name="ALL" tagname= "NELSON" hidden>Buller District</option>
+<option id ="49D" name="ALL" tagname= "NELSON" hidden>Grey District</option>
+<option id ="50D" name="ALL" tagname= "NELSON" hidden>Westland District</option>
+
+<option id ="51D" name="ALL" tagname= "CANTERBURY" hidden>Hurunui District</option>
+<option id ="52D" name="ALL" tagname= "CANTERBURY" hidden>Waimakariri District</option>
+<option id ="53D" name="ALL" tagname= "CANTERBURY" hidden>Christchurch City</option>
+<option id ="54D" name="ALL" tagname= "CANTERBURY" hidden>Selwyn District</option>
+<option id ="55D" name="ALL" tagname= "CANTERBURY" hidden>Ashburton District</option>
+
+<option id ="56D" name="ALL" tagname= "SOUTHERN" hidden>Timaru District</option>
+<option id ="57D" name="ALL" tagname= "SOUTHERN" hidden>Mackenzie District</option>
+<option id ="58D" name="ALL" tagname= "SOUTHERN" hidden>Waimate District</option>
+<option id ="59D" name="ALL" tagname= "SOUTHERN" hidden>Waitaki District</option>
+<option id ="60D" name="ALL" tagname= "SOUTHERN" hidden>Queenstown-Lakes District</option>
+<option id ="61D" name="ALL" tagname= "SOUTHERN" hidden>Central Otago District</option>
+<option id ="62D" name="ALL" tagname= "SOUTHERN" hidden>Dunedin District</option>
+<option id ="63D" name="ALL" tagname= "SOUTHERN" hidden>Clutha District</option>
+<option id ="64D" name="ALL" tagname= "SOUTHERN" hidden>Gore District</option>
+<option id ="65D" name="ALL" tagname= "SOUTHERN" hidden>Invercargill City</option>
+<option id ="66D" name="ALL" tagname= "SOUTHERN" hidden>Southland District</option>
+</optgroup>
+</select>
+</div>
+
+<!-- Q5a -->
+
+<div class="city-item"> <p>Q5a Where are you currently staying?</p>
+<select size ="16" id="Question5a" onchange="AccType(this)" name="mandatory" oninput="textChanged(this)" onclick="CharacterLimits(this);">
+
+<optgroup label="ACCOMMODATION">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Boarding">Boarding</option>
+<option value="Cabin">Cabin</option>
+<option value="Caravan">Caravan</option>
+<option value="Own home">Own home</option>
+<option value="Renting">Renting</option>
+<option value="Staying with friends/family">Staying with friends/family</option>
+<option value="Other">Other (e.g. Garage)</option>
+</optgroup>
+
+<optgroup label="TEMPORARY LIVING SITUATION">
+<option value="Couch surfing">Couch surfing</option>
+<option value="Hospital">Hospital</option>
+<option value="Living in a car">Living in a car</option>
+<option value="Living in a tent">Living in a tent</option>
+<option value="Marae">Marae</option>
+<option value="Street / public place">Street / public place</option>
+<option value="Squatting">Squatting</option>
+</optgroup>
+</select>
+
+<!-- Q5b -->
+
+<select class="item" size ="15" id="Question5b" name="mandatory" oninput="textChanged(this);">
+<optgroup label="LOCATION OF ACCOMMODATION">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Campground">Campground</option>
+<option value="Family">Family property</option>
+<option value="Friends">Friends property</option>
+<option value="Kinga Ora">K&#257;inga Ora property </option>
+<option value="Private property">Private property</option>
+<option value="Public place">Public place</option>
+</optgroup>
+</select>
+</div>
+
+<!-- Q5c -->
+
+<div class="item" hidden id="Question5c"> 
+<p>Q5c If other please type below
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count 
+<span id="Count5cCount"> 0 </span> </p>
+<textarea rows="3" placeholder="Not Selected" id="Question5cSelect" 
+oninput="textChanged(this);" onkeyup ="CharacterLimits(this)" name="mandatory"></textarea>
+</div>
+
+
+<!-- ALERT Q5c -->
+
+<div class="textalert"  id="MaxCharacters5c" hidden>
+<textarea  name="mandatory"  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q6a -->
+
+<div class="item"> <p>Q6a How long have you been in your current living situation? </p>
+<select size ="6" id="Question6a"  name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="0 to 3 months">0m  - 3 months</option>
+<option value="3 to 6 months">3m  - 6 months</option>
+<option value="0.5 to 1 year">6m - 1 year</option>
+<option value="1 to 3 years">1y - 3 years</option>
+<option value="3 to 5 years">3y - 5 years</option>
+<option value="Long term">5y+</option>
+</select>
+</div>
+
+
+<!-- Q6b -->
+
+<div class="item" id="Question6b">
+<p>
+Q6b If we could provide some financial or non-financial support , could you stay where you are or could we help you move to somewhere safe?
+</p>
+
+<select size ="2"  id="Question6bSelect" onchange="SupportYes(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes </option>
+<option value="No">No </option>
+</select>
+</div>
+
+<!-- SUPPORT NOTE 
+
+<div class="item" id="SupportNote" hidden>
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align-center;" name="mandatory" oninput="textChanged(this);">Financial support options include; helping with rent, cost to move rental or a food grant to contribute to a boarding situation</textarea>
+</div>
+
+-->
+
+<div class="item" id="SupportNote" hidden>
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align-center; height:60px;" name="mandatory" oninput="textChanged(this);">
+Financial support options could include eg: Rent arrears, HSP, food grants etc.
+
+Non-Financial support could include eg: Referral to services, redirections, Housing & Work Brokers etc. </textarea>
+</div>
+
+<!-- Q6c -->
+
+<div class="item" hidden id="Question6c"> <p>Q6c Who can you stay with?</p>
+<select size ="4" id="Question6cSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Family">Family</option>
+<option value="Friends">Friends</option>
+<option value="Private Arrangement">Private Arrangement</option>
+<option value="Where you are">Where you are</option>
+</select>
+</div>
+
+<!-- ---------------- SECTION 3 [MOVING] ---------------- -->
+
+<div hidden id="section3">
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> MOVING </H3>   
+
+<div class="item"> <p>Q7a When do you need to move?</p>
+<select size ="6" id="Question7a" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Immediately">Immediately</option>
+<option value="7 days or less">7 days or less</option>
+<option value="8-30 days">8-30 days</option>
+<option value="31-60 days">31-60 days</option>
+<option value="61-90 days">61-90 days</option>
+<option value="91+ days">91+ days</option>
+</select>
+</div>
+
+<!-- Q8a -->
+
+<div class="item" id="Question8a" >
+<p>Q8a Is there a specific area you need to stay in?
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count <span id="Count8aCount"> 0 </span> 
+</p>
+<textarea id="Question8aSelect" placeholder="Not Selected" oninput="textChanged(this)" onkeyup="CharacterLimits(this)" name="mandatory" ></textarea>
+</div>
+
+<!-- ALERT Q8a -->
+
+<div class="textalert"  id="MaxCharacters8a" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q9a -->
+
+<div class="city-item">
+<p> Q9a What is making it hard for you to find a home?</p>
+<BR> 
+<select size = "14" id="Question9a" name="mandatory" oninput="textChanged(this);">
+<optgroup label="PRIMARY REASON SELECT ONE">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Accessibility">Accessibility</option>
+<option value="Behind in rent">Behind in rent</option>
+<option value="Cost of rental">Cost of rental</option>
+<option value="Corrections history">Corrections history</option>
+<option value="Credit history">Credit history</option>
+<option value="Disability">Disability</option>
+<option value="Discrimination">Discrimination</option>
+<option value="Gang affiliation">Gang affiliation</option>
+<option value="Health">Health</option>
+<option value="No rental history">No rental history</option>
+<option value="Pets">Pets</option>
+<option value="Size of household">Size of household</option>
+<option value="Trouble understanding rental process">Trouble understanding rental process</option>
+</optgroup>
+</select>
+
+<select multiple size = "12" id="Question9b" onchange="maxThree(this)" name="mandatory" oninput="textChanged(this);">
+<optgroup label="SECONDARY REASON MAX THREE ">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Accessibility">Accessibility</option>
+<option value="Behind in rent">Behind in rent</option>
+<option value="Cost of rental">Cost of rental</option>
+<option value="Corrections history">Corrections history</option>
+<option value="Credit history">Credit history</option>
+<option value="Disability">Disability</option>
+<option value="Discrimination">Discrimination</option>
+<option value="Gang affiliation">Gang affiliation</option>
+<option value="Health">Health</option>
+<option value="No rental history">No rental history</option>
+<option value="Pets">Pets</option>
+<option value="Size of household">Size of household</option>
+<option value="Trouble understanding rental process">Trouble understanding rental process</option>
+</optgroup>
+</select>
+</div>
+
+<!-- ALERT Q9b -->
+
+<div class="textalert"  id="MaxAlert" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Please select a max of three secondary options</textarea>
+</div>
+
+<!-- Q10a -->
+
+<div class="item" id="Question10a">
+<p> Q10a Are there any factors that impact what suitable housing you could go to i.e. Physical or social factors or gang association?</p>
+<select size = "2" id=Question10aSelect  onclick="mobilityIssues(this); CharacterLimits(this)" name="mandatory" oninput="textChanged(this)"
+>
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- Q10b -->
+
+<div class="item" hidden id="Question10b">
+<p>Q10b Please expand below
+<span style="float: right; color:#C0C0C0;">Count 
+<span id="Count10bCount"> 0 </span>
+</p>
+
+<textarea  id="Question10bSelect" placeholder="Not Selected" name="mandatory" oninput="textChanged(this)" onkeyup="CharacterLimits(this)"></textarea>
+</div>
+
+<!-- ALERT Q10b -->
+
+<div class="textalert"  id="MaxCharacters10b" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q11a -->
+
+<div class="item" id="Question11a">
+<p>Q11a If you have pets and are unable to take these with you is there someone that can look after them for you?</p>
+<select size = "3"  id="Question11aSelect" onclick="petIssues(this)"  name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A</option>
+</select>
+</div>
+
+<!-- PETNOTE -->
+
+<div class="item" id="PetNote" hidden>
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align: center;">You can also take a registered service animal into some Emergency Housing</textarea>
+</div>
+</div>
+</div>
+
+<!-- ---------------- SECTION 3 [FAMILY] ---------------- -->
+
+<H3 style="margin-bottom:5px;  background-color:#a82877; color:white; padding: 10px 0px"> FAMILY </H3>    
+<!-- Q12a -->
+
+<div class="city-item"> 
+<p>Q12a Who needs assistance in your household?</p>
+<select size = "12" id="Question12a" name="mandatory" oninput="textChanged(this);">
+<optgroup label="NUMBER OF ADULTS">
+<option value="Not selected" hidden selected>Not selected</option>
+<option disabled value="0">-</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</optgroup>
+</select>
+
+<!-- Q12b -->
+
+<select size="12" id="Question12b" onchange="childrenYes(this)" name="mandatory" oninput="textChanged(this);">
+<optgroup label="NUMBER OF CHILDREN">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</optgroup>
+</select>
+</div>
+
+<!-- Q13a -->
+
+<div class="item" id="Question13a">
+<div class="Container"> 
+<p>Q13a When you leave temporary housing, are these all the people you would like to live with?
+<div class="question"> ? 
+<div class="tooltip"> NB: are there extended family who want to live together?
+</div> </div> </div>
+
+<select size ="2" id="Question13aSelect" name="mandatory" oninput="textChanged(this);" onchange="liveWith(this)" >
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- Q13b -->
+
+<div class="item" hidden id="Question13b">
+<p>Q13b If no, how many adults and children will you be living with?
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count <span id="Count13bCount"> 0 </span> </p>
+<textarea rows="6" placeholder="Not Selected" id="Question13bSelect" oninput="textChanged(this)" onkeyup="CharacterLimits(this)" name="mandatory"></textarea>
+</div>
+
+<!-- ALERT Q13b -->
+
+<div class="textalert"  id="MaxCharacters13b" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- FLEXIFUNDING-NOTE -->
+
+<div class="item"  hidden id="Children">
+
+<div class="item"  id="FlexiNote" hidden>
+<textarea  disabled  style="background-color:#157DEC; color:white; text-align: center;">
+If you have determined client has met eligibility criteria and has a need, flexifunding can help with travel, school holiday programmes, after school care, and extra curricular activities for your kids?</textarea>
+</div>
+
+<!-- Q14a -->
+
+<div class="item"  id="Question14a">
+
+<div class="Container"> 
+<p>Q14a Do you have any children under 1, if so do you require any financial support for example: a Pēpi-pod or baby bed?</p>
+<div class="question"> ?
+<div class="tooltip"> NB: Not all accommodation providers have beds for infants/toddlers 
+</div> </div> </div>
+
+<select size="2"  id="Question14aSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No, my child already has their own safe and suitable bed</option>
+</select>
+</div>
+
+<!-- Q14b -->
+
+<div class="item"  id="Question14b" >
+<p>Q14b Are your children enrolled AND attending school</p>
+<select size="3"  id="Question14bSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes – enrolled and attending ">Yes – enrolled and attending</option>
+<option value="Yes – enrolled and not currently attending">Yes – enrolled and not currently attending</option>
+<option value="Not enrolled or currently attending">Not enrolled or currently attending</option>
+</select>
+</div>
+
+<!-- Q14c -->
+
+<div class="item"  id="Question14c" >
+<p>Q14c If attending, what school do they go to?
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count <span id="Count14cCount"> 0 </span> </p>
+<textarea rows="2" placeholder="Not Selected" id="Question14cSelect" oninput="textChanged(this)" onkeyup="CharacterLimits(this)"></textarea>
+</div>
+
+<!-- ALERT Q14c -->
+<div class="textalert"  id="MaxCharacters14c" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q14d -->
+
+<div class="item"  id="Question14d" >
+<p>Q14d The Ministry of Education has a service to support school age children with attendance or enrolment.  Would you like us to pass on your contact details?</p>
+<select size="3"  id="Question14dSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A children are attending</option>
+</select>
+</div>
+
+<!-- Q14e -->
+
+<div class="item"  id="Question14e" >
+<p>Q14e If you have children between the age of 16-18  that are not enrolled in school would you like some support to help your child with employment and training.</p>
+<select size="3"  id="Question14eSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="N/A">N/A children 16 and above enrolled in school</option>
+</select>
+</div>
+
+</div>
+</div>
+
+<!-- ---------------- SECTION 4 [EXTERNAL] ---------------- -->
+  
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> SUPPORT SERVICES </H3>   
+
+<!-- Q15a -->
+
+<div class="item">
+<p>Q15a Are you currently being supported by anyone or any service? </p>
+<select size="2" id="Question15a" name="mandatory" oninput="textChanged(this);" onclick="support(this)">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- Q15b -->
+
+<div class="item" hidden id="Question15b">
+<div class="Container"> 
+<p>Q15b If yes, please answer select below </p>
+<div class="question"> ?
+<div class="tooltip"> NB: Hold CTRL to select multiple options
+</div> </div> </div>
+
+<select multiple size ="13" id="Question15bSelect" 
+name="mandatory"
+onchange="serviceOther(this)" 
+oninput="textChanged(this)" 
+onclick="CharacterLimits(this)"
+>
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="City Mission">City Mission</option>
+<option value="Department of Corrections">Department of Corrections</option>
+<option value="Emerge">Emerge</option>
+<option value="Kainga Ora">Kainga Ora</option>
+<option value="Lifewise">Lifewise</option>
+<option value="Ministry of Health">Ministry of Health</option>
+<option value="Navigator services">Navigator services</option>
+<option value="Oranga Tamariki">Oranga Tamariki</option>
+<option value="Salvation Army">Salvation Army</option>
+<option value="Transitional housing provider">Transitional housing provider</option>
+<option value="Vision West">Vision West</option>
+<option value="Youth services">Youth services</option>
+<option value="Other">Other</option>
+</select>
+</div>
+
+<!-- Q15c -->
+
+<div class="item" hidden id="Question15c">
+<p>Q15c What transitional housing provider and / or ‘other’ service are you being supported by?
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count <span id="Count15cCount"> 0 </span> </p>
+<textarea placeholder="Not Selected" id="Question15cSelect" name="mandatory" oninput="textChanged(this)" onkeyup="CharacterLimits(this)"></textarea>
+</div>
+
+<!-- ALERT Q15c -->
+<div class="textalert"  id="MaxCharacters15c" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<!-- Q16a -->
+<div class="item" id="Question16a"  >
+<p>Q16a Are you on the public housing register?</p>
+<select size="3"  id="Question16aSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes unchanged">Yes, circumstances unchanged</option>
+<option value="Yes changed">Yes, circumstances changed</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- ---------------- SECTION 5 [EMPLOYMENT] ---------------- -->
+
+<H3 style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px"> EMPLOYMENT </H3>   
+
+<!-- Q17a -->
+
+<div class="item" id="Question17a">
+<p>Q17a If anyone in your household is looking for employment would they like assistance from a work broker?</p>
+<select size ="2" id="Question17aSelect" onchange="employment(this)" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+</div>
+
+<!-- Q17b -->
+
+<div class="item" hidden id="Question17b">
+<div class="Container"> 
+<p>Q17b If yes, who? </p>
+<div class="question"> ?
+<div class="tooltip"> NB: Hold CTRL to select multiple options
+</div> </div> </div>
+
+<select multiple size ="3" id="Question17bSelect" name="mandatory" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="Client">Client</option>
+<option value="Partner">Partner</option>
+<option value="Child over 16">Child over 16</option>
+</select>
+</div>
+
+<button class="block" type="button" onclick="ShowSupport()" size="2" > CLICK HERE TO SEE SUPPORT OPTIONS <BR>(OR UPDATE) </button>
+
+<!-- ---------------- SECTION 6 [SUPPORT] ---------------- -->
+
+<div hidden id="Section6">
+
+<!--SUPPORT OPTIONS -->
+
+<div class="item" id="Options">
+
+<p> Select options you would like to go ahead with </p>
+
+<!-- 
+<div class="item" id="Options">
+<p> Select  
+<span style='color:limegreen; font-weight:bold;'> GREEN 
+<span style='color:#666; font-weight:normal;'> options you would like to go ahead with 
+<BR> [NB: Hold CTRL to select multiple options] 
+</p>
+ -->
+
+<span style='color:orange'>
+
+<select class="supportOption" multiple size=30, id="OptionsSelect" onclick="OptionsEH(this)" name="mandatory" oninput="textChanged(this);">
+
+<option value="Not selected" hidden selected>Not selected</option>
+<optgroup label="HOUSING OPTIONS">
+<option id ="OPT1"  style=color:black >    HSP - Bond Grant</option>
+<option id ="OPT2"  style=color:black >    HSP - Rent-in-Advance</option>
+<option id ="OPT3"  style=color:black >    HSP - Rent Arrears</option>
+<option id ="OPT4"  style=color:black >    HSP - Tenancy Cost Cover Letter</option>
+<option id ="OPT5"  style=color:black >    HSP - Moving Assistance </option>
+<option id ="OPT6"  style=color:black >    Transitional Housing Referral</option>
+<option id ="OPT7"  style=color:black >    Contracted Emergency Housing</option>
+<option id ="OPT8"  style=color:black >    Emergency Housing</option>
+<option id ="OPT9"  style=color:black >    Public Housing Assessment</option>
+</optgroup>
+
+<optgroup label="FINANCIAL OPTIONS">
+<option id ="OPT10" style=color:black >   Accommodation Supplement</option>
+<option id ="OPT11" style=color:black >   Temporary Additional Support</option>
+<option id ="OPT12" style=color:black >   Recoverable Assistance Payments</option>
+<option id ="OPT13" style=color:black   		>   SNG - Food Grant</option>
+<option id ="OPT14" style=color:black   		>   SNG - SNG Grant - e.g. Baby bed, Other etc </option>
+<option id ="OPT15" style=color:black >   House Modification Funding via MOH</option>
+<option id ="OPT16" style=color:black >   Transition to Work</option>
+<option id ="OPT17" style=color:black >   Disability Allowance</option>
+<option id ="OPT18" style=color:black >   Child Disability Allowance</option>
+</optgroup>
+
+<optgroup label="SUPPORT OPTIONS">
+<option id ="OPT19" style=color:black >   Ready to Rent Programme</option>
+<option id ="OPT20" style=color:black >   Flexible Funding Assistance</option>
+<option id ="OPT21" style=color:black >   Building Financial Capability products and services</option>
+<option id ="OPT22" style=color:black >   Refer to Housing Broker</option>
+<option id ="OPT23" style=color:black >   Refer to Work Broker</option>
+<option id ="OPT24" style=color:black >   Refer to Programme Coordinator</option>
+<option id ="OPT25" style=color:black >   Refer to Family Violence Coordinator</option>
+<option id ="OPT26" style=color:black >   Refer to Navigators</option>
+<option id ="OPT27" style=color:black >   Refer to MOE</option>
+</optgroup>
+
+</select>
+</div>
+
+<!-- Q18a -->
+
+<div class="item" id="Question18a" visible>
+<p>Q18a Any further brief comments?
+<span style="float: right; margin-top:0px; margin-bottom:7px; color:#C0C0C0;">Count <span id="Count18aCount"> 0 </span> </p>
+<textarea id="Question18aSelect" style="height:200px"  placeholder="Not Selected" oninput="textChanged(this)" onkeyup="CharacterLimits(this)"></textarea>
+</div>
+
+<!-- ALERT Q18a -->
+
+<div class="textalert"  id="MaxCharacters18a" hidden>
+<textarea  disabled  style="text-align:center; font-size:120%; background-color:red; color:white; height:20px;"
+>Try limit note to 700 characters if possible</textarea>
+</div>
+
+<button min-height="100%" type="button" id="FileNoteButton" onclick="GenerateFileNote()" onkeyup="GenerateFileNote()" oninput="textChanged(this);">CREATE OR UPDATE FILE NOTE</button>
+</div>
+
+
+<!-- ---------------- SECTION 7 [PROVIDERS] ---------------- -->
+
+<div id="Section7" hidden>
+<h> Providers list [NB: Hold CTRL to select multiple options] </h>
+
+<textarea id="Area2"> </textarea>
+
+<div class="item" id="Providers">
+<p>Select from list of results</p>
+<select multiple size ="4" oninput="textChanged(this);">
+<option value="Not selected" hidden selected>Not selected</option>
+<option value="1">Hotel1</option>
+<option value="2">Hotel2</option>
+</select>
+</div>
+
+<button class="block" type="button" onclick="GenerateProviders()" id="GenerateProvidersButton" oninput="textChanged(this);"> CLICK TO SHOW SUPPLIERS </button>
+</div>
+
+<!-- ---------------- SECTION 8 [FILE NOTE] ---------------- -->
+
+<div hidden id="Section8">
+
+<textarea id="CopyAlert" hidden  
+style=
+"text-align:center;  
+background-color:red; 
+color:white; 
+"
+> NOTE COPIED TO CLIPBOARD 
+(readonly copy below) </textarea>
+
+<table id="table0">
+<tr> 
+<Th STYLE="BACKGROUND-COLOR: BLUE">REFERRAL OPTIONS </Th> 
+<Th STYLE="BACKGROUND-COLOR: BLUE; width:175px;">TEMPLATE </Th> 
+</tr>
+
+<!--FOOD BANK-->
+
+<tr>
+<td>  FOODBANK NEW ZEALAND </td>
+<td> 
+
+<a href="https://www.google.com/maps/d/embed?mid=1c_huP0bjulVRS48NdOgq_1bsMoWR-Wh8&ehbc=2E312F&z=6" 
+target=”_blank” attribute>
+LINK </a>
+</td> </tr> 
+
+<!--  ROTORUA AMENITIES -->
+
+<tr hidden>
+<td>  ROTORUA AMENITIES MAP </td>
+<td> 
+
+<a href="https://www.google.com/maps/d/embed?mid=1UFuPdoPdmCWQFq5Ot6fQi0Jg2jwfrso&ehbc=2E312F&z=13"
+target=”_blank” attribute>
+LINK </a>
+</td>
+</tr>
+
+<!--  WELLINGTON MAP -->
+
+<tr hidden>
+<td>  WELLINGTON AMENITIES MAP [AQUILA] </td>
+<td> 
+
+<a href="https://viewer.mapme.com/community-partners-wellington?categories=14502559-ed85-4fb5-b99a-14f365b28296.f5b9fb6d-06f5-46fb-9718-17e3fc68af56_5546ab92-3be7-4444-997a-7cccd18df60d_93996dde-40e8-4ab2-bdf5-c9ab401dd4b0_386c0101-0bd1-4d34-a7d0-c68caad88fb8_14502559-ed85-4fb5-b99a-14f365b28296-other_51deb9fe-78b9-45bd-bc80-e7f7f43b5d0c_79500773-5636-4b43-8a04-06d63c37a20d_71b2b760-a853-401b-b357-cf6c2fa6bb81_3240c719-0b0b-4f35-93e6-f55c8f6df8a0_2ad4b6ab-9864-4a8e-853e-a95dd72dc20e,08af602c-45d2-41e6-8157-a66dfe5c41a5,cc2dc034-1929-4b7e-8515-b2749195c8f9.3d6698fb-6999-4c30-8c8d-dcfec65797f8_f21068d3-3531-47db-904c-d22e8a8744b1_0d715e5d-29cb-4a6e-a247-7f2ad6bedcd6,ac51fb83-bd4c-4a2f-9a4d-cde6fb7121f8"
+target=”_blank” attribute>
+LINK </a>
+</td></tr>
+
+</table>
+
+<table id="table1">
+<tr> 
+<Th>REFERRAL OPTIONS </Th> 
+<Th style="width:175px;">TEMPLATE </Th> 
+</tr>
+
+<!-- Work Broker -->
+
+<tr>
+<td>  Refer to Work Broker </td>
+<td> 
+
+<a href="
+mailto:Ready2work_Waikato@msd.govt.nz?
+subject=Work%20Broker%20Referral%20&
+body=Kia%20 ora%20 Work%20 Broker%20 Team, %0D%0D
+
+This%20 client%20 has%20 asked%20 for%20 a%20 referral%20 for%20 employment%20 support. %0D%0D
+
+Name:%0D
+Phone / Email:%0D
+Most%20 recent%20 experience:%0D
+Industries / roles%20 of%20 interest:%0D
+Able%20 to%20 get%20 to%20 work:%0D
+Full%20 time%20 or%20 Part%20 time:%0D
+CV%20 (yes/no): %0D%0D
+
+Thank%20 you%20">
+Work Broker Link </a>
+</td> </tr> 
+
+<!--  Family Violence -->
+
+<tr>
+<td>  Refer to Family Violence </td>
+<td> <a href="
+mailto:Kerry.tudor001@msd.govt.nz?
+subject=Family%20Violence%20Referral%20&
+body=Kia%20 ora%20 Family%20 Violence%20 Team, %0D%0D
+
+This%20 client%20 has%20 reached%20 out%20 for%20 support%20 and%20 has%20 indicated%20 that%20 they%20 would%20 like%20 to%20 be%20 referred%20 for%20 Family%20 Harm%20 support.%0D%0D
+Here%20 are%20 the%20 best%20 contact%20 details. %0D%0D
+
+Name:%0D
+Swn:%0D
+Best%20 contact:%0D%0D
+
+Thank%20 you%20">
+Family Violence Link </a>
+</td></tr>
+
+<!-- MOE -->
+
+<tr>
+<td>  Refer to MOE </td>
+<td> <a href="
+mailto:Pathways.Waikato@education.govt.nz?
+subject=MOE%20Enrolment%20Referral%20&
+body=Kia%20 ora%20 Waikato%20 Team, %0D%0D
+
+The%20 below%20 parent/guardian%20 has%20 asked%20 for%20 some%20 support%20 with%20 enrolment/attendance%20 for%20 their%20 child/ren.%0D%0D
+
+Best%20 contact%20 details%20 are:%0D%0D
+
+Name:%0D
+Swn:%0D
+Best%20 contact:%0D%0D
+
+Thank%20 you%20">
+MOE Link </a>
+</td></tr>
+
+<!-- Programme Coordinator -->
+    
+<tr>
+<td>  Refer to Programme Coordinator </td>
+<td> <a href="
+mailto:waikato_programme_coordinators@workandincome.govt.nz?
+subject=Programme%20Coordinator%20Referral%20&
+body=Hi%20 Wendy,%0D%0D
+
+This%20 client%20 has%20 indicated%20 that%20 they%20 would%20 benefit%20 from%20 a%20 discussion%20 about%20 Skills%20 for%20 Industry%20 and%20 Work%20 Preparation%20 programmes%20. %0D%0D
+
+We%20 have%20 advised%20 that%20 they%20 will%20 be%20 contacted%20 shortly. %0D%0D
+
+Name:%0D
+Swn: %0D
+Best%20 Contact%20 Method:%0D
+Any%20 notes:%0D%0D
+
+Thank%20 you 
+
+">
+
+Programme Coordinator </a>
+
+</td> </tr> 
+
+<!--HOUSING BROKER referral TABLE -->
+    
+<tr id="referralButton0a">
+<td > HOUSING BROKER REFERRAL PROCESS </td>
+<td> 
+
+<button
+id="tableButton"
+style="
+height: 25px;
+margin: 0px 3px -1px 1px;
+padding: 0px;
+width: 100%;"
+onclick="referralHousingBroker()"> SHOW / HIDE </button>
+
+</td></tr>
+
+<td hidden id="referralButton0b" colspan="2">
+
+Please click the following link and complete the required fields 
+
+<a href="
+mailto:waikato_housing_brokers@msd.govt.nz?
+subject=Housing Broker Referral&
+body=Referral Template%0D%0D
+Full Name:%0D
+Client Number:%0D
+Phone Number:%0D
+Email:%0D%0D
+
+Does this whanau need our help to prevent EH or support out of EH%0D
+If in EH, where and how long have they been in EH%0D
+Are they first time renters or have renting history?%0D
+If first time renter, have you registered them (or attended) a Ready to Rent program?%0D
+If they have rented before, can you please provide details i.e.%0D
+	%20%20%20Duration%0D
+	%20%20%20Address%0D
+	%20%20%20Landlord%0D
+	%20%20%20Reason for leaving%0D
+	%20%20%20Mediation or tribunal history?%0D
+	%20%20%20Written references available? i.e. motelier, landlord, character, boarding%0D
+Number of adults and children in household:%0D
+Where do the children attend school (if school aged)%0D
+Do they have any pets?%0D
+If yes, please provide the following:%0D
+	%20%20%20Number of pets.%0D
+	%20%20%20Type of pet i.e. cat, dog, rat%0D
+	%20%20%20Breed?%0D
+	%20%20%20Name and age(s)?%0D
+	%20%20%20Are they microchipped?%0D
+	%20%20%20Council registered?%0D
+	%20%20%20Desexed?%0D
+	%20%20%20What is their nature like? i.e... outdoor, indoor, friendly, socialised, toilet trained, attended obedience classes%0D
+	%20%20%20Do they have any references?%0D
+Do they have a tenancy portal profile created?%0D
+Do they have a car to attend house viewings?%0D%0D
+Comments
+
+%20
+
+%0D
+
+%0D%0D 
+
+">
+Link </a>
+
+<br> 
+<p style="margin:-15px;"></p> <br>
+<b>CMS: </b><BR>
+Once email has been sent Copy and paste the email info into CMS. Follow the prompts <br>
+<p style="margin:-15px;"></p> <br>
+1.	Service Delivery Case (top right corner)<br> 
+2.	Add ‘New’ Client Event Note<br>
+3.	Click on following fields in drop down boxes - Service Delivery / Housing / Referral / Save / Profile to Housing Brokers / Create<br>
+<p style="margin:-15px;"></p> <br>
+
+<b>Title: </b>Profile to Housing Brokers<br>
+<p style="margin:-15px;"></p> <br>
+
+*Please advise in title if the referral is Prevent / Support or Sustain* <br>
+<p style="margin:-15px;"></p> <br>
+
+<b>Prevent<br> </b>
+To transition a whanau from one rental to another in the private sector to avoid EH.<br>
+<p style="margin:-15px;"></p> <br>
+
+<b>Support<br></b>
+To support a whanau in EH to secure a rental in the private sector.<br>
+<p style="margin:-15px;"></p> <br>
+
+<b>Sustain<br></b>
+To support a whanau to remain in their home long term. <br>
+<p style="margin:-15px;"></p> <br>
+
+</td> 
+
+
+<!-- THIS TABLE IS HIDDEN, THIS IS AN EXAMPLE OF AN INTERACTIVE FORM WITHIN A FORM THAT CAN BE ATTACHED IN AN EMAIL AS AN ALTERNATIVE TO THE MAILTO OPTION 
+
+<table style="
+margin:15px; 
+width: calc(100% - 30px); 
+border-collapse:collapse
+border: 1px solid;
+">
+<tr> 
+<Th style="background-color:white; color:black; width:575px"> referral TEMPLATE </Th> 
+<Th style="background-color:white; color:black; width:175px;"> ANSWERS </Th> 
+</tr>
+
+<tr>  <td>  Does this whanau need our help to prevent or support out of EH </td>  
+<td contenteditable> </td>  </tr>
+
+<tr>  <td>  If applicable, how long have they been in EH </td>  
+<td contenteditable> </td>  </tr>
+
+<tr>  <td>  Are they first time renters or have renting history? </td>   
+<td contenteditable> </td>  </tr>
+
+<tr>  <td>  If first time renter, have you registered them, or have they attended a Ready to Rent program? </td>   
+<td contenteditable> </td>  </tr>
+
+<tr>  <td>  If they have rented before, please provide the following details; </td> <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Duration </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Address </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Landlord </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Reason for leaving </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Medication or tribunal history? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Written references available? <br> i.e. motelier, landlord, character, boarding </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  Number of adults and children in household: </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  Where do the children attend school (if school aged) </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  Do they have any pets? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  If yes, please provide the following: </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Number of pets. </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Type of pet i.e. cat, dog, rat </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Breed? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Name and age(s)? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Are they microchipped? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Council registered? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  Desexed? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;">  What is their nature like? i.e... outdoor, indoor, friendly, socialised, toilet trained, attended obedience classes </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td style="padding-left:15px;"> Do they have any references? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  Do they have a tenancy portal profile created? </td>   <td contenteditable> </td>  </tr>
+
+<tr>  <td>  Do they have a car to attend house viewings? </td>   
+<td contenteditable style="border-bottom: 1px solid #ddd;"> </td>  </tr>
+
+<tr>  <td >  Comments </td>   </tr>
+
+<tr>  <td colspan="2" style="height:100px;" contenteditable>   </td>  </tr>
+
+</table>
+
+<button
+style="
+height: 25px;
+margin: 0px 3px 5px 1px;
+padding: 0px;
+width: 49%;"
+onclick="CopyreferralTable(document.getElementById('referralTable'))"> 
+COPY 
+</button>
+
+<button
+style="
+height: 25px;
+margin: 0px 3px 5px 1px;
+padding: 0px;
+width: 49%;"
+onclick="MAILTO()"> 
+EMAIL 
+</button>
+-->
+
+<!--READY TO RENT BUTTON-->
+    
+<tr id="referralButton1a">
+<td > READY TO RENT REFERRAL PROCESS </td>
+<td> 
+
+<button
+style="
+height: 25px;
+margin: 0px 3px -1px 1px;
+padding: 0px;
+width: 100%;"
+onclick="referralReadyToRent()"> SHOW / HIDE </button>
+
+</td></tr>
+
+<!-- Ready to Rent -->
+
+<td hidden id="referralButton1b" colspan="2">
+
+From the clients ‘Home Page’ in CMS <br>
+Click ‘Service Delivery Case’ <br>
+Click ‘Referrals’ <br>
+In “Add Referrals” Tab enter the “Referral ID/ Activity ID” found in Housing 101 here: <br>
+
+<a href="onenote://corp.ssi.govt.nz/shared/W&I/Waikato/HMV/FTN_Backup/EH/HOUSING%20101/HOUSING%20BROKERS.one#Ready%20to%20Rent&section-id={921932C1-C40A-413B-8E57-EF229881A149}&page-id={6119FE71-FC0B-4A1C-9459-566085D6FB58}&end">One Note Ready to rent link</a><br>
+<p style="margin:-15px;"></p> <br>
+
+Course details, including dates can be found in this One Note. <br>
+You can also find a draft email to send to whanau once you have referred them in CMS (copy paste). <br></td> 
+
+<!--NAVIGATORS BUTTON-->
+    
+<tr id="referralButton2a">
+<td > NAVIGATIONAL SERVICES REFERRAL PROCESS </td>
+<td> 
+
+<button
+style="
+height: 25px;
+margin: 0px 3px -1px 1px;
+padding: 0px;
+width: 100%;"
+onclick="referralNavigational()"> SHOW / HIDE </button>
+
+</td></tr>
+
+<!-- Navigators -->
+
+<td hidden id="referralButton2b" colspan="2">
+
+<b> Details </b> for current Navigation Services can be found here:  
+
+<a href="onenote://corp.ssi.govt.nz/shared/W&I/Waikato/HMV/FTN_Backup/EH/HOUSING%20101/Housing%20Navigators.one#section-id={8717C5A6-EAA7-434A-8768-1C6D448E2C0F}&end">Housing Navigators:</a>
+
+<br> <p style="margin:-15px;"></p> <br>
+
+<b> Referral </b> email addresses for Navigation Services can be found in Client Insights, CMS Opportunities or  
+
+<a href="onenote://corp.ssi.govt.nz/shared/W&I/Waikato/HMV/FTN_Backup/EH/HOUSING%20101/Housing%20Navigators.one#Housing%20Navigators&section-id={8717C5A6-EAA7-434A-8768-1C6D448E2C0F}&page-id={59CFB269-0D4F-4EF5-B3AD-1A2270C1CEB1}&end">OneNote</a>
+
+<br>
+<p style="margin:-15px;"></p> <br>
+
+<b> Email </b> Letter of Referral (LOR) to provider by clicking 
+
+<a href="
+mailto:?
+cc=Waikato_Programme_Coordinators@workandincome.govt.nz&
+subject=Programme Coordinator Referral&
+body=Referral Template%0D%0D
+
+Client Name:%0D
+Client Address:%0D
+Date of Birth:%0D
+Gender:%0D
+Phone Number:%0D
+Email:%0D
+Alternative contact details:%0D
+Benefit:%0D
+Public Housing Rating:%0D
+Client Number:%0D
+Number of people in household: [number of adults and children in total]%0D
+Adults: [How many?]%0D
+*Primary adult noted as above.%0D
+Partner: [Name, gender, date of birth]%0D
+Children: [How many? Name all children, their genders, and their dates of birth]%0D
+	Client Risk: [Significant risk factors and / or potential behavioural issues that MSD is aware of]%0D
+-	Gang affiliation:%0D 
+-	FV/Protection Orders/Custody concerns:%0D 
+-	History of addiction/substance abuse:%0D 
+-	Current probation:%0D 
+	Probation Conditions:%0D 
+-	Criminal History:%0D 
+-	Credit History:%0D 
+-	Tenancy references:%0D  
+%0D
+Please don’t hesitate to contact me if you have any questions.%0D
+Ngā mihi,%0D
+
+">
+Here </a>
+<p style="margin:-15px;"></p> <br>
+
+<b>Refer Client </b> in CMS through either <br>
+•	Client Insights <br>
+&emsp;	o	Contracted Services Tab<br>
+&emsp;	o	Locate Service and Select Launch CMS Referrals Tab<br>
+&emsp;  o	Click Search<br>
+&emsp;  o	Click Search<br>
+&emsp;  o	Click Search<br>
+&emsp;	o	Select circle to confirm and click Refer<br>
+&emsp;	o	Enter Expected Start Date (10 Days from today)<br>
+&emsp;	o	Enter Expected End Date (12 Months from today) <br>
+&emsp;	o	Save<br>
+•	Referrals tab in Clients Service Delivery Case.<br>
+&emsp;	o	Add Referral<br>
+&emsp;	o	Add Activity ID then enter or search<br>
+&emsp;	o	Select circle to confirm and click Refer<br>
+&emsp;	o	Enter Expected Start Date (10 Days from today)<br>
+&emsp;	o	Enter Expected End Date (12 Months from today) <br>
+&emsp;	o	Save<br>
+
+<p style="margin:-15px;"></p> <br>
+
+CEN note is completed advising referral to provider has been made.<br>
+
+<!--FINANCIAL CAPABILITY BUTTON-->
+    
+<tr id="referralButton3a">
+<td > FINANCIAL CAPABILITY REFERRAL PROCESS </td>
+<td> 
+
+<button
+style="
+height: 25px;
+margin: 0px 3px -1px 1px;
+padding: 0px;
+width: 100%;"
+onclick="referralFinancialCapability()"> SHOW / HIDE </button>
+
+</td></tr>
+
+<!-- Financial Capability -->
+
+<td hidden id="referralButton3b" colspan="2">
+
+Clients can self refer to MSDs free financial helpline <b>MoneyTalks</b> for confidential advice and to be connected to BFC services. <br>
+<p style="margin:-15px;"></p> <br>
+
+•	Freephone: 0800 345 123<br>
+•	Text: 4029<br>
+•	Email: help@moneytalks.co.nz<br>
+•	Online chat and more information: www.moneytalks.co.nz<br>
+<p style="margin:-15px;"></p> <br>
+
+Services Available:<br>
+<p style="margin:-15px;"></p> <br>
+
+<b>•	Financial mentors: </b> <br>
+one-on-one service focused on helping individuals and whānau with their finances <br>
+<b>•	MoneyMates </b> <br> peer-led support groups that encourage people to learn from others as they talk about money and finances<br>
+<b>•	Building Financial Capability Plus Kahukura </b> <br> intensive support for people with complex needs <br>
+<b>•	The Generator </b> <br> a community action initiative that aims to support income-generating activities by providing seed funding for micro enterprise<br>
+<b>•	Microfinance and Debt Solutions </b> <br> affordable credit for people and whānau on low to medium incomes
+
+<br></td>
+              
+</table>
+
+<!-- File Note -->
+
+<div class="item" id="FileNote" visible>
+
+<p style="margin-bottom:10px;  background-color:#a82877; color:white; padding: 10px 0px;">
+
+&emsp; FILE NOTE: &emsp; Characters used &emsp; <span id="total"> </span> &emsp; | &emsp; Characters free &emsp; <span id="remaining">  </span>  &emsp; | &emsp; Characters over &emsp; <span id="over"> 	   </span> 
+
+</p>
+
+<textarea id="Area3" onpaste="GenerateFileNote()" oninput="textChanged(this)" onkeyup="CharacterLimits(this)" readonly> </textarea>
+
+</div>
+
+<!-- maps 
+
+<div class="pic" hidden></div>
+
+<iframe src=https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d6645665.563698414!2d173.2994130643685!3d-41.02936221222532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2snz!4v1683597886684!5m2!1sen!2snz 
+ width="100%" height="450" style="border:0;" loading="lazy"> SATELLITE MAP</iframe>
+
+<iframe src=https://www.google.com/maps/d/embed?mid=1UFuPdoPdmCWQFq5Ot6fQi0Jg2jwfrso&ehbc=2E312F width="100%" height="450" style="border:0;" loading="lazy"></iframe>
+
+</div>
+
+<p>This is a &nbsp; regular space.</p>
+<p>This is a &ensp; two spaces gap.</p>
+<p>This is a &emsp; four spaces gap.</p>
+
+<a style="margin-top: 10px; margin-bottom: 10px;" 
+href="#" onClick="TechnicalNote()"> Technical Notes </a> 
+
+
+}
+</form>
+
+-->
+
+<script>
+
+//	disabled right click i.e. copy and save as.
+
+document.oncontextmenu = new Function("return false");
+
+<!-- ---------- JUSTICE [END] ---------- -->
+
+function Justice(select) {
+
+if(select.value=="Corrections") 
+{
+document.getElementById("Question1b").removeAttribute("hidden", "hidden");
+}
+
+else if(select.value=="Justice") 
+{
+document.getElementById("Question1b").removeAttribute("hidden", "hidden");
+}
+
+else
+{
+document.getElementById("Question1b").setAttribute("hidden", "hidden");
+}
+}
+
+<!-- ---------- referral HOUSING BROKER [END] ---------- -->
+
+function referralHousingBroker() {
+ 
+if (document.getElementById("referralButton0b").hasAttribute("hidden", "hidden"))
+{
+document.getElementById("referralButton0b").removeAttribute("hidden", "hidden");
+document.getElementById("referralButton0a").setAttribute("style", "background-color:gray; color:white; font-weight: 900;");
+}
+
+else { 
+document.getElementById("referralButton0b").setAttribute("hidden", "hidden") 
+document.getElementById("referralButton0a").setAttribute("style", "background-color:white; color:gray; font-weight: 400;");
+}
+}
+
+<!-- ---------- COPY referral TABLE [END] ---------- -->
+
+ function CopyreferralTable(el) {
+
+    var body = document.body, range, sel;
+
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) 
+        
+		{
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+
+    } else if (body.createTextRange) 
+		{
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+        
+    	}
+        
+        document.execCommand('copy');
+}
+
+<!-- ---------- referral READY TO RENT [END] ---------- -->
+
+function referralReadyToRent() {
+ 
+if (document.getElementById("referralButton1b").hasAttribute("hidden", "hidden"))
+{
+document.getElementById("referralButton1b").removeAttribute("hidden", "hidden");
+document.getElementById("referralButton1a").setAttribute("style", "background-color:gray; color:white; font-weight: 900;");
+}
+
+else { 
+document.getElementById("referralButton1b").setAttribute("hidden", "hidden") 
+document.getElementById("referralButton1a").setAttribute("style", "background-color:white; color:gray; font-weight: 400;");
+}
+}
+
+<!-- ---------- referral NAVIGATIONAL [END] ---------- -->
+
+function referralNavigational() {
+ 
+if (document.getElementById("referralButton2b").hasAttribute("hidden", "hidden"))
+{
+document.getElementById("referralButton2b").removeAttribute("hidden", "hidden");
+document.getElementById("referralButton2a").setAttribute("style", "background-color:gray; color:white; font-weight: 900;");
+}
+
+else { 
+document.getElementById("referralButton2b").setAttribute("hidden", "hidden") 
+document.getElementById("referralButton2a").setAttribute("style", "background-color:white; color:gray; font-weight: 400;");
+}
+}
+
+<!-- ---------- referral FINANCIAL CAPABILITY [END] ---------- -->
+
+function referralFinancialCapability() {
+ 
+if (document.getElementById("referralButton3b").hasAttribute("hidden", "hidden"))
+{
+document.getElementById("referralButton3b").removeAttribute("hidden", "hidden");
+document.getElementById("referralButton3a").setAttribute("style", "background-color:gray; color:white; font-weight: 900;");
+}
+
+else { 
+document.getElementById("referralButton3b").setAttribute("hidden", "hidden") 
+document.getElementById("referralButton3a").setAttribute("style", "background-color:white; color:gray; font-weight: 400;");
+}
+}
+
+<!-- ---------- TECHNICAL NOTE [END] ---------- -->
+
+function TechnicalNote() {
+  let child = window.open(target="_blank","myChild");
+  child.document.write(`<html>
+    <head>
+	<title>Title Section </title>
+    </head>
+    
+    <body>
+    
+    <p> Technical section </p>
+    </body>
+    
+   </html>`);
+
+  child.document.close();
+}
+
+
+function Referral () {
+
+if (document.getElementById("referralButton0b").hasAttribute("hidden", "hidden"))
+{
+document.getElementById("referralButton0b").removeAttribute("hidden", "hidden");
+document.getElementById("referralButton0a").setAttribute("style", "background-color:gray; color:white; font-weight: 900;");
+}
+
+else { 
+document.getElementById("referralButton0b").setAttribute("hidden", "hidden") 
+document.getElementById("referralButton0a").setAttribute("style", "background-color:white; color:gray; font-weight: 400;");
+}
+}
+
+
+<!-- ---------- MAILTO HOUSING referral ---------- -->
+
+
+function MAILTO() 
+{
+window.location.href = "mailto:Waikato_housing_brokers@msd.govt.nz?subject=Housing%20Broker%20Referral%20&body=PASTE%20TABLE%20HERE%20";
+}
+
+//
+// mailto:Wendy.Ward004@msd.govt.nz?
+// subject=Programme%20Coordinator%20Referral%20&
+// body=Hi%20 Wendy,%0D%0D
+
+// This%20 client%20 has%20 indicated%20 that%20 they%20 would%20 benefit%20 from%20 a%20 discussion%20 about%20 // // Skills%20 for%20 Industry%20 and%20 Work%20 Preparation%20 programmes%20. %0D%0D
+
+// We%20 have%20 advised%20 that%20 they%20 will%20 be%20 contacted%20 shortly. %0D%0D
+
+// Name:%0D
+// Swn: %0D
+// Best%20 Contact%20 Method:%0D
+// Any%20 notes:%0D%0D
+
+// Thank%20 you 
+//
+
+
+<!-- ---------- EXAMPLE referral [END] ---------- -->
+
+function ReferralEXAMPLE() {
+  let child = window.open(target="_blank","myChild");
+  child.document.write(`
+
+<html>
+<head> <title> HOUSING BROKER referral </title> </head>
+    
+<body>
+    
+<h3> HOUSING BROKER referral TEMPLATE </h3>
+
+<p> From the clients ‘Home Page’ in CMS <br>
+Click ‘Service Delivery Case’ <br>
+Click ‘Referrals’ <br>
+In “Add Referrals” Tab enter the “Referral ID/ Activity ID” found in Housing 101 here: <br>
+            
+<a href="onenote://corp.ssi.govt.nz/shared/W&I/Waikato/HMV/FTN_Backup/EH/HOUSING%20101/HOUSING%20BROKERS.one#Ready%20to%20Rent&section-id={921932C1-C40A-413B-8E57-EF229881A149}&page-id={6119FE71-FC0B-4A1C-9459-566085D6FB58}&end">One Note Ready to rent link</a> <br><br>
+            
+Course details, including dates can be found in this One Note.<br>
+
+You can also find a draft email to send to whanau once you have referred them in CMS (copy paste).<br>
+            
+</p>
+</body> 
+</html>`
+  
+);
+
+child.document.close();
+}
+
+<!-- ---------- HELP OTHER [GENERAL] ---------- -->
+
+function HelpOther(select){
+
+// true false code allows an option to be unselected without resetting all of the dependencies
+
+var text		= getSelectValues(document.getElementById("Question2a"));
+var other 		= text.includes("Other");
+var medical 	= text.includes("Medical");
+var Harm 		= text.includes("harm");
+var Civil 		= text.includes("disasters");
+
+Civildefence
+
+if(other==true){
+document.getElementById("Question2b").removeAttribute("hidden", "hidden");
+}
+
+if(medical==true){
+document.getElementById("Question2c").removeAttribute("hidden", "hidden");
+}
+
+if(Harm==true){
+document.getElementById("Question2d").removeAttribute("hidden", "hidden");
+}
+
+if(Civil==true){
+document.getElementById("Civildefence").removeAttribute("hidden", "hidden");
+}
+
+if(other==false){
+document.getElementById("Question2bSelect").value = "";
+document.getElementById("Question2b").setAttribute("hidden", "hidden");
+document.getElementById("Question2bSelect").classList.add("error-input"); 
+}
+
+if(medical==false){
+document.getElementById("Question2cSelect").value = "";
+document.getElementById("Question2c").setAttribute("hidden", "hidden");
+document.getElementById("Question2cSelect").classList.add("error-input"); 
+}
+
+if(Civil==false){
+document.getElementById("Civildefence").setAttribute("hidden", "hidden");
+}
+
+// if(Harm==false){
+// document.getElementById("Question2dSelect").value = "Not Selected";
+// document.getElementById("Question2d").setAttribute("hidden", "hidden");
+// document.getElementById("Question2dSelect").classList.add("error-input"); 
+// }
+
+}
+
+<!-- ----------  CHARACTER LIMITS [SITUATION] ---------- -->
+
+function CharacterLimits(select){
+
+//  original count function
+//  var Count2b = document.querySelector("#Question2bSelect").value.length;
+//  document.getElementById("Count2bCount").innerHTML = Count2b; 
+
+var Count2b =0;
+var count2bValue										= document.querySelector("#Question2bSelect").value;
+var count2bSplit             							= count2bValue.split(/\n/).length;
+var lines2b              								= Math.max(0, count2bSplit);
+var characters2b   	   									= document.querySelector("#Question2bSelect").value.length -1;
+var Count2b              								= characters2b + lines2b;
+document.getElementById("Count2bCount").innerHTML 		= Count2b; 
+
+if (Count2b > 700) 
+{ document.getElementById("MaxCharacters2b").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters2b").setAttribute("hidden", "hidden"); }
+
+var count2cValue										= document.querySelector("#Question2cSelect").value;
+var count2cSplit             							= count2cValue.split(/\n/).length;
+var lines2c              								= Math.max(0, count2cSplit);
+var characters2c   	   									= document.querySelector("#Question2cSelect").value.length -1;
+var Count2c              								= characters2c + lines2c;
+document.getElementById("Count2cCount").innerHTML 		= Count2c; 
+
+if (Count2c > 700) 
+{ document.getElementById("MaxCharacters2c").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters2c").setAttribute("hidden", "hidden"); }
+
+var count3aValue										= document.querySelector("#Question3aSelect").value;
+var count3aSplit             							= count3aValue.split(/\n/).length;
+var lines3a              								= Math.max(0, count3aSplit);
+var characters3a   	   									= document.querySelector("#Question3aSelect").value.length -1;
+var Count3a              								= characters3a + lines3a;
+document.getElementById("Count3aCount").innerHTML 		= Count3a;
+
+if (Count3a > 700) 
+{ document.getElementById("MaxCharacters3a").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters3a").setAttribute("hidden", "hidden"); }
+
+var count5cValue										= document.querySelector("#Question5cSelect").value;
+var count5cSplit             							= count5cValue.split(/\n/).length;
+var lines5c              								= Math.max(0, count5cSplit);
+var characters5c   	   									= document.querySelector("#Question5cSelect").value.length -1;
+var Count5c              								= characters5c + lines5c;
+document.getElementById("Count5cCount").innerHTML 		= Count5c;
+
+if (Count5c > 700) 
+{ document.getElementById("MaxCharacters5c").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters5c").setAttribute("hidden", "hidden"); }
+
+var count8aValue										= document.querySelector("#Question8aSelect").value;
+var count8aSplit             							= count8aValue.split(/\n/).length;
+var lines8a              								= Math.max(0, count8aSplit);
+var characters8a   	   									= document.querySelector("#Question8aSelect").value.length -1;
+var Count8a              								= characters8a + lines8a;
+document.getElementById("Count8aCount").innerHTML 		= Count8a;
+
+if (Count8a > 700) 
+{ document.getElementById("MaxCharacters8a").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters8a").setAttribute("hidden", "hidden"); }
+
+var count10bValue										= document.querySelector("#Question10bSelect").value;
+var count10bSplit             							= count10bValue.split(/\n/).length;
+var lines10b            								= Math.max(0, count10bSplit);
+var characters10b   	   									= document.querySelector("#Question10bSelect").value.length -1;
+var Count10b             								= characters10b + lines10b;
+document.getElementById("Count10bCount").innerHTML 		= Count10b;
+
+if (Count10b > 700) 
+{ document.getElementById("MaxCharacters10b").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters10b").setAttribute("hidden", "hidden"); }
+
+var count13bValue										= document.querySelector("#Question13bSelect").value;
+var count13bSplit             							= count13bValue.split(/\n/).length;
+var lines13b              								= Math.max(0, count13bSplit);
+var characters13b   	   								= document.querySelector("#Question13bSelect").value.length -1;
+var Count13b              								= characters13b + lines13b;
+document.getElementById("Count13bCount").innerHTML 		= Count13b;
+
+if (Count13b > 700) 
+{ document.getElementById("MaxCharacters13b").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters13b").setAttribute("hidden", "hidden"); }
+
+var count14cValue										= document.querySelector("#Question14cSelect").value;
+var count14cSplit             							= count14cValue.split(/\n/).length;
+var lines14c              								= Math.max(0, count14cSplit);
+var characters14c   	   								= document.querySelector("#Question14cSelect").value.length -1;
+var Count14c              								= characters14c + lines14c;
+document.getElementById("Count14cCount").innerHTML 		= Count14c; 
+
+if (Count14c > 700) 
+{ document.getElementById("MaxCharacters14c").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters14c").setAttribute("hidden", "hidden"); }
+
+var count15cValue										= document.querySelector("#Question15cSelect").value;
+var count15cSplit             							= count15cValue.split(/\n/).length;
+var lines15c              								= Math.max(0, count15cSplit);
+var characters15c   	   								= document.querySelector("#Question15cSelect").value.length -1;
+var Count15c              								= characters15c + lines15c;
+document.getElementById("Count15cCount").innerHTML 		= Count15c; 
+
+if (Count15c > 700) 
+{ document.getElementById("MaxCharacters15c").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters15c").setAttribute("hidden", "hidden"); }
+
+var count18aValue										= document.querySelector("#Question18aSelect").value;
+var count18aSplit             							= count18aValue.split(/\n/).length;
+var lines18a              								= Math.max(0, count18aSplit);
+var characters18a   	   								= document.querySelector("#Question18aSelect").value.length -1;
+var Count18a              								= characters18a + lines18a;
+document.getElementById("Count18aCount").innerHTML 		= Count18a;
+
+if (Count18a > 700) 
+{ document.getElementById("MaxCharacters18a").removeAttribute("hidden"); }
+else { document.getElementById("MaxCharacters18a").setAttribute("hidden", "hidden"); }
+}
+
+<!-- ---------- SHOW DISTRICT [SITUATION] ---------- -->
+
+function showDistrict(select){
+
+document.getElementById("Question4b").value = "Not selected";
+document.getElementById("Question4b").classList.add("error-input"); 
+
+for (var i = 0; i < document.getElementsByName("ALL").length; i++) {
+document.getElementById("1D").setAttribute("hidden", "hidden");
+}
+
+document.getElementById("1D").setAttribute("hidden", "hidden");
+document.getElementById("2D").setAttribute("hidden", "hidden");
+document.getElementById("3D").setAttribute("hidden", "hidden");
+
+document.getElementById("4D1").setAttribute("hidden", "hidden");
+document.getElementById("4D2").setAttribute("hidden", "hidden");
+document.getElementById("4D3").setAttribute("hidden", "hidden");
+
+document.getElementById("5D").setAttribute("hidden", "hidden");
+document.getElementById("6D").setAttribute("hidden", "hidden");
+document.getElementById("7D").setAttribute("hidden", "hidden");
+document.getElementById("8D").setAttribute("hidden", "hidden");
+document.getElementById("9D").setAttribute("hidden", "hidden");
+document.getElementById("10D").setAttribute("hidden", "hidden"); 
+document.getElementById("11D").setAttribute("hidden", "hidden"); 
+document.getElementById("12D").setAttribute("hidden", "hidden");
+document.getElementById("13D").setAttribute("hidden", "hidden");
+document.getElementById("14D").setAttribute("hidden", "hidden");
+document.getElementById("15D").setAttribute("hidden", "hidden");
+document.getElementById("16D").setAttribute("hidden", "hidden");
+document.getElementById("17D").setAttribute("hidden", "hidden"); 
+document.getElementById("18D").setAttribute("hidden", "hidden");
+document.getElementById("19D").setAttribute("hidden", "hidden"); 
+document.getElementById("20D").setAttribute("hidden", "hidden");
+document.getElementById("21D").setAttribute("hidden", "hidden");
+document.getElementById("22D").setAttribute("hidden", "hidden");
+document.getElementById("23D").setAttribute("hidden", "hidden");
+document.getElementById("24D").setAttribute("hidden", "hidden");
+document.getElementById("25D").setAttribute("hidden", "hidden"); 
+document.getElementById("26D").setAttribute("hidden", "hidden"); 
+document.getElementById("27D").setAttribute("hidden", "hidden");
+document.getElementById("28D").setAttribute("hidden", "hidden");
+document.getElementById("29D").setAttribute("hidden", "hidden");
+document.getElementById("30D").setAttribute("hidden", "hidden");
+document.getElementById("31D").setAttribute("hidden", "hidden");
+document.getElementById("32D").setAttribute("hidden", "hidden");
+document.getElementById("33D").setAttribute("hidden", "hidden");
+document.getElementById("34D").setAttribute("hidden", "hidden");
+document.getElementById("35D").setAttribute("hidden", "hidden");
+document.getElementById("36D").setAttribute("hidden", "hidden");
+document.getElementById("37D").setAttribute("hidden", "hidden");
+document.getElementById("38D").setAttribute("hidden", "hidden");
+document.getElementById("39D").setAttribute("hidden", "hidden");
+document.getElementById("40D").setAttribute("hidden", "hidden");
+document.getElementById("41D").setAttribute("hidden", "hidden");
+document.getElementById("42D").setAttribute("hidden", "hidden");
+document.getElementById("43D").setAttribute("hidden", "hidden");
+document.getElementById("44D").setAttribute("hidden", "hidden");
+document.getElementById("45D").setAttribute("hidden", "hidden");
+document.getElementById("46D").setAttribute("hidden", "hidden");
+document.getElementById("47D").setAttribute("hidden", "hidden");
+document.getElementById("48D").setAttribute("hidden", "hidden");
+document.getElementById("49D").setAttribute("hidden", "hidden");
+document.getElementById("50D").setAttribute("hidden", "hidden");
+document.getElementById("51D").setAttribute("hidden", "hidden");
+document.getElementById("52D").setAttribute("hidden", "hidden");
+document.getElementById("53D").setAttribute("hidden", "hidden");
+document.getElementById("54D").setAttribute("hidden", "hidden");
+document.getElementById("55D").setAttribute("hidden", "hidden");
+document.getElementById("56D").setAttribute("hidden", "hidden");
+document.getElementById("57D").setAttribute("hidden", "hidden");
+document.getElementById("58D").setAttribute("hidden", "hidden");
+document.getElementById("59D").setAttribute("hidden", "hidden");
+document.getElementById("60D").setAttribute("hidden", "hidden");
+document.getElementById("61D").setAttribute("hidden", "hidden");
+document.getElementById("62D").setAttribute("hidden", "hidden");
+document.getElementById("63D").setAttribute("hidden", "hidden");
+document.getElementById("64D").setAttribute("hidden", "hidden");
+document.getElementById("65D").setAttribute("hidden", "hidden");
+document.getElementById("66D").setAttribute("hidden", "hidden");
+
+if(select.value=="NORTHLAND")
+{
+document.getElementById("1D").removeAttribute("hidden", "hidden");
+document.getElementById("2D").removeAttribute("hidden", "hidden");
+document.getElementById("3D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="AUCKLAND")
+{
+document.getElementById("4D1").removeAttribute("hidden", "hidden");
+document.getElementById("4D2").removeAttribute("hidden", "hidden");
+document.getElementById("4D3").removeAttribute("hidden", "hidden");
+}
+if(select.value=="WAIKATO")
+{
+document.getElementById("5D").removeAttribute("hidden", "hidden");
+document.getElementById("6D").removeAttribute("hidden", "hidden");
+document.getElementById("7D").removeAttribute("hidden", "hidden");
+document.getElementById("8D").removeAttribute("hidden", "hidden");
+document.getElementById("9D").removeAttribute("hidden", "hidden");
+document.getElementById("10D").removeAttribute("hidden", "hidden"); 
+document.getElementById("11D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="BAY OF PLENTY")
+{
+document.getElementById("12D").removeAttribute("hidden", "hidden");
+document.getElementById("13D").removeAttribute("hidden", "hidden");
+document.getElementById("14D").removeAttribute("hidden", "hidden");
+document.getElementById("15D").removeAttribute("hidden", "hidden");
+document.getElementById("16D").removeAttribute("hidden", "hidden");
+document.getElementById("17D").removeAttribute("hidden", "hidden"); 
+document.getElementById("18D").removeAttribute("hidden", "hidden");
+document.getElementById("19D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="TARANAKI")
+{
+document.getElementById("20D").removeAttribute("hidden", "hidden");
+document.getElementById("21D").removeAttribute("hidden", "hidden");
+document.getElementById("22D").removeAttribute("hidden", "hidden");
+document.getElementById("23D").removeAttribute("hidden", "hidden");
+document.getElementById("24D").removeAttribute("hidden", "hidden");
+document.getElementById("25D").removeAttribute("hidden", "hidden"); 
+document.getElementById("26D").removeAttribute("hidden", "hidden"); 
+}
+if(select.value=="EAST COAST")
+{
+document.getElementById("27D").removeAttribute("hidden", "hidden");
+document.getElementById("28D").removeAttribute("hidden", "hidden");
+document.getElementById("29D").removeAttribute("hidden", "hidden");
+document.getElementById("30D").removeAttribute("hidden", "hidden");
+document.getElementById("31D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="CENTRAL")
+{
+document.getElementById("32D").removeAttribute("hidden", "hidden");
+document.getElementById("33D").removeAttribute("hidden", "hidden");
+document.getElementById("34D").removeAttribute("hidden", "hidden");
+document.getElementById("35D").removeAttribute("hidden", "hidden");
+document.getElementById("36D").removeAttribute("hidden", "hidden");
+document.getElementById("37D").removeAttribute("hidden", "hidden");
+document.getElementById("38D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="WELLINGTON")
+{
+document.getElementById("39D").removeAttribute("hidden", "hidden");
+document.getElementById("40D").removeAttribute("hidden", "hidden");
+document.getElementById("41D").removeAttribute("hidden", "hidden");
+document.getElementById("42D").removeAttribute("hidden", "hidden");
+document.getElementById("43D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="NELSON")
+{
+document.getElementById("44D").removeAttribute("hidden", "hidden");
+document.getElementById("45D").removeAttribute("hidden", "hidden");
+document.getElementById("46D").removeAttribute("hidden", "hidden");
+document.getElementById("47D").removeAttribute("hidden", "hidden");
+document.getElementById("48D").removeAttribute("hidden", "hidden");
+document.getElementById("49D").removeAttribute("hidden", "hidden");
+document.getElementById("50D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="CANTERBURY")
+{
+document.getElementById("51D").removeAttribute("hidden", "hidden");
+document.getElementById("52D").removeAttribute("hidden", "hidden");
+document.getElementById("53D").removeAttribute("hidden", "hidden");
+document.getElementById("54D").removeAttribute("hidden", "hidden");
+document.getElementById("55D").removeAttribute("hidden", "hidden");
+}
+if(select.value=="SOUTHERN")
+{
+document.getElementById("56D").removeAttribute("hidden", "hidden");
+document.getElementById("57D").removeAttribute("hidden", "hidden");
+document.getElementById("58D").removeAttribute("hidden", "hidden");
+document.getElementById("59D").removeAttribute("hidden", "hidden");
+document.getElementById("60D").removeAttribute("hidden", "hidden");
+document.getElementById("61D").removeAttribute("hidden", "hidden");
+document.getElementById("62D").removeAttribute("hidden", "hidden");
+document.getElementById("63D").removeAttribute("hidden", "hidden");
+document.getElementById("64D").removeAttribute("hidden", "hidden");
+document.getElementById("65D").removeAttribute("hidden", "hidden");
+document.getElementById("66D").removeAttribute("hidden", "hidden");
+}
+}
+
+<!-- ---------- ACCOMMODATION TYPE [SITUATION] ---------- -->
+
+function AccType(select){
+
+// from questions 5a
+// note first block clears dependencies in case temporary acc option selected
+// wont work with an else as expected 
+
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+document.getElementById("Question5c").setAttribute("hidden", "hidden");
+document.getElementById("Question6c").setAttribute("hidden", "hidden");
+
+document.getElementById("Question5b").value = "Not selected";
+document.getElementById("Question5b").classList.add("error-input"); 
+
+document.getElementById("Question5cSelect").value = "";
+document.getElementById("Question5cSelect").classList.add("error-input");
+
+document.getElementById("Question6bSelect").value = "Not selected";
+document.getElementById("Question6bSelect").classList.add("error-input");
+
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+
+if(select.value=="Other") 
+{
+document.getElementById("Question5c").removeAttribute("hidden", "hidden"); 
+}
+}
+
+<!-- ---------- SUPPORT YES [SITUATION] ---------- -->
+
+function SupportYes(select)
+
+// with boolean if clicking yes clears all, no need to repeat on no
+{
+if(select.value=="Yes") 
+{
+document.getElementById("section3").setAttribute("hidden", "hidden");
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+document.getElementById("PetNote").setAttribute("hidden", "hidden"); 
+document.getElementById("Question10b").setAttribute("hidden", "hidden"); 
+
+document.getElementById("Question6c").removeAttribute("hidden", "hidden");
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+
+document.getElementById("Question7a").value = "Not selected";
+document.getElementById("Question7a").classList.add("error-input");
+
+document.getElementById("Question8aSelect").value = "";
+document.getElementById("Question8aSelect").classList.add("error-input");
+
+document.getElementById("Question9a").value = "Not selected";
+document.getElementById("Question9a").classList.add("error-input");
+
+document.getElementById("Question9b").value = "Not selected";
+document.getElementById("Question9b").classList.add("error-input");
+
+document.getElementById("Question10aSelect").value = "Not selected";
+document.getElementById("Question10aSelect").classList.add("error-input");
+
+document.getElementById("Question10bSelect").value = "";
+document.getElementById("Question10bSelect").classList.add("error-input");
+
+document.getElementById("Question11aSelect").value = "Not selected";
+document.getElementById("Question11aSelect").classList.add("error-input");
+}
+
+if(select.value=="No")
+{
+document.getElementById("section3").removeAttribute("hidden", "hidden");
+document.getElementById("SupportNote").removeAttribute("hidden", "hidden");
+document.getElementById("Question6c").setAttribute("hidden", "hidden");
+document.getElementById("Question6cSelect").value = "Not selected";
+document.getElementById("Question6cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SECONDARY REASON [MOVING] ---------- -->
+
+function maxThree(select)
+
+// Statistical from Question9b
+
+{
+var Count = document.getElementById("Question9b").selectedOptions.length;
+if (Count > 3) 
+{
+document.getElementById("MaxAlert").removeAttribute("hidden");
+setTimeout(function()
+{ 
+document.getElementById("Question9b").value = "Not selected";
+document.getElementById("Question9b").classList.add("error-input");
+}, 500);
+
+setTimeout(function()
+{ 
+document.getElementById("MaxAlert").setAttribute("hidden", "hidden");
+}, 3500);
+} else  {
+document.getElementById("MaxAlert").setAttribute("hidden", "hidden");
+}
+}
+
+
+<!-- ---------- MOBILITY ISSUES [MOVING] ---------- -->
+
+function mobilityIssues(select){
+
+// from question 10a
+
+if(select.value=="Yes" )
+
+{ document.getElementById("Question10b").removeAttribute("hidden");}
+
+if(select.value=="No" ) {
+document.getElementById("Question10b").setAttribute("hidden", "hidden");
+document.getElementById("Question10bSelect").value = "";
+document.getElementById("Question10bSelect").classList.add("error-input");
+// document.getElementById("MaxCharacters10b").setAttribute("hidden", "hidden");
+}
+}
+
+<!-- ---------- PET ISSUES [MOVING]---------- -->
+
+function petIssues(select){
+
+// from question 11a
+
+if(select.value=="Yes" || select.value=="N/A" )
+{
+document.getElementById("PetNote").setAttribute("hidden", "hidden");
+}
+if(select.value=="No" )
+{
+document.getElementById("PetNote").removeAttribute("hidden");
+}
+}
+
+
+<!-- ---------- LIVEWITH [FAMILY] ---------- -->
+
+function liveWith(select){
+
+// from question 13a
+
+if(select.value=="No" )
+{
+document.getElementById("Question13b").removeAttribute("hidden");
+document.getElementById("Question13bSelect").classList.add("error-input");
+}
+if(select.value=="Yes" )
+{
+document.getElementById("Question13b").setAttribute("hidden", "hidden");
+document.getElementById("Question13bSelect").value = "";
+}
+}
+
+<!-- ---------- CHILDREN [FAMILY] ---------- -->
+
+function childrenYes(select){
+
+// First section resets children group on any change in Q12b.
+// this is because the answers are likely invalid in the case of a change.
+// false section not needed in the case of yes/no questions
+
+var children = document.getElementById("Question12b").value > 0;
+
+document.getElementById("Question14aSelect").value = "Not selected";
+document.getElementById("Question14aSelect").classList.add("error-input");
+
+document.getElementById("Question14bSelect").value = "Not selected";
+document.getElementById("Question14bSelect").classList.add("error-input");
+
+document.getElementById("Question14cSelect").value = "";
+document.getElementById("Question14cSelect").placeholder = "Not selected";
+document.getElementById("Question14cSelect").classList.add("error-input");
+
+document.getElementById("Question14dSelect").value = "Not selected";
+document.getElementById("Question14dSelect").classList.add("error-input");
+
+document.getElementById("Question14eSelect").value = "Not selected";
+document.getElementById("Question14eSelect").classList.add("error-input");
+
+if(children==true) 
+{
+document.getElementById("Children").removeAttribute("hidden", "hidden");
+document.getElementById("FlexiNote").removeAttribute("hidden", "hidden");
+}
+
+if(children==false) 
+{
+document.getElementById("Children").setAttribute("hidden", "hidden");
+
+document.getElementById("Question14aSelect").value = "Not selected";
+document.getElementById("Question14aSelect").classList.add("error-input");
+
+document.getElementById("Question14bSelect").value = "Not selected";
+document.getElementById("Question14bSelect").classList.add("error-input");
+
+document.getElementById("Question14cSelect").value = "";
+document.getElementById("Question14cSelect").placeholder = "Not selected";
+document.getElementById("Question14cSelect").classList.add("error-input");
+
+document.getElementById("Question14dSelect").value = "Not selected";
+document.getElementById("Question14dSelect").classList.add("error-input");
+
+document.getElementById("Question14eSelect").value = "Not selected";
+document.getElementById("Question14eSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SUPPORT [EXTERNAL SERVICES] ---------- -->
+
+function support(select){
+
+// From question 16a
+
+if(select.value=="Yes")
+{
+document.getElementById("Question15b").removeAttribute("hidden");
+}
+if(select.value=="No")
+{
+document.getElementById("Question15b").setAttribute("hidden", "hidden");
+document.getElementById("Question15bSelect").value = "Not selected";
+document.getElementById("Question15bSelect").classList.add("error-input");
+
+document.getElementById("Question15c").setAttribute("hidden", "hidden");
+document.getElementById("Question15cSelect").value = "";
+document.getElementById("Question15cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SERVICEOTHER [EXTERNAL SERVICES] ---------- -->
+
+function serviceOther(select){
+
+// From question 16b
+
+var text 		= getSelectValues(document.getElementById("Question15bSelect"));
+
+if (text.includes("Other")==true || text.includes("Transitional")==true){
+document.getElementById("Question15c").removeAttribute("hidden");
+}
+
+else{
+document.getElementById("Question15c").setAttribute("hidden", "hidden");
+document.getElementById("Question15cSelect").value = "";
+document.getElementById("Question15cSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- [EMPLOYMENT] ---------- -->
+
+function employment(select){
+
+// From question 18a
+
+if(select.value=="Yes"){
+document.getElementById("Question17b").removeAttribute("hidden");
+document.getElementById("Question18a").removeAttribute("hidden");
+}
+if(select.value=="No"){
+document.getElementById("Question17b").setAttribute("hidden", "hidden");
+document.getElementById("Question17bSelect").value = "Not selected";
+document.getElementById("Question17bSelect").classList.add("error-input");
+
+document.getElementById("Question18a").setAttribute("hidden", "hidden");
+document.getElementById("Question18aSelect").value = "Not selected";
+document.getElementById("Question18aSelect").classList.add("error-input");
+}
+}
+
+<!-- ---------- SHOW SUPPORT ---------- -->
+
+function ShowSupport() {
+
+document.getElementById("Section6").removeAttribute("hidden");
+
+// RESET ALL TO DEFAULT WHEN THERE IS ANY CHANGE IN ANSWERS SELECTED, FUNCTIONS BELOW WILL OVERRIDE IF APPLICABLE
+
+var OPT1  = document.getElementById("OPT1"); OPT1.setAttribute('enabled', ' '); OPT1.setAttribute("style", "color: black; font-weight: 500");
+var OPT2  = document.getElementById("OPT2"); OPT2.setAttribute('enabled', ' '); OPT2.setAttribute("style", "color: black; font-weight: 500");
+var OPT3  = document.getElementById("OPT3"); OPT3.setAttribute('enabled', ' '); OPT3.setAttribute("style", "color: black; font-weight: 500");
+var OPT4  = document.getElementById("OPT4"); OPT4.setAttribute('enabled', ' '); OPT4.setAttribute("style", "color: black; font-weight: 500");
+var OPT5  = document.getElementById("OPT5"); OPT5.setAttribute('enabled', ' '); OPT5.setAttribute("style", "color: black; font-weight: 500");
+var OPT6  = document.getElementById("OPT6"); OPT6.setAttribute('enabled', ' '); OPT6.setAttribute("style", "color: black; font-weight: 500");
+var OPT7  = document.getElementById("OPT7"); OPT7.setAttribute('enabled', ' '); OPT7.setAttribute("style", "color: black; font-weight: 500");
+var OPT8  = document.getElementById("OPT8"); OPT8.setAttribute('enabled', ' '); OPT8.setAttribute("style", "color: black; font-weight: 500");
+var OPT9  = document.getElementById("OPT9"); OPT9.setAttribute('enabled', ' '); OPT9.setAttribute("style", "color: black; font-weight: 500");
+var OPT10  = document.getElementById("OPT10"); OPT10.setAttribute('enabled', ' '); OPT10.setAttribute("style", "color: black; font-weight: 500");
+var OPT11  = document.getElementById("OPT11"); OPT11.setAttribute('enabled', ' '); OPT11.setAttribute("style", "color: black; font-weight: 500");
+var OPT12  = document.getElementById("OPT12"); OPT12.setAttribute('enabled', ' '); OPT12.setAttribute("style", "color: black; font-weight: 500");
+var OPT13  = document.getElementById("OPT13"); OPT13.setAttribute('enabled', ' '); OPT13.setAttribute("style", "color: limegreen; font-weight: 900");
+var OPT14  = document.getElementById("OPT14"); OPT14.setAttribute('enabled', ' '); OPT14.setAttribute("style", "color: limegreen; font-weight: 900");
+var OPT15  = document.getElementById("OPT15"); OPT15.setAttribute('enabled', ' '); OPT15.setAttribute("style", "color: black; font-weight: 500");
+var OPT16  = document.getElementById("OPT16"); OPT16.setAttribute('enabled', ' '); OPT16.setAttribute("style", "color: black; font-weight: 500");
+var OPT17  = document.getElementById("OPT17"); OPT17.setAttribute('enabled', ' '); OPT17.setAttribute("style", "color: black; font-weight: 500");
+var OPT18  = document.getElementById("OPT18"); OPT18.setAttribute('enabled', ' '); OPT18.setAttribute("style", "color: black; font-weight: 500");
+var OPT19  = document.getElementById("OPT19"); OPT19.setAttribute('enabled', ' '); OPT19.setAttribute("style", "color: black; font-weight: 500");
+var OPT20  = document.getElementById("OPT20"); OPT20.setAttribute('enabled', ' '); OPT20.setAttribute("style", "color: black; font-weight: 500");
+var OPT21  = document.getElementById("OPT21"); OPT21.setAttribute('enabled', ' '); OPT21.setAttribute("style", "color: black; font-weight: 500");
+var OPT22  = document.getElementById("OPT22"); OPT22.setAttribute('enabled', ' '); OPT22.setAttribute("style", "color: black; font-weight: 500");
+var OPT23  = document.getElementById("OPT23"); OPT23.setAttribute('enabled', ' '); OPT23.setAttribute("style", "color: black; font-weight: 500");
+var OPT24  = document.getElementById("OPT24"); OPT24.setAttribute('enabled', ' '); OPT24.setAttribute("style", "color: black; font-weight: 500");
+var OPT25  = document.getElementById("OPT25"); OPT25.setAttribute('enabled', ' '); OPT25.setAttribute("style", "color: black; font-weight: 500");
+var OPT26  = document.getElementById("OPT26"); OPT26.setAttribute('enabled', ' '); OPT26.setAttribute("style", "color: black; font-weight: 500");
+var OPT27  = document.getElementById("OPT27"); OPT27.setAttribute('enabled', ' '); OPT27.setAttribute("style", "color: black; font-weight: 500");
+
+// OPT1:  HSP - Bond Grant
+if(document.getElementById("Question6bSelect").value =="Yes" ||
+document.getElementById("Question7a").value =="8-30 days"    ||
+document.getElementById("Question7a").value =="31-60 days" 	 ||
+document.getElementById("Question7a").value =="61-90 days"   ||
+document.getElementById("Question7a").value =="91+ days")
+{
+var OPT1 = document.getElementById("OPT1"); OPT1.removeAttribute('disabled'); OPT1.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT2:  HSP - Rent-in-Advance
+if(document.getElementById("Question2a").value =="Tenancy eviction" ||
+document.getElementById("Question6bSelect").value =="Yes" 			||
+document.getElementById("Question7a").value =="8-30 days"     		||
+document.getElementById("Question7a").value =="31-60 days" 			||
+document.getElementById("Question7a").value =="61-90 days"   		||
+document.getElementById("Question7a").value =="91+ days")
+{
+var OPT2 = document.getElementById("OPT2"); OPT2.removeAttribute('disabled'); OPT2.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT3:  HSP - Rent Arrears
+if(document.getElementById("Question6bSelect").value =="Yes"  ||
+document.getElementById("Question7a").value =="8-30 days"     ||
+document.getElementById("Question7a").value =="31-60 days" 	  ||
+document.getElementById("Question7a").value =="61-90 days"    ||
+document.getElementById("Question7a").value =="91+ days")
+{
+var OPT3 = document.getElementById("OPT3"); OPT3.removeAttribute('disabled'); OPT3.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT4: HSP - Tenancy Cost Cover Letter
+if(document.getElementById("Question6bSelect").value =="Yes" ||
+document.getElementById("Question7a").value =="8-30 days"    ||
+document.getElementById("Question7a").value =="31-60 days"   ||
+document.getElementById("Question7a").value =="61-90 days"   ||
+document.getElementById("Question7a").value =="91+ days")
+{
+var OPT4 = document.getElementById("OPT4"); OPT4.removeAttribute('disabled'); OPT4.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT5: HSP - Moving Assistance
+if(document.getElementById("Question6bSelect").value =="Yes" 		  ||
+
+document.getElementById("Question9a").value =="Accessibility"		  ||
+document.getElementById("Question9a").value =="Credit History"		  ||
+document.getElementById("Question9a").value =="Health"			  	  ||
+document.getElementById("Question9a").value =="Disability"			  ||
+document.getElementById("Question9a").value =="Gang Affiliation"	  ||
+document.getElementById("Question9a").value =="Behind in rent" 		  ||
+document.getElementById("Question9a").value =="No rental history"	  ||
+document.getElementById("Question9a").value =="Cost of rental"		  ||
+document.getElementById("Question9a").value =="Size of household"	  ||
+
+document.getElementById("Question9b").value =="Accessibility"		  ||
+document.getElementById("Question9b").value =="Credit History"		  ||
+document.getElementById("Question9b").value =="Health"			  	  ||
+document.getElementById("Question9b").value =="Disability"			  ||
+document.getElementById("Question9b").value =="Gang Affiliation"	  ||
+document.getElementById("Question9b").value =="Behind in rent" 		  ||
+document.getElementById("Question9b").value =="No rental history"	  ||
+document.getElementById("Question9b").value =="Cost of rental"		  ||
+document.getElementById("Question9b").value =="Size of household"	  
+)
+{
+var OPT5 = document.getElementById("OPT5"); OPT5.removeAttribute('disabled'); OPT5.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT6: Transition Housing Referral
+if(document.getElementById("Question7a").value =="Immediately"          ||
+document.getElementById("Question7a").value =="7 days or less"          ||
+document.getElementById("Question7a").value =="8-30 days"               ||
+document.getElementById("Question7a").value =="31-60 days"              ||
+document.getElementById("Question7a").value =="61-90 days"              ||
+document.getElementById("Question7a").value =="91+ days")
+{
+var OPT6 = document.getElementById("OPT6"); OPT6.removeAttribute('disabled'); OPT6.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT7: Contracted Emergency Housing
+if(document.getElementById("Question4b").value =="Rotorua District")
+{
+var OPT7 = document.getElementById("OPT7"); OPT7.removeAttribute('disabled'); OPT7.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT8: Emergency Housing
+if(document.getElementById("Question7a").value =="Immediately"          ||
+document.getElementById("Question7a").value =="7 days or less")
+{
+var OPT8 = document.getElementById("OPT8"); OPT8.removeAttribute('disabled'); OPT8.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT9: Public Housing
+if(document.getElementById("Question16aSelect").value =="Yes changed" ||
+document.getElementById("Question16aSelect").value =="No")
+{
+var OPT9 = document.getElementById("OPT9"); OPT9.removeAttribute('disabled'); OPT9.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT10: Accommodation supplement
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" ||
+document.getElementById("Question2a").value =="Conflict within the household" 	  ||
+
+document.getElementById("Question2a").value =="Medical reasons" 				  &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question6bSelect").value =="Yes" 						  ||
+
+document.getElementById("Question7a").value =="8-30 days"                         ||
+document.getElementById("Question7a").value =="31-60 days"                        ||
+document.getElementById("Question7a").value =="61-90 days"                        ||
+document.getElementById("Question7a").value =="91+ days"						  ||
+
+document.getElementById("Question9a").value =="Cost of rental"					  ||
+document.getElementById("Question9b").value =="Size of household"				  ||
+
+document.getElementById("Question9b").value =="Cost of rental"					  ||
+document.getElementById("Question9b").value =="Size of household"				  
+)
+
+{
+var OPT10 = document.getElementById("OPT10"); OPT10.removeAttribute('disabled'); OPT10.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT11: Temporary Additional Support
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" ||
+document.getElementById("Question2a").value =="Conflict within the household" 	  ||
+
+document.getElementById("Question2a").value =="Medical reasons" 				  &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question6bSelect").value =="Yes" 						  ||
+
+document.getElementById("Question7a").value =="8-30 days"                         ||
+document.getElementById("Question7a").value =="31-60 days"                        ||
+document.getElementById("Question7a").value =="61-90 days"                        ||
+document.getElementById("Question7a").value =="91+ days"						  ||
+
+document.getElementById("Question9a").value =="Cost of rental"					  ||
+document.getElementById("Question9b").value =="Size of household"				  ||
+
+document.getElementById("Question9b").value =="Cost of rental"					  ||
+document.getElementById("Question9b").value =="Size of household"				  
+)
+
+{
+var OPT11 = document.getElementById("OPT11"); OPT11.removeAttribute('disabled'); OPT11.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+
+// OPT12: Recoverable Assistance Payments
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" ||
+document.getElementById("Question2a").value =="Conflict within the household" 	  ||
+document.getElementById("Question2a").value =="Moving for work" 				  ||
+document.getElementById("Question2a").value =="Impacted by natural disasters" 	  ||
+
+document.getElementById("Question2a").value =="Medical reasons" 				  &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question6bSelect").value =="Yes" 						  
+)
+
+{
+var OPT12 = document.getElementById("OPT12"); OPT12.removeAttribute('disabled'); OPT12.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+//  OPT13 SNG - Food Grant 		ACTIVE BY DEFAUT IN FIRST PART OF THIS FUNCTION
+
+//  OPT14 SNG - Other			ACTIVE BY DEFAUT IN FIRST PART OF THIS FUNCTION
+
+// OPT15: MOH House Modification Funding
+if(
+document.getElementById("Question2a").value =="Medical reasons" 				  &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question6bSelect").value =="Yes" 						  ||
+
+document.getElementById("Question9a").value =="Health"					  		  &&
+document.getElementById("Question12b").value > 0					  			  ||
+
+document.getElementById("Question9b").value =="Health"					          &&
+document.getElementById("Question12b").value > 0		
+)
+
+{
+var OPT15 = document.getElementById("OPT15"); OPT15.removeAttribute('disabled'); OPT15.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT16: Transisition to work bonus // SHOULD THIS BE AN AND???
+if(
+document.getElementById("Question2a").value =="Moving for work" 				  ||
+document.getElementById("Question7a").value =="8-30 days"                         ||
+document.getElementById("Question7a").value =="31-60 days"                        ||
+document.getElementById("Question7a").value =="61-90 days"                        ||
+document.getElementById("Question7a").value =="91+ days"						  
+)
+
+{
+var OPT16 = document.getElementById("OPT16"); OPT16.removeAttribute('disabled'); OPT16.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT17: Disability Allowance
+if(
+document.getElementById("Question2a").value =="Medical reasons" 				  ||
+
+document.getElementById("Question9a").value =="Accessibility"			  		  ||
+document.getElementById("Question9b").value =="Accessibility"			  		  ||
+
+document.getElementById("Question9a").value =="Health"					  		  ||
+document.getElementById("Question9b").value =="Health" 				        	  ||
+
+document.getElementById("Question9a").value =="Disability"					  	  ||
+document.getElementById("Question9b").value =="Disability" 				          
+)
+
+{
+var OPT17 = document.getElementById("OPT17"); OPT17.removeAttribute('disabled'); OPT17.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT18: Child Disability Allowance
+if(
+document.getElementById("Question2a").value =="Medical reasons" 				  &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question9a").value =="Health"					  		  &&
+document.getElementById("Question12b").value > 0					  			  ||
+
+document.getElementById("Question9a").value =="Disability" 				          &&
+document.getElementById("Question12b").value > 0								  ||
+
+document.getElementById("Question9b").value =="Health"					  		  &&
+document.getElementById("Question12b").value > 0					  			  ||
+
+document.getElementById("Question9b").value =="Disability" 				          &&
+document.getElementById("Question12b").value > 0		
+)
+
+{
+var OPT18 = document.getElementById("OPT18"); OPT18.removeAttribute('disabled'); OPT18.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT19: Ready to rent
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" ||
+document.getElementById("Question2a").value =="Conflict within the household"	  ||
+document.getElementById("Question2a").value =="Tenancy eviction" 				  ||
+
+document.getElementById("Question7a").value =="8-30 days"                         ||
+document.getElementById("Question7a").value =="31-60 days"                        ||
+document.getElementById("Question7a").value =="61-90 days"                        ||
+document.getElementById("Question7a").value =="91+ days"						  ||
+
+document.getElementById("Question9a").value =="Credit history"			  		  ||
+document.getElementById("Question9a").value =="Behind in rent"			  		  ||
+document.getElementById("Question9a").value =="No rental history"		  		  ||
+document.getElementById("Question9a").value =="Cost of rental" 			  		  ||
+document.getElementById("Question9a").value =="Size of household" 		  		  ||
+
+document.getElementById("Question9b").value =="Credit history"			  		  ||
+document.getElementById("Question9b").value =="Behind in rent"			  		  ||
+document.getElementById("Question9b").value =="No rental history"		  		  ||
+document.getElementById("Question9b").value =="Cost of rental" 			  		  ||
+document.getElementById("Question9b").value =="Size of household" 		  		 
+)
+{
+var OPT19 = document.getElementById("OPT19"); OPT19.removeAttribute('disabled'); OPT19.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+
+// OPT20: Flexifunding
+if(
+document.getElementById("Question14dSelect").value =="Yes" ||
+document.getElementById("Question14eSelect").value =="Yes"
+)
+
+{
+var OPT20 = document.getElementById("OPT20"); OPT20.removeAttribute('disabled'); OPT20.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+
+// OPT21: Building Financial Capability
+if(
+document.getElementById("Question2a").value =="Asked to leave boarding situation" ||
+document.getElementById("Question2a").value =="Conflict within the household"	  ||
+document.getElementById("Question2a").value =="Tenancy eviction" 				  ||
+
+document.getElementById("Question9a").value =="Credit history"			  		  ||
+document.getElementById("Question9a").value =="Behind in rent"			  		  ||
+
+document.getElementById("Question9b").value =="Credit history"			  		  ||
+document.getElementById("Question9b").value =="Behind in rent"			  		  
+)
+
+{
+var OPT21 = document.getElementById("OPT21"); OPT21.removeAttribute('disabled'); OPT21.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+
+// OPT22: Refer to Housing Broker
+if(
+document.getElementById("Question2a").value =="Family harm" 						||
+document.getElementById("Question2a").value =="Gang Activities" 					||
+document.getElementById("Question2a").value =="Moving for work" 					||
+document.getElementById("Question2a").value =="Neighbourhood safety issues" 		||
+document.getElementById("Question2a").value =="Separated from partner" 				||
+document.getElementById("Question2a").value =="Tenancy ending" 						||
+document.getElementById("Question2a").value =="Impacted by natural disasters" 		||
+
+document.getElementById("Question7a").value =="8-30 days"                         	||
+document.getElementById("Question7a").value =="31-60 days"                        	||
+document.getElementById("Question7a").value =="61-90 days"                        	||
+document.getElementById("Question7a").value =="91+ days"							||
+
+document.getElementById("Question9a").value =="Size of household" 		  		 	||
+document.getElementById("Question9b").value =="Size of household" 		  		   
+)
+
+{
+var OPT22 = document.getElementById("OPT22"); OPT22.removeAttribute('disabled'); OPT22.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT23: Work Broker
+if(
+document.getElementById("Question7a").value =="8-30 days"                         	||
+document.getElementById("Question7a").value =="31-60 days"                        	||
+document.getElementById("Question7a").value =="61-90 days"                        	||
+document.getElementById("Question7a").value =="91+ days"							||
+
+document.getElementById("Question14eSelect").value =="Yes"							||
+
+document.getElementById("Question17aSelect").value =="Yes"							
+)
+
+{
+var OPT23 = document.getElementById("OPT23"); OPT23.removeAttribute('disabled'); OPT23.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT24: Program Coordinator
+if(
+document.getElementById("Question14dSelect").value =="Yes"							||
+document.getElementById("Question17aSelect").value =="Yes"							
+)
+{
+var OPT24 = document.getElementById("OPT24"); OPT24.removeAttribute('disabled'); OPT24.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT25: Family Violence Coordinator
+if(
+document.getElementById("Question2dSelect").value =="No"							
+)
+{
+var OPT25 = document.getElementById("OPT25"); OPT25.removeAttribute('disabled'); OPT25.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+
+// OPT26: Navigators
+if(
+document.getElementById("Question7a").value =="Immediately"          			  	&&
+(document.getElementById("Question2a").value =="Family harm" 						||
+document.getElementById("Question2a").value =="Medical reasons"	 					||
+document.getElementById("Question2a").value =="Tenancy eviction")					
+)
+{
+var OPT26 = document.getElementById("OPT26"); OPT26.removeAttribute('disabled'); OPT26.setAttribute("style", "color: limegreen; font-weight: 900");
+}
+
+// OPT27: MOE referral
+
+}
+
+<!-- ---------- RESET ---------- -->
+
+function Reset() {
+
+document.getElementById("myForm").reset();
+ 
+for (var i = 0; i < document.getElementsByName("mandatory").length; i++) 
+{
+mandatoryElements[i].classList.add("error-input");
+}
+
+document.getElementById("Question1b").setAttribute("hidden", "hidden");
+document.getElementById("Question2b").setAttribute("hidden", "hidden");
+document.getElementById("Question2c").setAttribute("hidden", "hidden");
+
+document.getElementById("Civildefence").setAttribute("hidden", "hidden");
+
+document.getElementById("Question5c").setAttribute("hidden", "hidden");
+document.getElementById("Question6c").setAttribute("hidden", "hidden"); 
+
+document.getElementById("section3").setAttribute("hidden", "hidden");
+document.getElementById("SupportNote").setAttribute("hidden", "hidden"); 
+document.getElementById("PetNote").setAttribute("hidden", "hidden"); 
+document.getElementById("Question10b").setAttribute("hidden", "hidden"); 
+
+document.getElementById("FlexiNote").setAttribute("hidden", "hidden"); 
+
+document.getElementById("Question13b").setAttribute("hidden", "hidden");
+
+document.getElementById("Children").setAttribute("hidden", "hidden");
+
+document.getElementById("Question15b").setAttribute("hidden", "hidden");
+
+document.getElementById("Question15c").setAttribute("hidden", "hidden");
+
+document.getElementById("Question17b").setAttribute("hidden", "hidden");
+
+document.getElementById("Section6").setAttribute("hidden", "hidden");
+
+document.getElementById("Section8").setAttribute("hidden", "hidden");
+
+
+var elements = document.getElementById("Question4bSelect").options;
+
+for(var i = 0; i < elements.length; i++)
+{
+elements[i].setAttribute("hidden", "hidden");
+}
+
+}
+
+<!-- ---------- GENERATE PROVIDERS ---------- -->
+
+function GenerateProviders() 
+{
+document.getElementById("Section7").removeAttribute("hidden");
+}
+
+<!-- ---------- TEXT CHANGED ---------- -->
+
+function textChanged(el) {
+
+
+if (el.value.length != 0) 
+{ el.classList.remove("error-input"); }
+
+else
+{ el.classList.add("error-input"); }
+
+}
+
+/* https://sarahholleydesign.com/pure-css-custom-error-messaging-for-default-form-elements/ */
+
+var mandatoryComplete = true;
+var mandatoryElements = document.getElementsByName("mandatory");
+for (var i = 0; i < mandatoryElements.length; i++) {
+
+if (mandatoryElements[i].value.length == 0 ) {
+/* Test that the mandatory fields have been completed */
+mandatoryElements[i].classList.add("error-input");
+mandatoryComplete = false;
+}
+
+if (mandatoryElements[i].value == "Not selected") {
+mandatoryElements[i].classList.add("error-input");
+mandatoryComplete = false;
+}
+}
+
+/* https://www.w3schools.com/howto/howto_js_snackbar.asp */
+if (mandatoryComplete == false) {
+className = "show";
+}
+
+<!-- ---------- FILE NOTE ---------- -->
+
+function GenerateFileNote(str) {
+
+document.querySelector("#Area3").value = ''
+
+document.getElementById("Section8").removeAttribute("hidden");
+
+document.querySelector("#Area3").style.height = "2750px";
+
+var DateStamp = new Date().toLocaleTimeString([], 
+{year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'}).replace(':','') +' NZT;';
+
+// stringName.split('A').join("") 
+
+var Question1a  		= document.getElementById("Question1a").value;
+
+var Question2a  		= getSelectValues(document.getElementById("Question2a"));
+
+if (document.getElementById("Question2bSelect").value == "") {var Question2b = "Not Selected";}
+else {var Question2b = document.getElementById("Question2bSelect").value;}
+
+if (document.getElementById("Question2cSelect").value == "") {var Question2c = "Not Selected";}
+else {var Question2c = document.getElementById("Question2cSelect").value;}
+
+if (document.getElementById("Question2dSelect").value == "") {var Question2d = "Not Selected";}
+else {var Question2d = document.getElementById("Question2dSelect").value;}
+
+if (document.getElementById("Question3aSelect").value == "") {var Question3a = "Not Selected";}
+else {var Question3a = document.getElementById("Question3aSelect").value;}
+
+var Question4a			= document.getElementById("Question4a").value;
+
+var Question4b			= document.getElementById("Question4b").value;
+
+var Question5a			= document.getElementById("Question5a").value;
+
+var Question5b			= document.getElementById("Question5b").value;
+
+var Question6a			= document.getElementById("Question6a").value;
+
+var Question6b			= document.getElementById("Question6bSelect").value;
+
+var Question6c			= document.getElementById("Question6cSelect").value;
+
+var Question7a			= document.getElementById("Question7a").value;
+
+if (document.getElementById("Question8aSelect").value == "") {var Question8a = "Not Selected";}
+else {var Question8a = document.getElementById("Question8aSelect").value;}
+
+var Question9a			= document.getElementById("Question9a").value;
+
+var Question9b			= document.getElementById("Question9b").value;
+
+var Question10a			= document.getElementById("Question10aSelect").value;
+
+if (document.getElementById("Question10bSelect").value == "") {var Question10b = "Not Selected";}
+else {var Question10b = document.getElementById("Question10bSelect").value;}
+
+var Question11a			= document.getElementById("Question11aSelect").value;
+
+var Question12a			= document.getElementById("Question12a").value;
+
+var Question12b			= document.getElementById("Question12b").value;
+
+var Question13a			= document.getElementById("Question13aSelect").value;
+
+if (document.getElementById("Question13bSelect").value == "") {var Question13b = "Not Selected";}
+else {var Question13b = document.getElementById("Question13bSelect").value;}
+
+var Question14a			= document.getElementById("Question14aSelect").value;
+
+var Question14b			= document.getElementById("Question14bSelect").value;
+
+if (document.getElementById("Question14cSelect").value == "") {var Question14c = "Not Selected";}
+else {var Question14c = document.getElementById("Question14cSelect").value;}
+
+var Question14d			= document.getElementById("Question14dSelect").value;
+
+var Question14e			= document.getElementById("Question14eSelect").value;
+
+var Question15a			= document.getElementById("Question15a").value;
+ 
+var Question15b			= getSelectValues(document.getElementById("Question15bSelect"));
+
+if (document.getElementById("Question15cSelect").value == "") {var Question15c = "Not Selected";}
+else {var Question15c = document.getElementById("Question15cSelect").value;}
+
+var Question16a			= document.getElementById("Question16aSelect").value;
+
+var Question17a			= document.getElementById("Question17aSelect").value;
+
+var Question17b			= document.getElementById("Question17bSelect").value;
+
+var OptionsSelect  		= getSelectValues(document.getElementById("OptionsSelect"));
+
+if (document.getElementById("Question18aSelect").value == "") {var Question18a = "Not Selected";}
+else {var Question18a = document.getElementById("Question18aSelect").value;}
+
+var copyText =
+
+'--- #v1 Client Needs Assessment \n'+
+
+'\nTIME STAMP:\n' + DateStamp + '\n' + 
+
+'\nQ1A IS THIS A REFERRAL FROM:\n'						 	 																			+ Question1a + ';\n' + 
+'\nQ2A TELL ME ABOUT YOUR HOUSING SITUATION:\n'																							+ Question2a + ';\n' + 
+'\nQ2B IF OTHER PLEASE TYPE BELOW:\n'																									+ Question2b + ';\n' +  
+'\nQ2C IF MEDICAL PLEASE PROVIDE DETAIL BELOW:\n'																						+ Question2c + ';\n' + 
+'\nQ2D ARE YOU CURRENTLY WORKING WITH A MSD OR COMMUNITY FAMILY SUPPORT PERSON?:\n'														+ Question2d + ';\n' + 
+'\nQ3A ANY FURTHER DETAILS?:\n'																											+ Question3a + ';\n' + 
+'\nQ4A WHAT REGION ARE YOU LIVING IN?:\n'																								+ Question4a + ';\n' + 
+'\nQ4B WHAT DISTRICT ARE YOU LIVING IN?:\n'																								+ Question4b + ';\n' +
+'\nQ5A WHERE ARE YOU CURRENTLY STAYING? - TYPE:\n'																						+ Question5a + ';\n' +
+'\nQ5B WHERE ARE YOU CURRENTLY STAYING? - LOCATION:\n'																					+ Question5b + ';\n' +
+'\nQ6A HOW LONG HAVE YOU BEEN IN YOUR CURRENT LIVING SITUATION?:\n'																		+ Question6a + ';\n' +
+'\nQ6B IF WE COULD PROVIDE SOME FINANCIAL SUPPORT, COULD YOU STAY WHERE YOU ARE:...\n'		+ Question6b + ';\n' + 
+'\nQ6C WHO CAN YOU STAY WITH?:\n'																										+ Question6c + ';\n' + 
+'\nQ7A WHEN DO YOU NEED TO MOVE?:\n'																									+ Question7a + ';\n' + 
+'\nQ8A IS THERE A SPECIFIC AREA YOU NEED TO STAY IN?:\n'																				+ Question8a + ';\n' +
+'\nQ9A WHAT IS MAKING IT HARD FOR YOU TO FIND A HOME? - PRIMARY:\n'																		+ Question9a + ';\n' +
+'\nQ9B WHAT IS MAKING IT HARD FOR YOU TO FIND A HOME? - PRIMARY:\n'																		+ Question9b + ';\n' +
+'\nQ10A ARE THERE ANY FACTORS THAT IMPACT WHAT SUITABLE HOUSING YOU COULD GO TO:... \n'													+ Question10a + ';\n' +
+'\nQ10B PLEASE EXPAND BELOW?:\n' 																									    + Question10b + ';\n' +
+'\nQ11A IF YOU HAVE PETS AND ARE UNABLE TO TAKE THESE WITH YOU IS THERE SOMEONE THAT CAN LOOK AFTER THEM FOR YOU?:\n'					+ Question11a + ';\n' +
+'\nQ12A WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD? - ADULT:\n' 																			+ Question12a + ';\n' +
+'\nQ12B WHO NEEDS ASSISTANCE IN YOUR HOUSEHOLD? - CHILD:\n' 																			+ Question12b + ';\n' +
+'\nQ13A WHEN YOU LEAVE TEMPORARY HOUSING, ARE THESE ALL THE PEOPLE YOU WOULD LIKE TO LIVE WITH?:\n'										+ Question13a + ';\n' +
+'\nQ13B IF NO, HOW MANY ADULTS AND CHILDREN WILL YOU BE LIVING WITH?:\n'																+ Question13b + ';\n' +
+'\nQ14A DO YOU HAVE ANY CHILDREN UNDER 1, IF SO WOULD YOU LIKE SOME FINANCIAL SUPPORT FOR A PĒPI-POD OR BABY BED?:\n'					+ Question14a + ';\n' +
+'\nQ14B ARE YOUR CHILDREN ENROLLED AND ATTENDING SCHOOL?:\n'																			+ Question14b + ';\n' +
+'\nQ14C IF ATTENDING, WHAT SCHOOL DO THEY GO TO?:\n'																					+ Question14c + ';\n' +
+'\nQ14D THE MINISTRY OF EDUCATION HAS A SERVICE TO SUPPORT SCHOOL AGE CHILDREN WITH ATTENDANCE OR ENROLMENT. WOULD YOU LIKE US TO PASS ON YOUR CONTACT DETAILS?:\n'     + Question14d + ';\n' +
+'\nQ14E IF YOU HAVE CHILDREN BETWEEN THE AGE OF 16-18 THAT ARE NOT ENROLLED IN SCHOOL WOULD YOU LIKE SOME SUPPORT TO HELP YOUR CHILD WITH EMPLOYMENT AND TRAINING?:\n'	+ Question14e + ';\n' +
+'\nQ15A ARE YOU CURRENTLY BEING SUPPORTED BY ANYONE OR ANY SERVICE?:\n'																	+ Question15a + ';\n' +
+'\nQ15B IF YES, PLEASE ANSWER SELECT BELOW:\n'																							+ Question15b + ';\n' +
+'\nQ15C IF TRANSITIONAL HOUSING PROVIDER / OTHER, PLEASE TYPE BELOW:\n'																	+ Question15c + ';\n' +
+'\nQ16A ARE YOU ON THE PUBLIC HOUSING REGISTER?:\n'																						+ Question16a + ';\n' +
+'\nQ17A IF ANYONE IN YOUR HOUSEHOLD IS LOOKING FOR EMPLOYMENT WOULD THEY LIKE ASSISTANCE FROM A WORK BROKER?:\n'						+ Question17a + ';\n' +
+'\nQ17B IF YES, WHO?:\n'																												+ Question17b + ';\n' +
+
+'\n *SELECTED OPTIONS*:\n'																											+ OptionsSelect + ';\n' +
+
+'\nQ18A ANY FURTHER BRIEF COMMENTS?:\n'																									+ Question18a + ';\n' +
+
+'\n--- # Template End';
+
+navigator.clipboard.writeText(copyText);
+
+document.querySelector("#Area3").value = copyText;
+
+
+var split              = copyText.split(/\n/).length;
+
+var lines              = Math.max(0, split);
+
+var characters   	   = document.querySelector("#Area3").value.length -1;
+
+var total              = characters + lines;
+
+
+var remaining    	   = Math.max(0, 4000 - total);
+
+var over               = Math.max(0, total - 4000);
+
+
+document.getElementById("remaining").innerHTML       	 = remaining;
+
+document.getElementById("over").innerHTML                = over;
+
+document.getElementById("total").innerHTML               = total;
+
+document.querySelector("#Area3").setAttribute("readonly");
+
+// if (characters > 4000) {document.querySelector("#Area3").value = "Character limit exceeded by " + over + ' characters, please review text fields';}
+
+}
+
+<!-- ---------- LOOP THROUGH MULTISELECT ---------- -->
+
+// '\nQ?:\n'+ Question4C + '\n' +
+
+function getSelectValues(select) {
+var result = "";
+var options = select && select.options;
+var opt;
+
+for (var i=0, iLen=options.length; i<iLen; i++) {
+opt = options[i];
+
+if (opt.selected) {
+
+if (result == "") {
+result =   opt.text ;
+}
+else {
+result =  opt.text + " # " + '\n' + result ;
+}
+}
+}
+return result;
+}
+
+</script>
+</body>
+</html>
+```
+
+
+
+
 ###   TEMPLATE
 ####  ALL OPTION TYPES
 ``` html
