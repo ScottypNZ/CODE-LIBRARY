@@ -2,6 +2,12 @@
 
 #### PIVOT MEASURES
 
+RUNNING TOTAL NB: Sub is a binary text criteria in adjecent cell
+```DAX
+= Table.AddColumn(#"Added SUB", "CUM", each 
+List.Sum( List.FirstN( #"Added SUB"[SUB], [Index] ) ) , Int64.Type)
+```
+
 MAXIF
 ```DAX
 LastCertOfGivenType = 
