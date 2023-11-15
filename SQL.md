@@ -22,7 +22,16 @@
  [DATETIME]  =  CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
  NO DECIMAL
 
- [LEFT OF CHAR] =  left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)		as 'Form Type',	
+[LEFT OF CHAR] = 
+
+SIMPLE
+left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)				as 'Form Type',
+
+RETURNS BLANK IF NOT FOUND
+left(FRM.[klevr_name], charindex(':',FRM.[klevr_name] + ':' ) - 1 )   			as 'Form Type',
+
+RETURNS ORIGINAL IF NOT FOUND
+left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0 ) )    as 'Form Type',
 
 ```
 
