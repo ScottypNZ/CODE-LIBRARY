@@ -1,13 +1,26 @@
 ### INDEX
 
+ * [MPP](#MPP)
  * [GENERAL](#GENERAL)
  * [MBIE](#MBIE)
  * [MARITIME](#MARITIME)
 
  
 
+###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
+-------------------------
+### MPP
 
+ [REFERENCE] = CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber),
 
+ [LINK]	     = CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value'),
+
+ [OCCUR]     = ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY  SUB.createdon desc, ASS.createdon desc, SUB.[subject] DESC ) AS [OCCUR]
+
+ [DATETIME]  =  CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
+ NO DECIMAL
+
+ [LEFT OF CHAR] =  left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)		as 'Form Type',	
 
 
 
