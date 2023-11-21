@@ -13,14 +13,16 @@
 
 ```SQL 
 
- [REFERENCE] = CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber),
+ [REFERENCE]   = CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber),
 
- [LINK]	     = CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value'),
+ [LINK]	       = CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value'),
 
- [OCCUR]     = ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY  SUB.createdon desc, ASS.createdon desc, SUB.[subject] DESC ) AS [OCCUR]
+ [OCCUR]       = ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY  SUB.createdon desc, ASS.createdon desc, SUB.[subject] DESC ) AS [OCCUR]
 
- [DATETIME]  =  CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
+ [DATETIME]    =  CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
  NO DECIMAL
+
+CUMULATIVE SUM =  SUM(Done) OVER (ORDER BY [SUB Modified] asc)    				as 'Running' (Being a binary calc column of approved)
 
 [LEFT OF CHAR] = 
 
