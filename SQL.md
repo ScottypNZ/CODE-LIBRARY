@@ -38,6 +38,11 @@ RETURNS BLANK IF NOT FOUND
 RETURNS ORIGINAL IF NOT FOUND
 =left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0 ) )    as 'Form Type',
 
+DATE FORMATTING
+=CONCAT(  CONVERT(VARCHAR(10), cast( app.klevr_submissiondate as Date)), ' ', CONVERT(VARCHAR(8),  cast( app.klevr_submissiondate as Time))  ) AS 'APP Submitted',
+=CONCAT(  CONVERT(VARCHAR(10), cast( ASS.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( ASS.createdon as Time))  ) AS 'ASS Created',
+=CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
+
 ```
 
 CRM JOINS
