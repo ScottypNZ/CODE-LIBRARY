@@ -41,7 +41,7 @@ left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0
 ```
 
 CRM JOINS
-```
+``` sql
 select top (100) * FROM  [dbo].[klevr_application] APP
 
  left join [dbo].[klevr_formsubmission]	 as SUB on SUB.regardingobjectid		= APP.klevr_applicationid
@@ -55,7 +55,7 @@ select top (100) * FROM  [dbo].[klevr_application] APP
 ```
 
 CRM ANSWERS AND FILTERS
-```
+``` sql
 -- [Contact ID], [Post Code],
 -- ASSESSMENT --
 
