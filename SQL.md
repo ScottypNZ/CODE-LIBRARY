@@ -30,13 +30,13 @@ NO DECIMAL
 =  SUM(Done) OVER (ORDER BY [SUB Modified] asc) as 'Running' (Being a binary calc column of approved)
 
 LEFT OF CHARACTER
-left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)				as 'Form Type',
+=left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)				as 'Form Type',
 
 RETURNS BLANK IF NOT FOUND
-left(FRM.[klevr_name], charindex(':',FRM.[klevr_name] + ':' ) - 1 )   			as 'Form Type',
+=left(FRM.[klevr_name], charindex(':',FRM.[klevr_name] + ':' ) - 1 )   			as 'Form Type',
 
 RETURNS ORIGINAL IF NOT FOUND
-left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0 ) )    as 'Form Type',
+=left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0 ) )    as 'Form Type',
 
 ```
 
