@@ -13,20 +13,23 @@
 
 ```SQL 
 
- [REFERENCE]   = CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber),
+[REFERENCE]   
+= CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber),
 
- [LINK]	       = CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value'),
+[LINK]
+= CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value'),
 
- [OCCUR]       = ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY  SUB.createdon desc, ASS.createdon desc, SUB.[subject] DESC ) AS [OCCUR]
+[OCCUR]      
+= ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY  SUB.createdon desc, ASS.createdon desc, SUB.[subject] DESC ) AS [OCCUR]
 
- [DATETIME]    =  CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
- NO DECIMAL
+[DATETIME]
+CONCAT(  CONVERT(VARCHAR(10), cast( SUB.createdon as Date)), ' ', CONVERT(VARCHAR(8),  cast( SUB.createdon as Time))  ) AS 'SUB Created',
+NO DECIMAL
 
-CUMULATIVE SUM =  SUM(Done) OVER (ORDER BY [SUB Modified] asc)    				as 'Running' (Being a binary calc column of approved)
+[CUMULATIVE SUM]
+=  SUM(Done) OVER (ORDER BY [SUB Modified] asc) as 'Running' (Being a binary calc column of approved)
 
-[LEFT OF CHAR] = 
-
-SIMPLE
+LEFT OF CHARACTER
 left(FRM.[klevr_name],CHARINDEX(':',FRM.[klevr_name]) - 1)				as 'Form Type',
 
 RETURNS BLANK IF NOT FOUND
@@ -36,6 +39,263 @@ RETURNS ORIGINAL IF NOT FOUND
 left(FRM.[klevr_name], ISNULL(NULLIF(charindex(':',FRM.[klevr_name] ) - 1,-1 ),0 ) )    as 'Form Type',
 
 ```
+
+CRM JOINS
+```
+select top (100) * FROM  [dbo].[klevr_application] APP
+
+ left join [dbo].[klevr_formsubmission]	 as SUB on SUB.regardingobjectid		= APP.klevr_applicationid
+ left join [dbo].[klevr_assessment] 	 as ASS on ASS.[klevr_applicationid]		= APP.klevr_applicationid
+ left join [dbo].[contact]		 as CON on CON.contactid			= APP.[klevr_applicant]
+ left join [dbo].[klevr_form]		 as FRM on FRM.klevr_formid			= APP.[klevr_formid]
+ left join [dbo].[klevr_formresponse]	 as RES on RES.klevr_formsubmissionid		= SUB.activityid
+ left join [dbo].[klevr_question]	 as QTN on QTN.[klevr_questionid]		= RES.[klevr_questionid]
+ left join [dbo].[fileattachment]	 as ATT on ATT.[objectid]			= RES.klevr_formresponseid
+ left join account			 as ACT on ACT.accountid 			= CON.accountid
+```
+
+CRM ANSWERS AND FILTERS
+```
+-- [Contact ID], [Post Code],
+-- ASSESSMENT --
+
+SELECT * FROM (
+select [activityid], [Stream], [Contact ID], [Post Code], [APP ID], [ASS ID], [Assessor], [APP Status], [ASS Status], [Status] from (
+SELECT 
+case when APP.[klevr_formidname] like '%Tertiary%'	then 'Tertiary'			else
+case when APP.[klevr_formidname] like '%9%'		then 'Year 9 to 10'		else
+case when APP.[klevr_formidname] like '%13%'		then 'Year 11 to 13'    end end end  	as 'Stream',
+CON.ws_contactid								    		as 'Contact ID', 
+CON.address1_postalcode								     		as 'Post Code',
+APP.[klevr_applicationnumber]							     		as 'APP ID',
+ASS.[klevr_assessmentautonumber]					             		as 'ASS ID',
+ASS.[klevr_assessoridname]						             		as 'Assessor',
+APP.[klevr_portalsubmissionstatuscodename]					     		as 'APP Status',
+ASS.[klevr_assessorrecommendationcodename]					     		as 'ASS Status',
+sub.statuscodename								    		as 'Status',
+SUB.activityid,
+ASS.statecodename,
+COUNT(*) over(partition by app.klevr_applicationid) 				     		as 'Count',
+ROW_NUMBER() OVER(PARTITION BY ASS.klevr_assessmentid ORDER BY  SUB.[subject] DESC ) 		as [OCCUR]
+
+FROM [klevr_formsubmission]	     as SUB
+left join [dbo].[klevr_assessment]   as ASS on ASS.klevr_assessmentid			= SUB.regardingobjectid
+left join [dbo].[klevr_application]  as APP on APP.klevr_applicationid			= ASS.klevr_applicationid
+left join contact		     as CON on CON.contactid				= app.klevr_applicant
+
+where klevr_applicationroundidname like '%Steam%' and ASS.statecodename = 'Active'
+)Sub
+where occur = 1 
+
+Union all
+
+-- APPLICATION --
+select [activityid], [Stream], [Contact ID], [Post Code], [APP ID], [ASS ID], [Assessor], [APP Status], [ASS Status], [Status]  from (
+SELECT 
+case when APP.[klevr_formidname] like '%Tertiary%'	then 'Tertiary'			else
+case when APP.[klevr_formidname] like '%9%'		then 'Year 9 to 10'		else
+case when APP.[klevr_formidname] like '%13%'		then 'Year 11 to 13'    end end end 	 				as 'Stream',
+CON.ws_contactid										 				as 'Contact ID', 
+CON.address1_postalcode										 				as 'Post Code',
+APP.[klevr_applicationnumber]									 				as 'APP ID',
+ASS.[klevr_assessmentautonumber]								 				as 'ASS ID',
+ASS.[klevr_assessoridname]									 				as 'Assessor',
+APP.[klevr_portalsubmissionstatuscodename]						         				as 'APP Status',
+ASS.[klevr_assessorrecommendationcodename]					                 				as 'ASS Status',
+sub.statuscodename										 				as 'Status',
+SUB.activityid,												
+COUNT(*) over(partition by app.klevr_applicationid) 						 				as 'Count app',
+ROW_NUMBER() OVER(PARTITION BY APP.[klevr_applicationnumber] ORDER BY ASS.[klevr_assessmentautonumber] DESC )			as [OCCUR]
+FROM [klevr_formsubmission]													as SUB
+left join [dbo].[klevr_application]	as APP on APP.klevr_applicationid		= SUB.regardingobjectid
+left join [dbo].[klevr_assessment]	as ASS on ASS.klevr_applicationid		= APP.klevr_applicationid
+left join contact			as CON on CON.contactid				= app.klevr_applicant
+
+where klevr_applicationroundidname like '%Steam%' 
+and  APP.[klevr_portalsubmissionstatuscodename]	= 'Submitted'  
+and  app.statecodename = 'Active'
+) Sub
+where		[occur] = 1  
+) Sub2 
+
+LEFT JOIN
+(
+select 
+activityid, 
+[QTN ID],
+case when [Question] like '%Ethnic%' then 'Ethnicity' else
+case when [QTN1] IS NULL AND  [QTN2] IS NULL THEN [Question]  else 
+case when [QTN1] IS NULL THEN [QTN2] ELSE [QTN1] END END END as 'Questions',
+[Answers]
+from (
+
+SELECT  
+SUB.activityid,
+QTN.klevr_questionnumber										as 'QTN ID',
+STN.klevr_name												as 'Section',
+RES.klevr_questionidname										as 'Question',
+RES.klevr_response											as 'Answers',
+
+case when RES.klevr_questionidname = 'Academic Assessment Science Score'  		then 'Science' 
+else case when RES.klevr_questionidname = 'Academic Assessment Technology Score'	then 'Technology'	
+else case when RES.klevr_questionidname = 'Academic Assessment Engineering Score'	then 'Engineering'	
+else case when RES.klevr_questionidname = 'Academic Assessment Arts Score'		then 'Arts'			
+else case when RES.klevr_questionidname = 'Academic Assessment Math Score'		then 'Math'			
+else case when RES.klevr_questionidname = 'Community Impact Score'			then 'Community'	
+else case when RES.klevr_questionidname = 'Career Aspirations Score'			then 'Career'		
+else case when RES.klevr_questionidname = 'Financial Hardship Score'			then 'Financial'	end end end end end end end end as 'QTN1' ,
+ 
+case when QTN.[klevr_formidname] like '%Tertiary%'	 
+and STN.klevr_name = 'Academic Record Assessment and Answers'			
+and	 RES.klevr_questionidname = 'Overall comments'		
+then 'Academic Comment'		else
+
+case when QTN.[klevr_formidname] like '%Tertiary%'	 
+and STN.klevr_name = 'Assessment answers and comments'					
+and RES.klevr_questionidname = 'Overall comment'
+then 'Scholarship Comment'	else
+
+case when QTN.[klevr_formidname] like '%13%'		 
+and STN.klevr_name = 'Assessment answers and comments'
+and RES.klevr_questionidname = 'Overall comments'		
+then 'Academic Comment'	else
+	
+case when QTN.[klevr_formidname] like '%13%'		
+and STN.klevr_name = 'Scholarship Satements Answers and Comments'		
+and RES.klevr_questionidname = 'Overall comment'		
+then 'Scholarship Comment'	else
+
+case when QTN.[klevr_formidname] like '%9%'
+and STN.klevr_name = 'Academic Assessment'
+and RES.klevr_questionidname = 'Overall comment'		
+then 'Academic Comment'		else
+
+case when QTN.[klevr_formidname] like '%9%'			 
+and STN.klevr_name = 'Scholarship Statements Answers and Comments'		
+and RES.klevr_questionidname = 'Overall comment'		
+then 'Scholarship Comment'	
+end end end end end end as 'QTN2'
+
+FROM [klevr_formsubmission]								as SUB
+left join [dbo].[klevr_formresponse]							as RES on RES.klevr_formsubmissionid		= SUB.activityid
+left join [dbo].[klevr_question]							as QTN on QTN.[klevr_questionid]		= RES.klevr_questionid
+left join [dbo].[klevr_section]								as STN on STN.klevr_sectionid			= QTN.klevr_sectionid
+left join [dbo].[klevr_assessment]							as ASS on ASS.klevr_assessmentid		= SUB.regardingobjectid
+left join [dbo].[klevr_application]							as APP on APP.klevr_applicationid		= ASS.klevr_applicationid
+
+WHERE 
+QTN.klevr_questionnumber = 'QTN-01711' OR 
+QTN.klevr_questionnumber = 'QTN-01713' OR
+QTN.klevr_questionnumber = 'QTN-01713' OR
+QTN.klevr_questionnumber = 'QTN-01717' OR
+QTN.klevr_questionnumber = 'QTN-01715' OR
+QTN.klevr_questionnumber = 'QTN-01719' OR
+QTN.klevr_questionnumber = 'QTN-01722' OR
+QTN.klevr_questionnumber = 'QTN-01645' OR
+QTN.klevr_questionnumber = 'QTN-01643' OR
+QTN.klevr_questionnumber = 'QTN-01644' OR
+QTN.klevr_questionnumber = 'QTN-01647' OR
+QTN.klevr_questionnumber = 'QTN-01696' OR
+QTN.klevr_questionnumber = 'QTN-01700' OR
+QTN.klevr_questionnumber = 'QTN-01702' OR
+QTN.klevr_questionnumber = 'QTN-01704' OR
+QTN.klevr_questionnumber = 'QTN-01706' OR
+QTN.klevr_questionnumber = 'QTN-01721' OR
+QTN.klevr_questionnumber = 'QTN-01631' OR
+QTN.klevr_questionnumber = 'QTN-01629' OR
+QTN.klevr_questionnumber = 'QTN-01630' OR
+QTN.klevr_questionnumber = 'QTN-01633' OR
+QTN.klevr_questionnumber = 'QTN-01683' OR
+QTN.klevr_questionnumber = 'QTN-01685' OR
+QTN.klevr_questionnumber = 'QTN-01687' OR
+QTN.klevr_questionnumber = 'QTN-01689' OR
+QTN.klevr_questionnumber = 'QTN-01691' OR
+QTN.klevr_questionnumber = 'QTN-01720' OR
+QTN.klevr_questionnumber = 'QTN-01679' OR
+QTN.klevr_questionnumber = 'QTN-01677' OR
+QTN.klevr_questionnumber = 'QTN-01678' OR
+QTN.klevr_questionnumber = 'QTN-01681' OR
+
+QTN.klevr_questionnumber = 'QTN-01331' OR
+QTN.klevr_questionnumber = 'QTN-01347' OR
+QTN.klevr_questionnumber = 'QTN-01123' OR
+QTN.klevr_questionnumber = 'QTN-01120' OR
+QTN.klevr_questionnumber = 'QTN-01329' OR
+QTN.klevr_questionnumber = 'QTN-01344' OR
+QTN.klevr_questionnumber = 'QTN-01122' OR
+QTN.klevr_questionnumber = 'QTN-01346' OR
+QTN.klevr_questionnumber = 'QTN-01345' OR
+QTN.klevr_questionnumber = 'QTN-01330' OR
+QTN.klevr_questionnumber = 'QTN-01121' OR
+QTN.klevr_questionnumber = 'QTN-01334' OR
+QTN.klevr_questionnumber = 'QTN-01350' OR
+QTN.klevr_questionnumber = 'QTN-01186' OR
+QTN.klevr_questionnumber = 'QTN-01138'
+)
+Sub3
+
+)
+AS JOIN1 ON JOIN1.[activityid] = SUB2.[activityid]
+```
+
+```
+SELECT SUBQRY2. * FROM (
+
+SELECT 
+SUBQRY1.*,
+count(*) over(partition by [REFERENCE] )			          as 'COUNT',
+ROW_NUMBER() OVER(PARTITION BY  [REFERENCE]	 ORDER BY [Question ID]	) AS [OCCURANCE]
+FROM ( 
+
+
+SELECT 
+	   FRM.[klevr_title]						  			as  'FUND'		
+	  ,FRM.[klevr_formnumber]					  			as  'Form ID'
+	  ,APP.[klevr_applicationnumber]				  			as  'Application ID'
+	  ,ASS.klevr_assessmentautonumber				  			as  'Assessment ID'
+	  ,CON.[ws_contactid]						  			as  'Contact ID'
+	  ,APP.[klevr_portalsubmissionstatuscodename]			 			as  'Status' 
+	  ,APP.[ws_eligibilitystatusname]				  			as  'Eligibility'
+      ,APP.[statecodename]						  			as  'APP State'
+      ,APP.[statuscodename]						  			as  'APP Status'
+	  ,ASS.[statecodename]						  			as  'ASS State'
+	  ,ASS.klevr_assessoridname					  			as	'Assessor name'
+	  ,ASS.[klevr_conflictresponsecodename]				  			as  'Confict'
+	  ,ASS.[klevr_assessmenttypeidname]							as  'Internal'
+	  ,CONVERT(VARCHAR(10), cast(ASS.modifiedon as date), 103)  as  'Date Modified'	
+	  ,ASS.klevr_assessorrecommendationcodename						as	'Ass Status'
+	  ,ASS.klevr_assessorrecommendationnotes						as	'Ass Notes'
+	  ,QTN.klevr_questionnumber								as	'Question ID'
+	  ,QTN.klevr_name									as	'Question Name'
+	  ,RES.klevr_response									as	'Answer'
+
+	  ,[REFERENCE] = CONCAT(APP.[klevr_applicationnumber],' | ',QTN.klevr_questionnumber)
+	  ,[LINK]	   = CONCAT('https://prodkatoatoa.crm6.dynamics.com/api/data/v9.0/klevr_formresponses(',RES.klevr_formresponseid,')/klevr_file/$value')
+	  ,ATT.[filename]
+	  ,ATT.[filesizeinbytes]
+										
+
+  FROM [dbo].[klevr_application]			   APP
+  left join [dbo].[contact]			as CON on CON.contactid				= APP.[klevr_applicant]
+  left join [dbo].[klevr_form]			as FRM on FRM.klevr_formid			= APP.[klevr_formid]
+  left join [dbo].[klevr_assessment]		as ASS on ASS.klevr_applicationid		= APP.klevr_applicationid
+  left join [dbo].[klevr_formsubmission]    	as SUB on SUB.regardingobjectid			= APP.klevr_applicationid
+  left join [dbo].[klevr_formresponse]		as RES on RES.klevr_formsubmissionid		= SUB.activityid
+  left join	[dbo].[klevr_question]		as QTN on QTN.[klevr_questionid]		= RES.[klevr_questionid]
+  left join [dbo].[fileattachment]		as ATT on ATT.[objectid]			= RES.klevr_formresponseid
+
+  where 
+  APP.[ws_eligibilitystatusname]		= 'Eligible'		and
+  APP.[klevr_portalsubmissionstatuscodename]    = 'Submitted'		and
+  ASS.[statecodename]				= 'Active'			 
+
+
+) SUBQRY1
+) SUBQRY2
+WHERE [COUNT] >1
+```
+
+
 
 
 ###### [LIBRARY](https://github.com/ScottypNZ/CODE-LIBRARY)   |   [INDEX](#INDEX)
