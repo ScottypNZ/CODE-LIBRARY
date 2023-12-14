@@ -32,6 +32,10 @@ https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings
 ADD COLUMN AND FITER AT THE SAME TIME   
 = Table.AddColumn(#"Replaced NULL", "SPECIAL", each Text.Select([Full Name],{"A".."z"," "})<>[Full Name])
 
+RUNNING TOTAL
+= Table.AddColumn(#"Added SUB", "CUM", each 
+List.Sum( List.FirstN( #"Added SUB"[SUB], [Index] ) ) , Int64.Type)
+
 ADD ADDRESS AND FORMAT AT THE SAME TIME   
 Table.AddColumn(#"Added WEEK CREATED", "ADDRESS", each 
 Text.Upper(Text.Combine(List.Select(Text.Split(
