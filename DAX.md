@@ -1,6 +1,13 @@
 # CODE-LIBRARY
 
-#### PIVOT MEASURES
+
+
+
+INVOICE PAID
+```
+Paid = 
+IF(OR('Invoice Tracker July 2021-2022'[19. Paid]=BLANK(),'Invoice Tracker July 2021-2022'[19. Paid]="No"),"Unpaid","Paid")
+``` 
 
 INVOICE STATUS
 ```
