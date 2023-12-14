@@ -2,6 +2,20 @@
 
 #### PIVOT MEASURES
 
+INVOICE STATUS
+```
+Invoice Status = 
+IF('Invoice Tracker July 2021-2022'[Paid]="Paid","Paid",
+IF('Invoice Tracker July 2021-2022'[3. Fin Yr]="2020/21"&&'Invoice Tracker July 2021-2022'[13. 2020/21 Recon]=BLANK(),"Awaiting Provider Recon",
+IF('Invoice Tracker July 2021-2022'[3. Fin Yr]="2020/21"&&'Invoice Tracker July 2021-2022'[13. 2020/21 Recon]="No","Awaiting Provider Recon",
+IF('Invoice Tracker July 2021-2022'[Paid]="Unpaid"&&'Invoice Tracker July 2021-2022'[To be approved]=0,"Awaiting Verification",
+if('Invoice Tracker July 2021-2022'[Paid]="Unpaid"&&'Invoice Tracker July 2021-2022'[To be approved]=1&&'Invoice Tracker July 2021-2022'[16. Mgmt Approval]=BLANK(),"To send for Mgmt Approval",
+IF('Invoice Tracker July 2021-2022'[Paid]="Unpaid"&&'Invoice Tracker July 2021-2022'[To be approved]=1&&'Invoice Tracker July 2021-2022'[16. Mgmt Approval]<>BLANK()&&'Invoice Tracker July 2021-2022'[18. Finance]=BLANK(),"To be sent to Finance",
+IF('Invoice Tracker July 2021-2022'[Paid]="Unpaid"&&'Invoice Tracker July 2021-2022'[16. Mgmt Approval]<>BLANK()&&'Invoice Tracker July 2021-2022'[To be approved]=1&&'Invoice Tracker July 2021-2022'[18. Finance]<>BLANK(),"Awaiting Pmt","")))))))```
+```
+
+
+
 APPROVAL TIME
 ```
 Invoice approval time = 
