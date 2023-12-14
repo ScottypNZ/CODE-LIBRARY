@@ -2,6 +2,53 @@
 ACTRYS MATRIX LIGHT
 Goal Matrix
 
+IF RULE PLACEMENT DATA
+```
+Employment & Training Placements = 
+IF(or('FY 2017'[Job Progression]="First Job",'FY 2017'[Job Progression]="Career progression with new employer"),1,
+IF('FY 2017'[Training Placement Category]="31 Days Training",1,0))
+```
+AGE CATEGORY
+```
+Age Category = 
+IF(
+    'FY 2018'[Calculated Age]<18,"Under 18",
+    IF(AND( 'FY 2018'[Calculated Age]<25, 'FY 2018'[Calculated Age]>=18),"18-24",
+    IF(AND( 'FY 2018'[Calculated Age]<50, 'FY 2018'[Calculated Age]>=25),"25-49",
+    IF(AND( 'FY 2018'[Calculated Age]<65, 'FY 2018'[Calculated Age]>=50),"50-64","65+"))))
+```
+
+REGION
+```
+Provider Region = 
+IF(CONTAINSSTRING('FY 2017'[Provider Name],"(AKLD)")=TRUE(),"Auckland, NZ",
+IF(CONTAINSSTRING('FY 2017'[Provider Name],"(NTHLD)")=TRUE(),"Northland, NZ",
+IF(CONTAINSSTRING('FY 2017'[Provider Name],"(WAI)")=TRUE(),"Waikato, NZ",
+    IF(CONTAINSSTRING('FY 2017'[Provider Name],"(BOP)")=TRUE(),"Bay of Plenty, NZ",
+        IF(CONTAINSSTRING('FY 2017'[Provider Name],"(HB)")=TRUE(),"Hawke's Bay, NZ",
+            IF(CONTAINSSTRING('FY 2017'[Provider Name],"(MW)")=TRUE(),"Manawatu-Whanganui, NZ",
+                IF(CONTAINSSTRING('FY 2017'[Provider Name],"(WLG)")=TRUE(),"Wellington, NZ",
+                IF(CONTAINSSTRING('FY 2017'[Provider Name],"(NMT)")=TRUE(),"Nelson-Marlborough-Tasman, NZ",
+                IF(CONTAINSSTRING('FY 2017'[Provider Name],"(CAN)")=TRUE(),"Canterbury, NZ",
+                IF(CONTAINSSTRING('FY 2017'[Provider Name],"(OTAGO)")=TRUE(),"Otago, NZ",
+                IF(CONTAINSSTRING('FY 2017'[Provider Name],"(STHLD)")=TRUE(),"Southland, NZ","")))))))))))
+```
+
+QUARTER
+```
+Quarter = 
+IF(AND('FY 2017'[Date].[Date]>=DATE(2016,07,1),'FY 2017'[Date].[Date]<DATE(2016,10,1)),"Q1",
+    IF(AND('FY 2017'[Date].[Date]>=DATE(2016,10,1),'FY 2017'[Date].[Date]<DATE(2017,1,1)),"Q2",
+    IF(AND('FY 2017'[Date].[Date]>=DATE(2017,1,1),'FY 2017'[Date].[Date]<DATE(2017,4,1)),"Q3",
+    IF(AND('FY 2017'[Date].[Date]>=DATE(2017,4,1),'FY 2017'[Date].[Date]<DATE(2017,7,1)),"Q4",""))))
+```
+
+AGE
+```
+Calculated Age = 
+DATEDIFF('FY 2017'[DOB].[Date],'FY 2017'[Date].[Date],YEAR)
+```
+
 LEADS BY CREATION DATE
 ```
 Leads by Creation Date = 
