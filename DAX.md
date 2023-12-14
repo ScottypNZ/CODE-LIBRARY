@@ -1,7 +1,47 @@
 # CODE-LIBRARY
 
+ALL CITY SUMMARY
+```
+All City Summary = 
+    CALCULATE(
+        COUNTA(ToloaGrantRequests[ID]),
+        ALLEXCEPT(ToloaGrantRequests,ToloaGrantRequests[City]))&" "&
+ToloaGrantRequests[City]&" recipients receiving "&
+    FORMAT(
+    CALCULATE(
+        SUM(ToloaGrantRequests[Total Paid]),
+        ALLEXCEPT(ToloaGrantRequests,ToloaGrantRequests[City])),
+        "$#,###")
+```
 
+PROVIDER SUMMARY
+```
+Steam Providers Summary = 
+    IF(ToloaGrantRequests[Grant Type Groups]="Steam Provider",
+        CALCULATE(
+        COUNTA(ToloaGrantRequests[ID]),
+        ALLEXCEPT(ToloaGrantRequests,ToloaGrantRequests[City]))&" "&
+ToloaGrantRequests[City]&" recipients receiving "&
+    FORMAT(
+    CALCULATE(
+        SUM(ToloaGrantRequests[Total Paid]),
+        ALLEXCEPT(ToloaGrantRequests,ToloaGrantRequests[City])),
+        "$#,###"))
+```
 
+PERCENTAGE OF TOTAL
+```
+INELIGIBLE APPS = Format( SUM(CRM_Applicatons[Not Eligible] )  /  max(CRM_Applicatons[CUM ALL]) , "Percent" )
+```
+
+LABEL
+```
+Map Label = 
+   CALCULATE(
+        COUNTA('3  2022/23 Toloa Scholarship Applications Database'[TOL ID]),'3  2022/23 Toloa Scholarship Applications Database'[App Status]="Complete"&&'3  2022/23 Toloa Scholarship Applications Database'[ApplicationOutcome]<>"Declined",
+        ALLEXCEPT('3  2022/23 Toloa Scholarship Applications Database','3  2022/23 Toloa Scholarship Applications Database'[Residence NZ Region]))&" "&
+'3  2022/23 Toloa Scholarship Applications Database'[Residence Region]&" successful applicants"
+```
 
 INVOICE PAID
 ```
