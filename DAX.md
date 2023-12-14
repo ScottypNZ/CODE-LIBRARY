@@ -2,6 +2,33 @@
 
 #### PIVOT MEASURES
 
+APPROVAL TIME
+```
+Invoice approval time = 
+DATEDIFF(
+    IF('Invoice Tracker July 2021-2022'[16. Mgmt Approval]<>BLANK()&&'Invoice Tracker July 2021-2022'[Created]>'Invoice Tracker July 2021-2022'[16. Mgmt Approval],'Invoice Tracker July 2021-2022'[16. Mgmt Approval],'Invoice Tracker July 2021-2022'[Created]),
+IF('Invoice Tracker July 2021-2022'[16. Mgmt Approval]=BLANK(),TODAY(),'Invoice Tracker July 2021-2022'[16. Mgmt Approval]),DAY)
+```
+
+12 MONTH SPEND
+```
+(C) 12 mths emp$ = 
+VAR FY = 'Verified MARs ALL'[MAR FY]
+VAR Activity = "12 mths emp"
+VAR _Rate =
+    CALCULATE (
+        SELECTEDVALUE ( Rates[Rate]),
+        Rates[Activity] = Activity,
+        Rates[FY] = FY
+    )
+RETURN
+    IF (
+        'Verified MARs ALL'[Continuous Employment > 12 mths] <> BLANK(),
+        'Verified MARs ALL'[Continuous Employment > 12 mths] * _Rate,
+        BLANK ()
+    )
+```
+
 RUNNING TOTAL NB: Sub is a binary text criteria in adjecent cell
 ```DAX
 = Table.AddColumn(#"Added SUB", "CUM", each 
