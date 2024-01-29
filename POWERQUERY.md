@@ -32,6 +32,9 @@ https://www.myonlinetraininghub.com/extract-letters-numbers-symbols-from-strings
 ADD COLUMN AND FITER AT THE SAME TIME   
 = Table.AddColumn(#"Replaced NULL", "SPECIAL", each Text.Select([Full Name],{"A".."z"," "})<>[Full Name])
 
+COUNT NULL VALUES
+=List.Count(List.RemoveNulls(Record.ToList(Record.RemoveFields(_, "Vehicle ID"))))
+
 RUNNING TOTAL
 = Table.AddColumn(#"Added SUB", "CUM", each 
 List.Sum( List.FirstN( #"Added SUB"[SUB], [Index] ) ) , Int64.Type)
