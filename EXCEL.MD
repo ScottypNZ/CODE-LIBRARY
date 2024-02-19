@@ -1,5 +1,9 @@
 # FILTERS
 
+
+CONVERT TEXT US DATE TO NZ
+=MID(TEXT([@[Start Date]],"dd/mm/yyyy"),4,2)&"/"&LEFT(TEXT([@[Start Date]],"dd/mm/yyyy"),2)&"/"&RIGHT(TEXT([@[Start Date]],"dd/mm/yyyy"),4)
+
 JULY FINANCIAL YEAR   
 =IF(MONTH(L2)<7,YEAR(L2)-1 & "-" & YEAR(L2),YEAR(L2) & "-" & YEAR(L2)+1)
 
